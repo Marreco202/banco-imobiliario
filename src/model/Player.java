@@ -2,22 +2,28 @@ package model;
 
 public class Player {
 
-	public static int qtd; //quantidade de jogadores in-game
+	private static int qtd = 0; //quantidade de jogadores in-game
 	private int nota1, nota5, nota10, nota50, nota100, nota500; 
 	Prop[] propriedades; //array das propriedades de um jogador
 	//private int hoteis, casas; //quantidade de casas e hoteis que o jogador tem
+	private Cor playerColor;
 	
-	
+	public static Player[] playerList = new Player[4];
 	
 	public Player(){
 		
+		playerList[qtd] = this; //lista de jogadores  jogando
 		qtd++; //aumenta a quantidade de players in-game quando um é instanciado
+		
 		nota1 = 8;
 		nota5 = 10;
 		nota10 = 10;
 		nota50 = 10;
 		nota100 = 8;
 		nota500 = 2;
+		
+		//setar a cor do jogador caso qtd de jogadores < 4 usando o tipo enumerado Cor
+		//caso qtd de jogadores > 4, nao adicionar o jogador na lista de jogadores
 	}
 	
 	public int getSaldo() {
@@ -48,6 +54,7 @@ public class Player {
 		 * 
 		 * Caso haja casas ou hotel é necessário antes vendê-las ao Banco pela metade do preço
 		 * */
+		
 		
 	}
 	
