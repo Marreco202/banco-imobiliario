@@ -1,4 +1,5 @@
 package model;
+import java.util.random.*;
 
 public class Player {
 
@@ -7,6 +8,11 @@ public class Player {
 	Prop[] propriedades; //array das propriedades de um jogador
 	//private int hoteis, casas; //quantidade de casas e hoteis que o jogador tem
 	private Cor playerColor;
+	private int pos; //posicao do jogador no tabuleiro
+	
+	
+	private boolean passeLivre;
+	private boolean estaPreso;
 	
 	public static Player[] playerList = new Player[4];
 	
@@ -22,12 +28,30 @@ public class Player {
 		nota100 = 8;
 		nota500 = 2;
 		
+		pos = 10; //posicao no array onde fica o ponto de partida
+		passeLivre = false;
+		estaPreso = false;
+		
 		//setar a cor do jogador caso qtd de jogadores < 4 usando o tipo enumerado Cor
 		//caso qtd de jogadores > 4, nao adicionar o jogador na lista de jogadores
 	}
 	
 	public int getSaldo() {
 		return (nota1) + (5 * nota5) + (10 * nota10) + (50 * nota50) + (100 * nota100) + (500* nota500);
+	}
+	
+	public int[] getNotas() {
+		int notas[] = {nota1,nota5,nota10,nota50,nota100,nota500};
+		return notas;
+	}
+	
+	public void setPasseLivre() {
+		passeLivre = true;
+	}
+	
+	public void goPrison() {
+		pos = (Board.tabuleiro[0]).getPos() ; //seta o jogador para ficar na posicao do array onde está o Tile da prisao
+		estaPreso = true;
 	}
 	
 	
