@@ -9,7 +9,7 @@ public class Player {
 	//private int hoteis, casas; //quantidade de casas e hoteis que o jogador tem
 	private Cor playerColor;
 	private int pos; //posicao do jogador no tabuleiro
-	
+	private int seguidos;
 	
 	private boolean passeLivre;
 	private boolean estaPreso;
@@ -31,6 +31,7 @@ public class Player {
 		pos = 10; //posicao no array onde fica o ponto de partida
 		passeLivre = false;
 		estaPreso = false;
+		seguidos = 0; //quantidade de vezes que o jogador tirou dois pares de dados seguidos
 		
 		//setar a cor do jogador caso qtd de jogadores < 4 usando o tipo enumerado Cor
 		//caso qtd de jogadores > 4, nao adicionar o jogador na lista de jogadores
