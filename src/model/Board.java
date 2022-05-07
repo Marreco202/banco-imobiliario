@@ -11,118 +11,69 @@ public class Board {
 	// public void initBoard(): cria o vetor circular e seta cada casa individualmente
 	// implementar array de cartas, e funcao para embaralhar as cartas
 	// criar TAD de fila para a retirada de cartas
-	public static Prop[] tabuleiro = new Prop[40];
+	public static Territorio[] tabuleiro = new Territorio[40];
 	
-	int placeHolder = 200; // custo de todas as propriedades enquanto nao temos os valores certinhos
+	int placeHolder = 200; // custo de todas as Territorioriedades enquanto nao temos os valores certinhos
 	//talvez colocar o preco de cada uma baseada na cor?
 	
 	Board(){
 		
 		//fazer um loop para a criacao do tabuleiro
-		//colocar novo parametro no contructor de Prop para receber os nomes de cada casa.
+		//colocar novo parametro no contructor de Territorio para receber os nomes de cada casa.
 		
-		//contando cada casa de cada aresta, nas casas 3, 5 e 8 (quase) sempre tem algo que é diferente de propriedades coloridas 
+		//contando cada casa de cada aresta, nas casas 3, 5 e 8 (quase) sempre tem algo que é diferente de Territorioriedades coloridas 
 		
 		
 		//criando o tabuleiro
 			// aresta inferior
-<<<<<<< HEAD
-		tabuleiro[0] = new Prison();
-		tabuleiro[1] = new Territorio(Cor.azul,placeHolder);
-		tabuleiro[2] = new Territorio(Cor.azul,placeHolder);
-		tabuleiro[3] = new Tile(); //Onibus
-		tabuleiro[4] = new Territorio(Cor.azul,placeHolder);
-		tabuleiro[5] = new Tile(); //Trem
-		tabuleiro[6] = new Territorio(Cor.rosa,placeHolder);
-		tabuleiro[7] = new Territorio(Cor.rosa,placeHolder);
-		tabuleiro[8] = new Tile(); // MUDAR PARA SorteOuReves()
-		tabuleiro[9] = new Territorio(Cor.rosa,placeHolder);
-		tabuleiro[10] = new Tile(); // Ponto de partida
 		
-			// aresta direita
-		tabuleiro[11] = new Territorio(Cor.roxo,placeHolder);
-		tabuleiro[12] = new Territorio(Cor.roxo,placeHolder);
-		tabuleiro[13] = new Tile(); // MUDAR PARA sorte ou reves;
-		tabuleiro[14] = new Territorio(Cor.verde,placeHolder);
-		tabuleiro[15] = new Tile(); //helicoptero
-		tabuleiro[16] = new Territorio(Cor.verde,placeHolder);
-		tabuleiro[17] = new Territorio(Cor.verde,placeHolder);
-		tabuleiro[18] = new Territorio(Cor.especial,placeHolder); //aviao
-		tabuleiro[19] = new Territorio(Cor.verde,placeHolder);
-		tabuleiro[20] = new Tile(); // va para a cadeia
-		
-			//aresta superior
-		tabuleiro[21] = new Territorio(Cor.amarelo,placeHolder);
-		tabuleiro[22] = new Territorio(Cor.amarelo,placeHolder);
-		
-		tabuleiro[24] = new Territorio(Cor.amarelo,placeHolder);
-		tabuleiro[25] = new Territorio(Cor.especial,placeHolder); //barco
-		tabuleiro[26] = new Tile(); //???
-		tabuleiro[27] = new Territorio(Cor.vermelho,placeHolder);
-		tabuleiro[28] = new Territorio(Cor.especial,placeHolder);
-		tabuleiro[29] = new Territorio(Cor.vermelho,placeHolder);
-		tabuleiro[30] = new Tile(); //parada livre
-		
-			//aresta esquerda
-		tabuleiro[31] = new Territorio(Cor.laranja,placeHolder);
-		tabuleiro[32] = new Tile(); //???
-		tabuleiro[33] = new Territorio(Cor.laranja,placeHolder);
-		tabuleiro[34] = new Tile(); //sorte ou reves
-		tabuleiro[35] = new Territorio(Cor.especial,placeHolder); //taxi
-		tabuleiro[36] = new Territorio(Cor.vinho,placeHolder);
-		tabuleiro[37] = new Territorio(Cor.vinho,placeHolder);
-		tabuleiro[38] = new Territorio(Cor.especial,placeHolder); //sorte ou reves
-		tabuleiro[39] = new Territorio(Cor.vinho,placeHolder);
-=======
-		
-		tabuleiro[0] = (Prop) new Tile(); //PRISAO 
-		tabuleiro[1] = new Prop("Av. 9 de Julho",Cor.azul,placeHolder);
-		tabuleiro[2] = new Prop("Av. Reboucas",Cor.azul,placeHolder);
-		tabuleiro[3] = new Prop("Companhia de Taxi", Cor.especial,placeHolder); //Onibus
-		tabuleiro[4] = new Prop("Av. Brig Faria Lima",Cor.azul,placeHolder);
-		tabuleiro[5] = new Prop("Companhia Ferroviaria",Cor.especial,placeHolder); //Trem;
-		tabuleiro[6] = new Prop("Av. Nossa Senhora de Copacabana",Cor.rosa,placeHolder);
+		tabuleiro[0] = (Territorio) new Tile(); //PRISAO 
+		tabuleiro[1] = new Territorio("Av. 9 de Julho",Cor.azul,placeHolder);
+		tabuleiro[2] = new Territorio("Av. Reboucas",Cor.azul,placeHolder);
+		tabuleiro[3] = new Territorio("Companhia de Taxi", Cor.especial,placeHolder); //Onibus
+		tabuleiro[4] = new Territorio("Av. Brig Faria Lima",Cor.azul,placeHolder);
+		tabuleiro[5] = new Territorio("Companhia Ferroviaria",Cor.especial,placeHolder); //Trem;
+		tabuleiro[6] = new Territorio("Av. Nossa Senhora de Copacabana",Cor.rosa,placeHolder);
 				
-		tabuleiro[7] = new Prop("Av. Presidente Vargas",Cor.rosa,placeHolder);
-		tabuleiro[8] = (Prop) new Tile(); // MUDAR PARA SorteOuReves()
-		tabuleiro[9] = new Prop("Leblon",Cor.rosa,placeHolder);
-		tabuleiro[10] = (Prop) new Tile(); // Ponto de partida
+		tabuleiro[7] = new Territorio("Av. Presidente Vargas",Cor.rosa,placeHolder);
+		tabuleiro[8] = (Territorio) new Tile(); // MUDAR PARA SorteOuReves()
+		tabuleiro[9] = new Territorio("Leblon",Cor.rosa,placeHolder);
+		tabuleiro[10] = (Territorio) new Tile(); // Ponto de partida
 		
 			// aresta direita
-		tabuleiro[11] = new Prop("Brooklin",Cor.roxo,placeHolder);
-		tabuleiro[12] = new Prop("Jardim Paulista",Cor.roxo,placeHolder);
-		tabuleiro[13] = (Prop) new Tile(); // MUDAR PARA sorte ou reves;
-		tabuleiro[14] = new Prop("Ipanema",Cor.verde,placeHolder);
-		tabuleiro[15] = new Prop("Companhia de taxi aéreo",Cor.especial, placeHolder); //helicoptero
-		tabuleiro[16] = new Prop("Av. Atlantica",Cor.verde,placeHolder);
-		tabuleiro[17] = new Prop("Av. Vieira Souto",Cor.verde,placeHolder);
-		tabuleiro[18] = new Prop("Companhia de Aviação",Cor.especial,placeHolder); //aviao
-		tabuleiro[19] = new Prop("Copacabana",Cor.verde,placeHolder);
-		tabuleiro[20] = (Prop) new Tile(); // va para a cadeia
+		tabuleiro[11] = new Territorio("Brooklin",Cor.roxo,placeHolder);
+		tabuleiro[12] = new Territorio("Jardim Paulista",Cor.roxo,placeHolder);
+		tabuleiro[13] = (Territorio) new Tile(); // MUDAR PARA sorte ou reves;
+		tabuleiro[14] = new Territorio("Ipanema",Cor.verde,placeHolder);
+		tabuleiro[15] = new Territorio("Companhia de taxi aéreo",Cor.especial, placeHolder); //helicoptero
+		tabuleiro[16] = new Territorio("Av. Atlantica",Cor.verde,placeHolder);
+		tabuleiro[17] = new Territorio("Av. Vieira Souto",Cor.verde,placeHolder);
+		tabuleiro[18] = new Territorio("Companhia de Aviação",Cor.especial,placeHolder); //aviao
+		tabuleiro[19] = new Territorio("Copacabana",Cor.verde,placeHolder);
+		tabuleiro[20] = (Territorio) new Tile(); // va para a cadeia
 		
 			//aresta superior
-		tabuleiro[21] = new Prop("Jardim Europa",Cor.amarelo,placeHolder);
-		tabuleiro[22] = new Prop("Av. Paulista",Cor.amarelo,placeHolder);
+		tabuleiro[21] = new Territorio("Jardim Europa",Cor.amarelo,placeHolder);
+		tabuleiro[22] = new Territorio("Av. Paulista",Cor.amarelo,placeHolder);
 		//sorte ou reves
-		tabuleiro[24] = new Prop("Av. Brasil",Cor.amarelo,placeHolder);
-		tabuleiro[25] = new Prop("Companhia de Navegação",Cor.especial,placeHolder); //barco
-		tabuleiro[26] = (Prop) new Tile(); //???
-		tabuleiro[27] = new Prop("Botafogo",Cor.vermelho,placeHolder);
+		tabuleiro[24] = new Territorio("Av. Brasil",Cor.amarelo,placeHolder);
+		tabuleiro[25] = new Territorio("Companhia de Navegação",Cor.especial,placeHolder); //barco
+		tabuleiro[26] = (Territorio) new Tile(); //???
+		tabuleiro[27] = new Territorio("Botafogo",Cor.vermelho,placeHolder);
 		//sorte ou reves
-		tabuleiro[29] = new Prop("Flamengo",Cor.vermelho,placeHolder);
-		tabuleiro[30] = (Prop) new Tile(); //parada livre
+		tabuleiro[29] = new Territorio("Flamengo",Cor.vermelho,placeHolder);
+		tabuleiro[30] = (Territorio) new Tile(); //parada livre
 		
 			//aresta esquerda
-		tabuleiro[31] = new Prop("Morumbi",Cor.laranja,placeHolder);
-		tabuleiro[32] = (Prop) new Tile(); //???
-		tabuleiro[33] = new Prop("Interlagos",Cor.laranja,placeHolder);
+		tabuleiro[31] = new Territorio("Morumbi",Cor.laranja,placeHolder);
+		tabuleiro[32] = (Territorio) new Tile(); //???
+		tabuleiro[33] = new Territorio("Interlagos",Cor.laranja,placeHolder);
 		//sorte ou reves
-		tabuleiro[35] = new Prop("Companhia de Taxi",Cor.especial,placeHolder); //taxi
-		tabuleiro[36] = new Prop("Av. Pacaembú",Cor.vinho,placeHolder);
-		tabuleiro[37] = new Prop("Rua Augusta",Cor.vinho,placeHolder);
+		tabuleiro[35] = new Territorio("Companhia de Taxi",Cor.especial,placeHolder); //taxi
+		tabuleiro[36] = new Territorio("Av. Pacaembú",Cor.vinho,placeHolder);
+		tabuleiro[37] = new Territorio("Rua Augusta",Cor.vinho,placeHolder);
 		//sorte ou reves
-		tabuleiro[39] = new Prop("Av. Europa",Cor.vinho,placeHolder);
->>>>>>> 67c7cb83bfce8ea20053bb29cea49b3deacf4f9d
+		tabuleiro[39] = new Territorio("Av. Europa",Cor.vinho,placeHolder);
 	}
 	
 	
