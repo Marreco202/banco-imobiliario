@@ -1,12 +1,12 @@
 package model;
 
 
-public class Tile{ // adapatar para uma classe abstrata
+public abstract class Tile{ // adapatar para uma classe abstrata
 	private int pos; //numero da casa do tabuleiro
 	
 	
-	public void setPos(int p) {
-		pos = p;
+	public Tile(int _pos) {
+		pos = _pos;
 	}
 	
 	public int getPos() {

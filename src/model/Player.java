@@ -5,7 +5,7 @@ public class Player {
 
 	private static int qtd = 0; //quantidade de jogadores in-game
 	private int nota1, nota5, nota10, nota50, nota100, nota500; 
-	Prop[] propriedades; //array das propriedades de um jogador
+	Territorio[] propriedades; //array das propriedades de um jogador
 	//private int hoteis, casas; //quantidade de casas e hoteis que o jogador tem
 	private Cor playerColor;
 	private int pos; //posicao do jogador no tabuleiro
@@ -71,7 +71,7 @@ public class Player {
 	 */
 	}
 	
-	public void hipoteca(Prop p) {
+	public void hipoteca(Territorio p) {
 		
 		/*
 		 * Terrenos sem construção e empresas podem ser hipotecadas pelos valores determinados nos títulos por qualquer período de
@@ -84,7 +84,7 @@ public class Player {
 	}
 	
 	
-	private Prop findProp(Prop p) {
+	private Territorio findProp(Territorio p) {
 		
 		for(int i = 0; i< propriedades.length; i++ ){
 			if(propriedades[i] == p) {
