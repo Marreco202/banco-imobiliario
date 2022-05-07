@@ -1,0 +1,9 @@
+package model;
+
+public class Companhia extends Tile{
+	
+	
+	public Companhia(String s, ){
+		super(pos)
+	}
+}

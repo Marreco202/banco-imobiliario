@@ -1,0 +1,15 @@
+package model;
+
+public class Companhia extends Tile{
+	private Player proprietario;
+	private String nome;
+	private int valor;
+	private int multiplicadorDoDado;
+	
+	
+	public Companhia(String s, int nv, int pos, int mult){
+		super(pos);
+		
+	}
+}
+

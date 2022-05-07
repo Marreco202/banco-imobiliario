@@ -1,0 +1,24 @@
+package model;
+
+/*
+ * Classe que vai automatizar tudo pra gente
+ * */
+
+public class Bank { 
+
+	public static int saldo;
+	
+	public Bank() {
+		saldo = 200000;
+	}
+	
+	public int saque(int val) {
+		saldo -= val;
+		return val;
+	}
+	
+	public void deposito(int val) {
+		saldo += val;
+	}
+	
+}
