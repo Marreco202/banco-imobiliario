@@ -5,11 +5,11 @@ public class Player {
 
 	private static int qtd = 0; //quantidade de jogadores in-game
 	private int nota1, nota5, nota10, nota50, nota100, nota500; 
-	Prop[] propriedades; //array das propriedades de um jogador
-	//private int hoteis, casas; //quantidade de casas e hoteis que o jogador tem
+	public Prop[] propriedades; //array das propriedades de um jogador
 	private Cor playerColor;
 	private int pos; //posicao do jogador no tabuleiro
-	private int seguidos;
+	private int seguidos; //quantidade de vezes que o jogador tirou dois pares de dados seguidos
+	private int saldo;
 	
 	private boolean passeLivre;
 	private boolean estaPreso;
@@ -21,29 +21,25 @@ public class Player {
 		playerList[qtd] = this; //lista de jogadores  jogando
 		qtd++; //aumenta a quantidade de players in-game quando um é instanciado
 		
-		nota1 = 8;
-		nota5 = 10;
-		nota10 = 10;
-		nota50 = 10;
-		nota100 = 8;
-		nota500 = 2;
+		//nota1 = 8;
+		//nota5 = 10;
+		//nota10 = 10;
+		//nota50 = 10;
+		//nota100 = 8;
+		//nota500 = 2;
+		saldo = 2458;
 		
 		pos = 10; //posicao no array onde fica o ponto de partida
 		passeLivre = false;
 		estaPreso = false;
-		seguidos = 0; //quantidade de vezes que o jogador tirou dois pares de dados seguidos
+		seguidos = 0; 
 		
 		//setar a cor do jogador caso qtd de jogadores < 4 usando o tipo enumerado Cor
 		//caso qtd de jogadores > 4, nao adicionar o jogador na lista de jogadores
 	}
 	
 	public int getSaldo() {
-		return (nota1) + (5 * nota5) + (10 * nota10) + (50 * nota50) + (100 * nota100) + (500* nota500);
-	}
-	
-	public int[] getNotas() {
-		int notas[] = {nota1,nota5,nota10,nota50,nota100,nota500};
-		return notas;
+		return saldo;
 	}
 	
 	public void setPasseLivre() {
@@ -56,7 +52,14 @@ public class Player {
 	}
 	
 	
-	public static void checkFalencia(Player p) {
+	
+	
+	public static void checkFalencia(Player p, int valorCobrado) {
+		
+		if(saldo < valorCobrado) {
+			
+		}
+		
 		
 	/*
 	 * Falencia: "Se mesmo após vender suas casas e hotéis, ou suas propriedades o jogador não conseguir
@@ -69,18 +72,6 @@ public class Player {
 	 * As propriedades deverão ser colocadas em leilão
 	 * 
 	 */
-	}
-	
-	public void hipoteca(Prop p) {
-		
-		/*
-		 * Terrenos sem construção e empresas podem ser hipotecadas pelos valores determinados nos títulos por qualquer período de
-		 * tempo
-		 * 
-		 * Caso haja casas ou hotel é necessário antes vendê-las ao Banco pela metade do preço
-		 * */
-		
-		
 	}
 	
 	
