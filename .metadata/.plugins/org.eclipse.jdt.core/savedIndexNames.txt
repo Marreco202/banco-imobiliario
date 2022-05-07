@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+/home/joaovgw/Documents/repo/banco-imobiliario/.metadata/.plugins/org.eclipse.jdt.core
-2881313201.index
-1515042633.index
-1865797976.index
