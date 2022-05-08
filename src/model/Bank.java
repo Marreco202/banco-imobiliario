@@ -104,5 +104,14 @@ public class Bank {
 			saldo += custo;
 		}
 	}
+	
+	public void deposito(int valor) {
+		saldo+=valor;
+	}
+	
+	public int saque(int valor) {
+		saldo-=valor;
+		return valor;
+	}
 
 }

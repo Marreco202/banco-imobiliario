@@ -1,5 +1,7 @@
 package model;
 
+import exeptions.SaldoJogadorInsuficiente;
+
 public class Card {
 	int id; 
 	/*o numero do id da carta eh relativo ao nome do .png
@@ -66,100 +68,99 @@ public class Card {
 		
 		
 	//AUX || TO DO!
-	private void recebeDinheiro(Player p, int valor) {
-		int[] notas = p.getNotas(); //pega as notas desse player
-		//ver quais notas o banco tem para dar para o player
-		//tirar as notas do banco e dar para o player
+	private void recebeDinheiro(Player p, int valor,Bank b) {
+		int deposito = b.saque(valor);
+		p.receberValor(deposito);
 	}
 	
 	
-	private void daDinheiro(Player p, int valor) {
-		int[] notas = p.getNotas(); //pega as notas desse player
-		//ve quais notas o player tem
-		//tirar as notas do bolso do player e depositar no banco
+	private void daDinheiro(Player p, int valor,Bank b) throws SaldoJogadorInsuficiente {
+		int deposito = p.pagarValor(valor);
+		b.deposito(deposito);
 	}
 		
-	private void recebeDosJogadores(Player p, int valor) {
+	private void recebeDosJogadores(Player p, int valor,Bank b) throws SaldoJogadorInsuficiente {
 		int contador = 0;
+		Player[] playerList = Player.getLista();
 		for(int i = 0; i<4;i++) { //coleta do dinheiro
-			if(Player.playerList[i] != null){ //se este jogador estiver in game (jogadores que entram em falencia seu [i] na playerlist fica igual a null
-				daDinheiro(Player.playerList[i],valor);
+			if(playerList[i] != null){ //se este jogador estiver in game (jogadores que entram em falencia seu [i] na playerlist fica igual a null
+				daDinheiro(playerList[i],valor,b);
 				contador++;
 			}
 		}
 		for(int i = 0; i< contador; i++) {
-			recebeDinheiro(p,valor);
+			recebeDinheiro(p,valor,b);
 		}
 	}
 	
 	
 	//
-	public void proc(Player p) { //efeitos das cartas
+	public void proc(Player p, Bank b) { //efeitos das cartas
 		
 		switch(id) {
 		case 1:
-			recebeDinheiro(p,25);
+			recebeDinheiro(p,25,b);
 		
 		case 2:
-			recebeDinheiro(p,150);
+			recebeDinheiro(p,150,b);
 		
 		case 3:
-			recebeDinheiro(p,80);
+			recebeDinheiro(p,80,b);
 			
 		case 4:
-			recebeDinheiro(p,400);
+			recebeDinheiro(p,400,b);
 		case 5:
-			recebeDinheiro(p,50);
+			recebeDinheiro(p,50,b);
 		case 6:
-			recebeDinheiro(p,60);
+			recebeDinheiro(p,60,b);
 		case 7:
-			recebeDinheiro(p,100);
+			recebeDinheiro(p,100,b);
 		case 8:
-			recebeDinheiro(p,100);
+			recebeDinheiro(p,100,b);
 		case 9:
-			p.setPasseLivre();
+			p.ganhouPasseLivre();
 		case 10:
-			recebeDinheiro(p,200);
+			recebeDinheiro(p,200,b);
 		case 11:
-			recebeDosJogadores(p,50);
+			recebeDosJogadores(p,50,b);
 		case 12:
-			recebeDinheiro(p,45);
+			recebeDinheiro(p,45,b);
 		case 13:
-			recebeDinheiro(p,100);
+			recebeDinheiro(p,100,b);
 		case 14:
-			recebeDinheiro(p,100);
+			recebeDinheiro(p,100,b);
 		case 15:
-			recebeDinheiro(p,20);
+			recebeDinheiro(p,20,b);
 		case 16:
-			daDinheiro(p,15);
+			daDinheiro(p,15,b);
 		case 17:
-			daDinheiro(p,25);
+			daDinheiro(p,25,b);
 		case 18:
-			daDinheiro(p,45);
+			daDinheiro(p,45,b);
 		case 19:
-			daDinheiro(p,30);
+			daDinheiro(p,30,b);
 		case 20:
-			daDinheiro(p,100);
+			daDinheiro(p,100,b);
 		case 21:
-			daDinheiro(p,100);
+			daDinheiro(p,100,b);
 		case 22:
-			daDinheiro(p,40);
+			daDinheiro(p,40,b);
 		case 23:
 			p.goPrison();
 		case 24:
-			daDinheiro(p,30);
+			daDinheiro(p,30,b);
 		case 25:
-			daDinheiro(p,50);
+			daDinheiro(p,50,b);
 		case 26:
-			daDinheiro(p,25);
+			daDinheiro(p,25,b);
 		case 27:
-			daDinheiro(p,30);
+			daDinheiro(p,30,b);
 		case 28:
-			daDinheiro(p,45);
+			daDinheiro(p,45,b);
 		case 29:
-			daDinheiro(p,50);
+			daDinheiro(p,50,b);
 		case 30:
-			daDinheiro(p,50);
+			daDinheiro(p,50,b);
 	}
 	}
 }

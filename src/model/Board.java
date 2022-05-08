@@ -1,5 +1,7 @@
 package model;
 
+import exeptions.ValoresAluguelIncorreto;
+
 /*
  * 
  * 
@@ -21,7 +23,7 @@ public class Board {
 	int placeHolder = 200; // custo de todas as Territorioriedades enquanto nao temos os valores certinhos
 	//talvez colocar o preco de cada uma baseada na cor?
 	
-	Board(){
+	Board() throws ValoresAluguelIncorreto{
 		//colocar novo parametro no contructor de Territorio para receber os nomes de cada casa.
 		
 		//contando cada casa de cada aresta, nas casas 3, 5 e 8 (quase) sempre tem algo que é diferente de Territorioriedades coloridas 

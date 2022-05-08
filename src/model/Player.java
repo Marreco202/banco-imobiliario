@@ -30,11 +30,12 @@ public class Player {
 		dadosIguaisSeguidos = 0; 
 	}
 	
-	public void pagarValor(int valorASerPago) throws SaldoJogadorInsuficiente {
+	public int pagarValor(int valorASerPago) throws SaldoJogadorInsuficiente {
 		if(saldo < valorASerPago) {
 			throw new SaldoJogadorInsuficiente(null);
 		}
 		saldo -= valorASerPago;
+		return valorASerPago;
 	}
 	
 	public void receberValor(int valorASerRecebido) {
@@ -56,6 +57,9 @@ public class Player {
 	public int getSaldo() {
 		return saldo;
 	}
+	public static Player[] getLista() {
+		return playerList;
+	}
 	
 	public void ganhouPasseLivre() {
 		passeLivre = true;
@@ -65,13 +69,15 @@ public class Player {
 		passeLivre = false;
 	}
 	
-	
+	private static void goFalencia(Player p) {
+		
+	}
 	
 	
 	public static void checkFalencia(Player p, int valorCobrado) {
 		
-		if(saldo < valorCobrado) {
-			
+		if(p.saldo < valorCobrado) {
+			goFalencia(p);
 		}
 		
 		
