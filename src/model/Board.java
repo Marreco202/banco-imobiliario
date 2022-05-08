@@ -11,14 +11,17 @@ public class Board {
 	// public void initBoard(): cria o vetor circular e seta cada casa individualmente
 	// implementar array de cartas, e funcao para embaralhar as cartas
 	// criar TAD de fila para a retirada de cartas
-	public static Territorio[] tabuleiro = new Territorio[40];
+	private static int tamanhoTabuleiro = 40;
 	
+	public static int getTamanhoTabuleiro() {
+		return tamanhoDoTabuleiro;
+	}
+	
+	public static Tile[] tabuleiro = new Tile[40];
 	int placeHolder = 200; // custo de todas as Territorioriedades enquanto nao temos os valores certinhos
 	//talvez colocar o preco de cada uma baseada na cor?
 	
 	Board(){
-		
-		//fazer um loop para a criacao do tabuleiro
 		//colocar novo parametro no contructor de Territorio para receber os nomes de cada casa.
 		
 		//contando cada casa de cada aresta, nas casas 3, 5 e 8 (quase) sempre tem algo que é diferente de Territorioriedades coloridas 
@@ -27,8 +30,8 @@ public class Board {
 		//criando o tabuleiro
 			// aresta inferior
 		
-		tabuleiro[0] = (Territorio) new Tile(); //PRISAO 
-		tabuleiro[1] = new Territorio("Av. 9 de Julho",Cor.azul,placeHolder);
+		tabuleiro[0] = new Tile(0); //PONTO DE PARTIDA
+		tabuleiro[1] = new Territorio(1, "Leblon",Cor.rosa, placeHolder, 50, new int[]{6,30,90,270,400,500});
 		tabuleiro[2] = new Territorio("Av. Reboucas",Cor.azul,placeHolder);
 		tabuleiro[3] = new Territorio("Companhia de Taxi", Cor.especial,placeHolder); //Onibus
 		tabuleiro[4] = new Territorio("Av. Brig Faria Lima",Cor.azul,placeHolder);
@@ -36,9 +39,9 @@ public class Board {
 		tabuleiro[6] = new Territorio("Av. Nossa Senhora de Copacabana",Cor.rosa,placeHolder);
 				
 		tabuleiro[7] = new Territorio("Av. Presidente Vargas",Cor.rosa,placeHolder);
-		tabuleiro[8] = (Territorio) new Tile(); // MUDAR PARA SorteOuReves()
+		tabuleiro[8] = new Tile(8); // MUDAR PARA SorteOuReves()
 		tabuleiro[9] = new Territorio("Leblon",Cor.rosa,placeHolder);
-		tabuleiro[10] = (Territorio) new Tile(); // Ponto de partida
+		tabuleiro[10] = new Tile(10); // Ponto de partida
 		
 			// aresta direita
 		tabuleiro[11] = new Territorio("Brooklin",Cor.roxo,placeHolder);

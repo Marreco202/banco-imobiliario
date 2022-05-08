@@ -1,14 +1,11 @@
 package model;
 
 import exeptions.ProibidoConstruir;
-import exeptions.TerritorioJaPossuiDono;
+import exeptions.PropriedadeJaPossuiDono;
 import exeptions.ValoresAluguelIncorreto;
 
-public class Territorio extends Tile {
+public class Territorio extends Compravel {
 
-	private Player proprietario;
-	private String nome;
-	private int valor;
 	private Cor cor;
 	private int qtdCasas;
 	private boolean temHotel;
@@ -22,28 +19,18 @@ public class Territorio extends Tile {
 	
 	
 	public Territorio(int pos, String nome,  Cor cor, int valor, int custoPorConstrucao, int[] valoresAluguel) throws ValoresAluguelIncorreto {
-		super(pos);
-		proprietario = null;
-		this.nome = nome;
+		super(pos, nome, valor);
 		this.cor = cor;
-		this.valor = valor;
 		qtdCasas = 0;
 		temHotel = false;
 		this.custoPorConstrucao = custoPorConstrucao;
 		registrarAluguel(valoresAluguel);
 	}
 	
-	public void setNovoProprietario(Player novoPropritario) throws TerritorioJaPossuiDono {
-		if(proprietario != null) {
-			throw new TerritorioJaPossuiDono("Está tentando settar novo dono para territorio que ja possui dono.");
-		}
-		proprietario = novoPropritario;
-	}
-	
 	public void venderParaOBanco() {
 		qtdCasas = 0;
 		temHotel = false;
-		proprietario = null;
+		super.venderParaOBanco();
 	}
 	
 	private void registrarAluguel(int[] valoresAluguel) throws ValoresAluguelIncorreto {
@@ -61,7 +48,7 @@ public class Territorio extends Tile {
 	}
 	
 	private int calculaValorDeVenda() {
-		int valorDeVenda = valor;
+		int valorDeVenda = getValor();
 		if(temHotel) {
 			valorDeVenda += custoPorConstrucao;
 		}
@@ -108,20 +95,8 @@ public class Territorio extends Tile {
 		return calculaValorDeVenda();		
 	}
 	
-	public int getValor() {
-		return valor;
-	}
-	
 	public int getCustoPorConstrucao() {
 		return custoPorConstrucao;
-	}
-	
-	public Player getProprietario() {
-		return proprietario;
-	}
-	
-	public String getNome() {
-		return nome;
 	}
 	
 	public int[] getValoresAluguel() {

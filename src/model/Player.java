@@ -1,59 +1,68 @@
 package model;
 import java.util.random.*;
 
+import exeptions.SaldoJogadorInsuficiente;
+
 public class Player {
 
-	private static int qtd = 0; //quantidade de jogadores in-game
-	private int nota1, nota5, nota10, nota50, nota100, nota500; 
-<<<<<<< HEAD
-	Territorio[] propriedades; //array das propriedades de um jogador
-	//private int hoteis, casas; //quantidade de casas e hoteis que o jogador tem
-=======
-	public Prop[] propriedades; //array das propriedades de um jogador
->>>>>>> 67c7cb83bfce8ea20053bb29cea49b3deacf4f9d
+	private static int qtdDeJogadores = 0; 
+	private static Player[] playerList = new Player[6];
+
 	private Cor playerColor;
-	private int pos; //posicao do jogador no tabuleiro
-	private int seguidos; //quantidade de vezes que o jogador tirou dois pares de dados seguidos
+	private int pos; 
+	private int dadosIguaisSeguidos; 
 	private int saldo;
 	
 	private boolean passeLivre;
 	private boolean estaPreso;
 	
-	public static Player[] playerList = new Player[4];
 	
-	public Player(){
+	public Player(Cor cor){
 		
-		playerList[qtd] = this; //lista de jogadores  jogando
-		qtd++; //aumenta a quantidade de players in-game quando um é instanciado
+		playerList[qtdDeJogadores] = this;
+		qtdDeJogadores++;
 		
-		//nota1 = 8;
-		//nota5 = 10;
-		//nota10 = 10;
-		//nota50 = 10;
-		//nota100 = 8;
-		//nota500 = 2;
-		saldo = 2458;
-		
+		saldo = 2458; //nota1 = 8;nota5 = 10;nota10 = 10;nota50 = 10;nota100 = 8;nota500 = 2;
+		playerColor = cor;		
 		pos = 10; //posicao no array onde fica o ponto de partida
 		passeLivre = false;
 		estaPreso = false;
-		seguidos = 0; 
-		
-		//setar a cor do jogador caso qtd de jogadores < 4 usando o tipo enumerado Cor
-		//caso qtd de jogadores > 4, nao adicionar o jogador na lista de jogadores
+		dadosIguaisSeguidos = 0; 
+	}
+	
+	public void pagarValor(int valorASerPago) throws SaldoJogadorInsuficiente {
+		if(saldo < valorASerPago) {
+			throw new SaldoJogadorInsuficiente(null);
+		}
+		saldo -= valorASerPago;
+	}
+	
+	public void receberValor(int valorASerRecebido) {
+		saldo += valorASerRecebido;
+	}
+	
+	public void avancarNoTabuleiro(int numeroDeCasas) {
+		if(pos + numeroDeCasas < Board.getTamanhoTabuleiro()) {
+			pos += numeroDeCasas;
+		}else {
+			pos = pos + numeroDeCasas - Board.getTamanhoTabuleiro();
+		}
+	}
+	
+	public int getPos() {
+		return pos;
 	}
 	
 	public int getSaldo() {
 		return saldo;
 	}
 	
-	public void setPasseLivre() {
+	public void ganhouPasseLivre() {
 		passeLivre = true;
 	}
 	
-	public void goPrison() {
-		pos = (Board.tabuleiro[0]).getPos() ; //seta o jogador para ficar na posicao do array onde está o Tile da prisao
-		estaPreso = true;
+	public void usarPasseLivre() {
+		passeLivre = false;
 	}
 	
 	
@@ -78,33 +87,5 @@ public class Player {
 	 * 
 	 */
 	}
-	
-<<<<<<< HEAD
-	public void hipoteca(Territorio p) {
-		
-		/*
-		 * Terrenos sem construção e empresas podem ser hipotecadas pelos valores determinados nos títulos por qualquer período de
-		 * tempo
-		 * 
-		 * Caso haja casas ou hotel é necessário antes vendê-las ao Banco pela metade do preço
-		 * */
-		
-		
-	}
-	
-=======
->>>>>>> 67c7cb83bfce8ea20053bb29cea49b3deacf4f9d
-	
-	private Territorio findProp(Territorio p) {
-		
-		for(int i = 0; i< propriedades.length; i++ ){
-			if(propriedades[i] == p) {
-				return propriedades[i];
-			}
-		}
-		return null;
-	}
-	
-	
 	
 }
