@@ -7,6 +7,7 @@ public class Player {
 
 	private static int qtdDeJogadores = 0; 
 	private static Player[] playerList = new Player[6];
+	private static Cor[] colorList = {Cor.vermelho,Cor.azul,Cor.laranja,Cor.amarelo,Cor.rosa,Cor.cinza};
 
 	private Cor playerColor;
 	private int pos; 
@@ -17,13 +18,13 @@ public class Player {
 	private boolean estaPreso;
 	
 	
-	public Player(Cor cor){
+	public Player(){
 		
 		playerList[qtdDeJogadores] = this;
+		this.playerColor = colorList[qtdDeJogadores];
 		qtdDeJogadores++;
 		
 		saldo = 2458; //nota1 = 8;nota5 = 10;nota10 = 10;nota50 = 10;nota100 = 8;nota500 = 2;
-		playerColor = cor;		
 		pos = 10; //posicao no array onde fica o ponto de partida
 		passeLivre = false;
 		estaPreso = false;
@@ -70,6 +71,10 @@ public class Player {
 	}
 	
 	private static void goFalencia(Player p) {
+		
+	}
+	
+	public void goPrison() {
 		
 	}
 	

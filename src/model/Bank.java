@@ -60,10 +60,11 @@ public class Bank {
 	
 	private int descobreAluguelASerPago(Compravel propriedade) {
 		if(propriedade instanceof Territorio) {
-			return ((Territorio) propriedade).getAluguelASerPago();
+			return ((Territorio) propriedade).getValorAtualAluguel();
 		}else if(propriedade instanceof Companhia) {
-			return ((Companhia) propriedade).getTaxaASerPaga(getSomaDadosDaVez());
+			return ((Companhia) propriedade).getTaxaASerPaga(Model.getSomaDadosDaVez());
 		}
+		return -1; //criar uma exception
 	}
 	
 	private boolean podePagarAluguel(Player devedor, Compravel propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes, JogadorEDonoDaPropriedade {
@@ -99,7 +100,7 @@ public class Bank {
 	
 	public void construirCasa(Player dono, Territorio propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes {
 		if(podeConstruir(dono, propriedade)) {
-			custo = propriedade.getCustoPorConstrucao();
+			int custo = propriedade.getCustoPorConstrucao();
 			dono.pagarValor(custo);
 			saldo += custo;
 		}

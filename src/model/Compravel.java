@@ -36,5 +36,7 @@ public abstract class Compravel extends Tile{
 	public int getValor() {
 		return valor;
 	}
+	
+	public abstract int getValorDeVenda();
 
 }

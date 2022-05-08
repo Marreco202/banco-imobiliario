@@ -95,7 +95,7 @@ public class Card {
 	
 	
 	//
-	public void proc(Player p, Bank b) { //efeitos das cartas
+	public void proc(Player p, Bank b) throws SaldoJogadorInsuficiente { //efeitos das cartas
 		
 		switch(id) {
 		case 1:
