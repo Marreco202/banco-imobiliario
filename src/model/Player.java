@@ -31,6 +31,19 @@ public class Player {
 		dadosIguaisSeguidos = 0; 
 	}
 	
+	public Player(int pos) { //construtor para fins de teste
+		
+		playerList[qtdDeJogadores] = this;
+		this.playerColor = colorList[qtdDeJogadores];
+		qtdDeJogadores++;
+		
+		saldo = 2458; 
+		this.pos = pos; 
+		passeLivre = false;
+		estaPreso = false;
+		dadosIguaisSeguidos = 0; 
+	}
+	
 	public int pagarValor(int valorASerPago) throws SaldoJogadorInsuficiente {
 		if(saldo < valorASerPago) {
 			throw new SaldoJogadorInsuficiente(null);

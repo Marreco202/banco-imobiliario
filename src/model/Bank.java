@@ -114,5 +114,9 @@ public class Bank {
 		saldo-=valor;
 		return valor;
 	}
+	
+	public int getSaldo() {
+		return saldo;
+	}
 
 }

@@ -1,2 +1,3 @@
 module model {
+	requires junit;
 }
