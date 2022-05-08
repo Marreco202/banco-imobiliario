@@ -5,12 +5,11 @@ import exeptions.PropriedadeJaPossuiDono;
 public abstract class Compravel extends Tile{
 	
 	private Player proprietario;
-	private String nome;
-	private int valor;
+	protected String nome;
+	protected int valor;
 	
 	public Compravel(int pos,  String nome, int valor) {
-		super(pos);
-		this.nome = nome;
+		super(pos,nome);
 		this.valor = valor;
 		proprietario = null;
 	}

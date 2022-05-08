@@ -6,11 +6,11 @@ public class Companhia extends Compravel {
 	
 	private int taxa;
 	
-	public Companhia(int pos, String nome, int taxa, int valor) {
+	public Companhia(String nome,int valor, int taxa, int pos) {
 		super(pos, nome, valor);
-		this.nome = nome;
+		//this.nome = nome;
 		this.taxa = taxa;
-		this.valor = valor;
+		//this.valor = valor;
 	}
 	
 	public String getNome() {
@@ -22,7 +22,7 @@ public class Companhia extends Compravel {
 	}
 	
 	public int gerValorDeVenda() {
-		return (int) (0.9*valor);
+		return (int) (0.9*this.valor);
 	}
 	
 	public int getTaxaASerPaga(int valorDosDadosTirados) {
