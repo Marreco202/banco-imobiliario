@@ -61,8 +61,8 @@ public class TestePrimInt {
 		
 		b.realizarCompraDePropriedade(dono, prop);
 		b.realizarPagamentoDeAluguel(vaiPagar, prop);
-		assertEquals(saldoInicialDono + ((Territorio) prop).getValorAtualAluguel(), dono.getSaldo());
-		assertEquals(saldoInicialVaiPagar - ((Territorio)prop).getValorAtualAluguel(), vaiPagar.getSaldo());
+		assertEquals(saldoInicialDono + ((Territorio) prop).getAluguelASerPago(), dono.getSaldo());
+		assertEquals(saldoInicialVaiPagar - ((Territorio)prop).getAluguelASerPago(), vaiPagar.getSaldo());
 		
 	}
 }

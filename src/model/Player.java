@@ -1,15 +1,42 @@
 package model;
-import java.util.random.*;
-
+import exeptions.JogadorInexistente;
 import exeptions.SaldoJogadorInsuficiente;
 
 public class Player {
 
 	private static int qtdDeJogadores = 0; 
 	private static Player[] playerList = new Player[6];
+	private static int jogadorDaVez = 0;
 	private static Cor[] colorList = {Cor.vermelho,Cor.azul,Cor.laranja,Cor.amarelo,Cor.rosa,Cor.cinza};
+	
+	public static int getQtdDeJogadores() {
+		return qtdDeJogadores;
+	}
+	
+	public static int getJogadorDaVez() {
+		return jogadorDaVez;
+	}
+	
+	public static int proximoJogador() {
+		if(Player.jogadorDaVez < (Player.qtdDeJogadores-1)) {
+			return ++Player.jogadorDaVez;
+		}else {
+			Player.jogadorDaVez = 0;
+			return Player.jogadorDaVez;
+		}
+	}
+	
+	public static Player getJogadorDaCor(Cor cor) throws JogadorInexistente {
+		for(int i=0; i<Player.qtdDeJogadores; i++) {
+			if(Player.playerList[i].cor == cor) {
+				return Player.playerList[i];
+			}
+		}
+		throw new JogadorInexistente("Este jogador não existe.");
+	}
+	
 
-	private Cor playerColor;
+	private Cor cor;
 	private int pos; 
 	private int dadosIguaisSeguidos; 
 	private int saldo;
@@ -21,11 +48,11 @@ public class Player {
 	public Player(){
 		
 		playerList[qtdDeJogadores] = this;
-		this.playerColor = colorList[qtdDeJogadores];
+		this.cor = colorList[qtdDeJogadores];
 		qtdDeJogadores++;
 		
-		saldo = 2458; //nota1 = 8;nota5 = 10;nota10 = 10;nota50 = 10;nota100 = 8;nota500 = 2;
-		pos = 10; //posicao no array onde fica o ponto de partida
+		saldo = 2458; 
+		pos = 10;
 		passeLivre = false;
 		estaPreso = false;
 		dadosIguaisSeguidos = 0; 
@@ -34,7 +61,7 @@ public class Player {
 	public Player(int pos) { //construtor para fins de teste
 		
 		playerList[qtdDeJogadores] = this;
-		this.playerColor = colorList[qtdDeJogadores];
+		this.cor = colorList[qtdDeJogadores];
 		qtdDeJogadores++;
 		
 		saldo = 2458; 
@@ -46,7 +73,7 @@ public class Player {
 	
 	public int pagarValor(int valorASerPago) throws SaldoJogadorInsuficiente {
 		if(saldo < valorASerPago) {
-			throw new SaldoJogadorInsuficiente(null);
+			throw new SaldoJogadorInsuficiente(null, this);
 		}
 		saldo -= valorASerPago;
 		return valorASerPago;
@@ -71,6 +98,11 @@ public class Player {
 	public int getSaldo() {
 		return saldo;
 	}
+	
+	public boolean getPasseLivre() {
+		return passeLivre;
+	}
+	
 	public static Player[] getLista() {
 		return playerList;
 	}
@@ -87,7 +119,7 @@ public class Player {
 		
 	}
 	
-	public void goPrison() {
+	public void vaParaAPrisao() {
 		
 	}
 	

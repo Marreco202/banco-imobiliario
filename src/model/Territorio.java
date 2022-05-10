@@ -1,7 +1,6 @@
 package model;
 
 import exeptions.ProibidoConstruir;
-import exeptions.PropriedadeJaPossuiDono;
 import exeptions.ValoresAluguelIncorreto;
 
 public class Territorio extends Compravel {
@@ -18,7 +17,7 @@ public class Territorio extends Compravel {
 	 								valor aluguel com hotel -> valoresAluguel[5]*/
 	
 	
-	public Territorio(String nome,  Cor cor, int valor, int custoPorConstrucao,int pos, int[] valoresAluguel) throws ValoresAluguelIncorreto {
+	public Territorio(int pos, String nome,  Cor cor, int valor, int custoPorConstrucao, int[] valoresAluguel) throws ValoresAluguelIncorreto {
 		super(pos, nome, valor);
 		this.cor = cor;
 		qtdCasas = 0;
@@ -87,7 +86,7 @@ public class Territorio extends Compravel {
 	
 	///////////// GETTERS //////////////////////
 	
-	public int getValorAtualAluguel() {
+	public int getAluguelASerPago() {
 		return calculaValorAluguel();
 	}
 	

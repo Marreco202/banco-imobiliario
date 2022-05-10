@@ -1,7 +1,7 @@
 package model;
 
 
-public class Tile{ 
+public abstract class Tile{ 
 	private int pos; 
 	private String nome;
 	

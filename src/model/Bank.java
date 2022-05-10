@@ -21,7 +21,7 @@ public class Bank {
 	
 	private boolean podeComprar(Player comprador, Compravel propriedade) throws SaldoJogadorInsuficiente, PropriedadeJaPossuiDono, PosicoesConflitantes {
 		if(comprador.getSaldo() < propriedade.getValor()) {
-			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para comprar essa propriedade!");
+			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para comprar essa propriedade!", comprador);
 		}
 		if(propriedade.getProprietario() != null) {
 			throw new PropriedadeJaPossuiDono("A propriedade já possui dono");
@@ -60,7 +60,7 @@ public class Bank {
 	
 	private int descobreAluguelASerPago(Compravel propriedade) {
 		if(propriedade instanceof Territorio) {
-			return ((Territorio) propriedade).getValorAtualAluguel();
+			return ((Territorio) propriedade).getAluguelASerPago();
 		}else if(propriedade instanceof Companhia) {
 			return ((Companhia) propriedade).getTaxaASerPaga(Model.getSomaDadosDaVez());
 		}
@@ -69,7 +69,7 @@ public class Bank {
 	
 	private boolean podePagarAluguel(Player devedor, Compravel propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes, JogadorEDonoDaPropriedade {
 		if(devedor.getSaldo() < descobreAluguelASerPago(propriedade)) {
-			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para pagar o aluguel!");
+			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para pagar o aluguel!", devedor);
 		}
 		if(devedor.getPos() != propriedade.getPos()) {
 			throw new PosicoesConflitantes("A posicao do jogador nao é a mesma da proprieadade que se deve pagar o aluguel.");
@@ -90,7 +90,7 @@ public class Bank {
 	
 	private boolean podeConstruir(Player dono, Territorio propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes {
 		if(dono.getSaldo() < propriedade.getCustoPorConstrucao()) {
-			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para pagar o aluguel!");
+			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para pagar o aluguel!", dono);
 		}
 		if(dono.getPos() != propriedade.getPos()) {
 			throw new PosicoesConflitantes("A posicao do jogador nao é a mesma da proprieadade que se quer construir.");
@@ -106,13 +106,32 @@ public class Bank {
 		}
 	}
 	
-	public void deposito(int valor) {
+	public void jogadorReceberDeJogador(Player recebedor, Player devedor, int valor) throws SaldoJogadorInsuficiente {
+		devedor.pagarValor(valor);
+		recebedor.receberValor(valor);
+	}
+	
+	public void receberDeTodosOsJogadorer(Player recebedor, int valor) throws SaldoJogadorInsuficiente {
+		Player[] playerList = Player.getLista();
+		for(int i = 0; i<Player.getQtdDeJogadores();i++) { 
+			if(playerList[i] != null && playerList[i] != recebedor){ 
+				jogadorReceberDeJogador(recebedor, playerList[i], valor);
+				i++;
+			}
+		}
+	}
+	
+	public void deposito(Player p, int valor) throws SaldoJogadorInsuficiente {
+		p.pagarValor(valor);
 		saldo+=valor;
 	}
 	
-	public int saque(int valor) {
+	public void saque(Player p,int valor) throws SaldoBancoInsuficiente {
+		if(saldo<valor) {
+			throw new SaldoBancoInsuficiente();
+		}
 		saldo-=valor;
-		return valor;
+		p.receberValor(valor);
 	}
 	
 	public int getSaldo() {

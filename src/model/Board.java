@@ -9,10 +9,6 @@ import exeptions.ValoresAluguelIncorreto;
 
 
 public class Board {
-	//Tabuleiro é um vetor circular de Casa
-	// public void initBoard(): cria o vetor circular e seta cada casa individualmente
-	// implementar array de cartas, e funcao para embaralhar as cartas
-	// criar TAD de fila para a retirada de cartas
 	private static int tamanhoTabuleiro = 40;
 	
 	public static int getTamanhoTabuleiro() {
@@ -20,13 +16,9 @@ public class Board {
 	}
 	
 	public static Tile[] tabuleiro = new Tile[40];
-	int placeHolder = 200; // custo de todas as Territorioriedades enquanto nao temos os valores certinhos
-	//talvez colocar o preco de cada uma baseada na cor?
 	
-	Board() throws ValoresAluguelIncorreto{
-		//colocar novo parametro no contructor de Territorio para receber os nomes de cada casa.
+	public Board() throws ValoresAluguelIncorreto{
 		
-		//contando cada casa de cada aresta, nas casas 3, 5 e 8 (quase) sempre tem algo que é diferente de Territorioriedades coloridas 
 		/* ESCALAS DOS ALUGUEIS*/
 
 		int[] a1 = {18,90,250,700,875,1050}; //9 de julho, reboucas
@@ -47,55 +39,56 @@ public class Board {
 		int[] a16 = {12,60,180,500,700,900}; //av brasil
 		
 		//criando o tabuleiro
-			// aresta inferior
+		// aresta inferior
 		
-		tabuleiro[0] = new Tile(0,"Prisao"); //PRISAO 
-		tabuleiro[1] = new Territorio("Av. 9 de Julho",Cor.azul,placeHolder,1,150,a1);
-		tabuleiro[2] = new Territorio("Av. Reboucas",Cor.azul,placeHolder,2,150,a1);
-		tabuleiro[3] = new Companhia("Companhia de Taxi",placeHolder,50,3); //Onibus
-		tabuleiro[4] = new Territorio("Av. Brig Faria Lima",Cor.azul,placeHolder,4,150,a2);
-		tabuleiro[5] = new Companhia("Companhia Ferroviaria",placeHolder,50,5); //Trem;
-		tabuleiro[6] = new Territorio("Av. Nossa Senhora de Copacabana",Cor.rosa,placeHolder,6,50,a3);
-				
-		tabuleiro[7] = new Territorio("Av. Presidente Vargas",Cor.rosa,placeHolder,7,50,a4);
-		//tabuleiro[8] = new Tile(8); // MUDAR PARA SorteOuReves()
-		tabuleiro[9] = new Territorio("Leblon",Cor.rosa,placeHolder,9,50,a5);
-		tabuleiro[10] =new Tile(10,"Ponto de Partida"); // Ponto de partida
-		
-			// aresta direita
-		tabuleiro[11] = new Territorio("Brooklin",Cor.roxo,placeHolder,11,150,a6);
-		tabuleiro[12] = new Territorio("Jardim Paulista",Cor.roxo,placeHolder,12,150,a7);
-		//tabuleiro[13] = new Tile(13); // MUDAR PARA sorte ou reves;
-		tabuleiro[14] = new Territorio("Ipanema",Cor.verde,placeHolder,14,200,a8);
-		tabuleiro[15] = new Companhia("Companhia de taxi aéreo",placeHolder,50,15); //helicoptero
-		tabuleiro[16] = new Territorio("Av. Atlantica",Cor.verde,placeHolder,16,200,a8);
-		tabuleiro[17] = new Territorio("Av. Vieira Souto",Cor.verde,placeHolder,17,200,a9);
-		tabuleiro[18] = new Companhia("Companhia de Aviação",placeHolder,50,18); //aviao
-		tabuleiro[19] = new Territorio("Copacabana",Cor.verde,placeHolder,19,150,a6);
-		tabuleiro[20] = new Tile(20,"Va para a Cadeia"); // va para a cadeia
-		
-			//aresta superior
-		tabuleiro[21] = new Territorio("Jardim Europa",Cor.amarelo,placeHolder,21,100,a10);
-		tabuleiro[22] = new Territorio("Av. Paulista",Cor.amarelo,placeHolder,22,100,a10);
-		//sorte ou reves
-		tabuleiro[24] = new Territorio("Av. Brasil",Cor.amarelo,placeHolder,24,100,a16);
-		tabuleiro[25] = new Companhia("Companhia de Navegação",placeHolder,40,25); //barco
-		tabuleiro[26] = new Tile(26,"$$"); //???
-		tabuleiro[27] = new Territorio("Botafogo",Cor.vermelho,placeHolder,27,50,a5);
-		//sorte ou reves
-		tabuleiro[29] = new Territorio("Flamengo",Cor.vermelho,placeHolder,29,50,a11);
-		tabuleiro[30] = new Tile(30,"Parada Livre"); //parada livre
+		tabuleiro[0] = new SpecialTile(0,"Ponto de partida",TilesEspeciais.pontoDePartida); 
+		tabuleiro[1] = new Territorio(1,"Leblon",Cor.rosa,100, 50,a5);
+		tabuleiro[2] = new SpecialTile(2, "Sorte ou revés", TilesEspeciais.sorteOuReves);
+		tabuleiro[3] = new Territorio(3,"Av. Presidente Vargas",Cor.rosa,60,50,a4);
+		tabuleiro[4] = new Territorio(4,"Av. Nossa Senhora de Copacabana",Cor.rosa,60,50,a3);
+		tabuleiro[5] = new Companhia(5,"Companhia Ferroviaria",200,50);
+		tabuleiro[6] = new Territorio(6,"Av. Brig Faria Lima",Cor.azul,240,150,a2);
+		tabuleiro[7] = new Companhia(7,"Companhia de Taxi",150,50);
+		tabuleiro[8] = new Territorio(8,"Av. Reboucas",Cor.azul,220,150,a1);
+		tabuleiro[9] = new Territorio(9,"Av. 9 de Julho",Cor.azul,220,150,a1);
+		tabuleiro[10] = new SpecialTile(10, "Prisao", TilesEspeciais.Prisao);
 		
 		//aresta esquerda
-		tabuleiro[31] = new Territorio("Morumbi",Cor.laranja,placeHolder,31,200,a12);
-		tabuleiro[32] = new Tile(32,"$$"); //???
-		tabuleiro[33] = new Territorio("Interlagos",Cor.laranja,placeHolder,33,200,a13);
-				//sorte ou reves
-		tabuleiro[35] = new Companhia("Companhia de Taxi",placeHolder,50,35); //taxi
-		tabuleiro[36] = new Territorio("Av. Pacaembú",Cor.vinho,placeHolder,36,100,a14);
-		tabuleiro[37] = new Territorio("Rua Augusta",Cor.vinho,placeHolder,37,100,a14);
-				//sorte ou reves
-		tabuleiro[39] = new Territorio("Av. Europa",Cor.vinho,placeHolder,39,100,a15);
+		tabuleiro[11] = new Territorio(11,"Av. Europa",Cor.vinho,200,100,a15);
+		tabuleiro[12] = new SpecialTile(12, "Sorte ou reves", TilesEspeciais.sorteOuReves);
+		tabuleiro[13] = new Territorio(13,"Rua Augusta",Cor.vinho,180,100,a14);
+		tabuleiro[14] = new Territorio(14,"Av. Pacaembú",Cor.vinho,180,100,a14);
+		tabuleiro[15] = new Companhia(15,"Companhia de Taxi",150,50); //taxi
+		tabuleiro[16] = new SpecialTile(16, "Sorte ou reves", TilesEspeciais.sorteOuReves);
+		tabuleiro[17] = new Territorio(17,"Interlagos",Cor.laranja,350,200,a13);
+		tabuleiro[18] = new SpecialTile(18,"Lucros e dividendos", TilesEspeciais.lucrosEDividendos);
+		tabuleiro[19] = new Territorio(19,"Morumbi",Cor.laranja,400,200,a12);
+		
+		//aresta superior
+		tabuleiro[20] = new SpecialTile(20,"Parada Livre", TilesEspeciais.paradaLivre);
+		tabuleiro[21] = new Territorio(21,"Flamengo",Cor.vermelho,120,50,a11);
+		tabuleiro[22] = new SpecialTile(22, "Sorte ou reves", TilesEspeciais.sorteOuReves);
+		tabuleiro[23] = new Territorio(23,"Botafogo",Cor.vermelho,100,50,a5);
+		tabuleiro[24] = new SpecialTile(24,"Imposto de renda", TilesEspeciais.impostoDeRenda);
+		tabuleiro[25] = new Companhia(25,"Companhia de Navegação",150,25);
+		tabuleiro[26] = new Territorio(26,"Av. Brasil",Cor.amarelo,160,100,a16);
+		tabuleiro[27] = new SpecialTile(27, "Sorte ou reves", TilesEspeciais.sorteOuReves);
+		tabuleiro[28] = new Territorio(28,"Av. Paulista",Cor.amarelo,140,100,a10);
+		tabuleiro[29] = new Territorio(29,"Jardim Europa",Cor.amarelo,140,100,a10);
+		tabuleiro[30] = new SpecialTile(30, "Va para a prisao", TilesEspeciais.vaParaAPrisao);
+
+		// aresta direita
+		tabuleiro[31] = new Territorio(31,"Copacabana",Cor.verde,260,150,a6);
+		tabuleiro[32] = new Companhia(32,"Companhia de Aviação",200,50);
+		tabuleiro[33] = new Territorio(33,"Av. Vieira Souto",Cor.verde,320,200,a9);
+		tabuleiro[34] = new Territorio(34,"Av. Atlantica",Cor.verde,300,200,a8);
+		tabuleiro[35] = new Companhia(35,"Companhia de taxi aéreo",200,50);
+		tabuleiro[36] = new Territorio(36,"Ipanema",Cor.verde,300,200,a8);
+		tabuleiro[37] = new Territorio(37,"Jardim Europa",Cor.amarelo,140,100,a10);
+		tabuleiro[38] = new Territorio(38,"Jardim Paulista",Cor.roxo,280,150,a7);
+		tabuleiro[39] = new Territorio(39,"Brooklin",Cor.roxo,260,150,a6);
+		
+		
 	}
 	
 	

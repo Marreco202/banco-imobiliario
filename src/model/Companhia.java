@@ -4,7 +4,7 @@ public class Companhia extends Compravel {
 	
 	private int taxa;
 	
-	public Companhia(String nome,int valor, int taxa, int pos) {
+	public Companhia(int pos, String nome,int valor, int taxa) {
 		super(pos, nome, valor);	
 		this.taxa = taxa;
 	}

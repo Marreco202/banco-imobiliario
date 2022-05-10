@@ -3,12 +3,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Model {
 
-	private static int numeroDeJogadores;
+	private int numeroDeJogadores;
 	private static int[] dadosDaVez;
 	
-	public Model(int nJ){
+	
+	public Model(int numeroDeJogadores){
 		
-		numeroDeJogadores = nJ;
+		this.numeroDeJogadores = numeroDeJogadores;
 		instanciaJogadores();
 		
 	}
