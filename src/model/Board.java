@@ -9,13 +9,10 @@ import exeptions.ValoresAluguelIncorreto;
 
 
 public class Board {
-	private static int tamanhoTabuleiro = 40;
+	private int tamanhoTabuleiro = 40;
+	private Tile[] tabuleiro = new Tile[tamanhoTabuleiro];
+	private int posDaPrisao = 10;
 	
-	public static int getTamanhoTabuleiro() {
-		return tamanhoTabuleiro;
-	}
-	
-	public static Tile[] tabuleiro = new Tile[40];
 	
 	public Board() throws ValoresAluguelIncorreto{
 		
@@ -51,7 +48,7 @@ public class Board {
 		tabuleiro[7] = new Companhia(7,"Companhia de Taxi",150,50);
 		tabuleiro[8] = new Territorio(8,"Av. Reboucas",Cor.azul,220,150,a1);
 		tabuleiro[9] = new Territorio(9,"Av. 9 de Julho",Cor.azul,220,150,a1);
-		tabuleiro[10] = new SpecialTile(10, "Prisao", TilesEspeciais.Prisao);
+		tabuleiro[10] = new SpecialTile(posDaPrisao, "Prisao", TilesEspeciais.Prisao);
 		
 		//aresta esquerda
 		tabuleiro[11] = new Territorio(11,"Av. Europa",Cor.vinho,200,100,a15);
@@ -89,6 +86,18 @@ public class Board {
 		tabuleiro[39] = new Territorio(39,"Brooklin",Cor.roxo,260,150,a6);
 		
 		
+	}
+	
+	public int getTamanhoTabuleiro() {
+		return tamanhoTabuleiro;
+	}
+	
+	public int getPosDaPrisao() {
+		return posDaPrisao;
+	}
+	
+	public Tile getTileDoTabuleiro(int pos) {
+		return tabuleiro[pos];
 	}
 	
 	

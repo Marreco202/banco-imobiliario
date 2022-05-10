@@ -44,7 +44,6 @@ public class Player {
 	private boolean passeLivre;
 	private boolean estaPreso;
 	
-	
 	public Player(){
 		
 		playerList[qtdDeJogadores] = this;
@@ -52,7 +51,7 @@ public class Player {
 		qtdDeJogadores++;
 		
 		saldo = 2458; 
-		pos = 10;
+		pos = 0;
 		passeLivre = false;
 		estaPreso = false;
 		dadosIguaisSeguidos = 0; 
@@ -83,12 +82,26 @@ public class Player {
 		saldo += valorASerRecebido;
 	}
 	
-	public void avancarNoTabuleiro(int numeroDeCasas) {
-		if(pos + numeroDeCasas < Board.getTamanhoTabuleiro()) {
+	public void avancarNoTabuleiro(int numeroDeCasas, Board tabuleiro) {
+		if(pos + numeroDeCasas < tabuleiro.getTamanhoTabuleiro()) {
 			pos += numeroDeCasas;
 		}else {
-			pos = pos + numeroDeCasas - Board.getTamanhoTabuleiro();
+			pos = pos + numeroDeCasas - tabuleiro.getTamanhoTabuleiro();
 		}
+	}
+	
+	public void ganhouPasseLivre() {
+		passeLivre = true;
+	}
+	
+	public void usarPasseLivre() {
+		estaPreso = false;
+		passeLivre = false;
+	}
+	
+	public void vaParaAPrisao(Board tabuleiro) {
+		estaPreso = true;
+		pos = tabuleiro.getPosDaPrisao();
 	}
 	
 	public int getPos() {
@@ -107,21 +120,11 @@ public class Player {
 		return playerList;
 	}
 	
-	public void ganhouPasseLivre() {
-		passeLivre = true;
-	}
-	
-	public void usarPasseLivre() {
-		passeLivre = false;
-	}
 	
 	private static void goFalencia(Player p) {
 		
 	}
 	
-	public void vaParaAPrisao() {
-		
-	}
 	
 	
 	public static void checkFalencia(Player p, int valorCobrado) {

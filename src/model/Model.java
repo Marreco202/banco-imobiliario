@@ -7,15 +7,12 @@ public class Model {
 	private static int[] dadosDaVez;
 	
 	
-	public Model(int numeroDeJogadores){
-		
+	public Model(int numeroDeJogadores){	
 		this.numeroDeJogadores = numeroDeJogadores;
-		instanciaJogadores();
-		
+		instanciaJogadores();		
 	}
 	
 	private void instanciaJogadores() {
-	
 		for(int i = 0; i< numeroDeJogadores; i++) {
 			new Player();
 		}

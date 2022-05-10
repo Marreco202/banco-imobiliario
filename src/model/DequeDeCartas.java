@@ -51,18 +51,15 @@ public class DequeDeCartas {
 		b.receberDeTodosOsJogadorer(p, valor);
 	}
 	
-	public void proc(Player p, Bank b) throws SaldoJogadorInsuficiente, SaldoBancoInsuficiente { //efeitos das cartas
+	public void utilizaCarta(Player p, Bank b, Board tabuleiro) throws SaldoJogadorInsuficiente, SaldoBancoInsuficiente { //efeitos das cartas
 		
 		switch(cartaDaVez) {
 		case 1:
-			recebeDinheiro(p,25,b);
-		
+			recebeDinheiro(p,25,b);	
 		case 2:
-			recebeDinheiro(p,150,b);
-		
+			recebeDinheiro(p,150,b);	
 		case 3:
-			recebeDinheiro(p,80,b);
-			
+			recebeDinheiro(p,80,b);		
 		case 4:
 			recebeDinheiro(p,400,b);
 		case 5:
@@ -102,7 +99,7 @@ public class DequeDeCartas {
 		case 22:
 			daDinheiro(p,40,b);
 		case 23:
-			p.vaParaAPrisao();
+			p.vaParaAPrisao(tabuleiro);
 		case 24:
 			daDinheiro(p,30,b);
 		case 25:
