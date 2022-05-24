@@ -13,7 +13,7 @@ public class MainMenu extends JFrame{
 		
 		g.setPaint(Color.WHITE);
 		g.setFont(new Font("Arial", Font.BOLD,12));
-		g.drawString(conteudo,x,);
+		//g.drawString(conteudo,x,);
 	}
 	
 	private void desenhaMensagemTitulo(Graphics2D g) {
@@ -35,11 +35,11 @@ public class MainMenu extends JFrame{
 		Graphics2D canvas = (Graphics2D) g;
 		canvas.setPaint(Color.black);
 		canvas.fillRect(0,0,screenX,screenY);
-		
 		desenhaMensagemTitulo(canvas);
 		desenhaBotao(canvas, "Meu nome eh esse", Color.red, 270, 90);
 		
-		
 	}
+	
+	
 	
 }
