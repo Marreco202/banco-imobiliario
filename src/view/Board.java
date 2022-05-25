@@ -39,7 +39,7 @@ public class Board extends JFrame{
 		g.drawImage(tabuleiro, 0, 0, null); //tabuleiro
 		
 		for(int i = 0; i < qtdPlayer; i++) {
-			g.drawImage(pinos[i], 43 + (10*i), 607 + (8*i), null);
+			g.drawImage(pinos[i], 657 - (10*i), 607 + (8*i), null);
 			
 		}
 
