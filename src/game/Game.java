@@ -9,7 +9,6 @@ public class Game {
 
 	public static void main(String[] args) throws IOException {
 		System.out.println("Hello world!");
-		MainMenu m = new MainMenu();
+		MainMenu m = new MainMenu("Banco Imobiliario");
 	}
-
 }
