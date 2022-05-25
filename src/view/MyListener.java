@@ -8,11 +8,14 @@ public class MyListener implements ActionListener{
 
 	Component c;
 	
+	
 	public MyListener(Component x) {
 		c=x;
+	
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		Board b = new Board();
+		c.setVisible(false);
 	}
 }

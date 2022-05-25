@@ -4,8 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 
 public class MainMenu extends JFrame{
-	private int screenX = 800;
-	private int screenY = 700;
+	private int screenX = 200;
+	private int screenY = 400;
 	
 
 	public MainMenu(String s){
@@ -24,6 +24,7 @@ public class MainMenu extends JFrame{
 		p.add(l);
 		p.add(b);
 		getContentPane().add(p);
+		
 		
 		
 		
