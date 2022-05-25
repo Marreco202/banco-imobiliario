@@ -17,9 +17,10 @@ public class NewGameListener implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		//JRadioButton j = (JRadioButton) c;
 		//int qtdPlayers = Integer.parseInt(j.getText());
-		Board b = new Board();
+		int qtdPlayer = ((MainMenu)c).getQtdPlayer();
+		Board b = new Board(qtdPlayer);
 		c.setVisible(false);
-		System.out.println(((MainMenu)c).getQtdPlayer());
+		System.out.println(qtdPlayer);
 	}
 
 	

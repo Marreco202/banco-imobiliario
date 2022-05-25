@@ -8,14 +8,18 @@ public class Board extends JFrame{
 
 	int qtdPlayer;
 	
-	public Board(){
+	public Board(int qp){
 		super();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1200,700);
 		setVisible(true);
+		qtdPlayer = qp;
 	}
 
-
+	public int getQtdPlayer() {
+		return qtdPlayer;
+	}
+	
 	public void paint(Graphics g) {
 		Graphics2D teste = (Graphics2D) g;
 		Image tabuleiro = null;
@@ -25,11 +29,20 @@ public class Board extends JFrame{
 		
 		tabuleiro = Util.loadImage(path + "/src/img/tabuleiro.png");
 
-		Image JogadorTeste = null;
-		JogadorTeste = Util.loadImage(path + "/src/img/pinos/pin0.png");
-
+		//JogadorTeste = Util.loadImage(path + "/src/img/pinos/pin0.png");
+		
+		Image[] pinos = new Image[6];
+		
+		for(int i = 0; i< 6; i++) {
+			pinos[i] = Util.loadImage(path + "/src/img/pinos/pin" + Integer.toString(i) + ".png");
+		}
 		g.drawImage(tabuleiro, 0, 0, null); //tabuleiro
-		g.drawImage(JogadorTeste, 43, 607, null);
+		
+		for(int i = 0; i < qtdPlayer; i++) {
+			g.drawImage(pinos[i], 43 + (10*i), 607 + (8*i), null);
+			
+		}
+
 
 
 
