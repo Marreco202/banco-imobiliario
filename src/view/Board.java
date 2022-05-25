@@ -6,12 +6,13 @@ import javax.swing.*;
 
 public class Board extends JFrame{
 
+	int qtdPlayer;
+	
 	public Board(){
 		super();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1200,700);
 		setVisible(true);
-		Insets i = getInsets(); //descricoes da janela
 	}
 
 
