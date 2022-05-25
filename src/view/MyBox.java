@@ -8,6 +8,7 @@ public class MyBox {
 	
 	
 	private String content = ""; //conteudo do que vai ficar ali dentro da caixa
+	private Font f;
 	private int content_pos_x, content_pos_y;// onde o conteudo da caixa vai ficar em relacao ao tamanho da caixa
 	
 	MyBox(int pos_x,int pos_y, int size_x, int size_y){ //caixa normal
@@ -39,17 +40,24 @@ public class MyBox {
 	public void draw(Graphics2D canvas) {
 		Color oldColor = canvas.getColor();
 		//caixa
-		canvas.setPaint(Color.WHITE); //padrao 
+		canvas.setPaint(Color.WHITE); //Default
 		
-		if(filler_color != null) {
+		if(filler_color != null) { //se tiver cor
+			canvas.setColor(filler_color);
 			canvas.fillRect(pos_x, pos_y, size_x, size_y);
 		}else {
 			canvas.drawRect(pos_x, pos_y, size_x, size_y);			
 		}
-		//texto
-		canvas.setPaint(Color.WHITE);
-		canvas.drawString(content,content_pos_x,content_pos_y);
+		
+		if(content != "") {//se tiver texto
+			canvas.setPaint(Color.black);
+			canvas.drawString(content,content_pos_x + pos_x,content_pos_y + pos_y + (size_y/2) + 16);
+		}
 		
 		canvas.setColor(oldColor);
+	}
+	
+	public void setContent(String s) {
+		content = s;
 	}
 }

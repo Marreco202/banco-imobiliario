@@ -4,6 +4,8 @@ import java.awt.event.*;
 public class MyButton extends MyBox{
 
 	private int isTrigger;
+	
+	MouseListener x;
 	//callback = '';
 	
 	public void setCallBack() {
