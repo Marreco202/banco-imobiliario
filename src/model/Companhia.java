@@ -1,6 +1,6 @@
 package model;
 
-public class Companhia extends Compravel {
+class Companhia extends Compravel {
 	
 	private int taxa;
 	

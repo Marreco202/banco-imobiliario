@@ -2,7 +2,7 @@ package model;
 import exeptions.JogadorInexistente;
 import exeptions.SaldoJogadorInsuficiente;
 
-public class Player {
+class Player {
 
 	private static int qtdDeJogadores = 0; 
 	private static Player[] playerList = new Player[6];
@@ -73,7 +73,7 @@ public class Player {
 	
 	public int pagarValor(int valorASerPago) throws SaldoJogadorInsuficiente {
 		if(saldo < valorASerPago) {
-			throw new SaldoJogadorInsuficiente(null, this);
+			throw new SaldoJogadorInsuficiente(null, this.cor);
 		}
 		saldo -= valorASerPago;
 		return valorASerPago;
@@ -97,6 +97,10 @@ public class Player {
 	
 	public int getSaldo() {
 		return saldo;
+	}
+	
+	public Cor getCor() {
+		return this.cor;
 	}
 	
 	public boolean getPasseLivre() {

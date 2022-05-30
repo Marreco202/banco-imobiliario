@@ -1,18 +1,18 @@
 package exeptions;
 
-import model.Player;
+import model.Cor;
 
 public class SaldoJogadorInsuficiente extends Exception {
 
 	private static final long serialVersionUID = 1L;
-	private Player jogador;
+	private Cor jogador;
 	
-	public SaldoJogadorInsuficiente(String errorMessage, Player jogador) {
+	public SaldoJogadorInsuficiente(String errorMessage, Cor jogador) {
 		super(errorMessage);
 		this.jogador = jogador;
 	}
 	
-	public Player getJogador() {
+	public Cor getJogador() {
 		return jogador;
 	}
 	

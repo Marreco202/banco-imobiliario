@@ -8,7 +8,7 @@ import exeptions.ValoresAluguelIncorreto;
  * */
 
 
-public class Board {
+class Board {
 	private static int tamanhoTabuleiro = 40;
 	
 	public static int getTamanhoTabuleiro() {

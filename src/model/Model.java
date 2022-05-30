@@ -6,16 +6,24 @@ public class Model {
 	private int numeroDeJogadores;
 	private static int[] dadosDaVez;
 	
+	private static Model model = null;
 	
-	public Model(int numeroDeJogadores){
-		
+	private Model(){
+	}
+	
+	public Model getModel() {
+		if(model == null) {
+			model = new Model();
+		}
+		return model;
+	}
+	
+	public void iniciarJogo(int numeroDeJogadores) {
 		this.numeroDeJogadores = numeroDeJogadores;
-		instanciaJogadores();
-		
+		instanciaJogadores();		
 	}
 	
 	private void instanciaJogadores() {
-	
 		for(int i = 0; i< numeroDeJogadores; i++) {
 			new Player();
 		}

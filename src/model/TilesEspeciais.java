@@ -1,5 +1,5 @@
 package model;
 
-public enum TilesEspeciais {
+enum TilesEspeciais {
 	pontoDePartida, sorteOuReves, Prisao, lucrosEDividendos, impostoDeRenda, vaParaAPrisao, paradaLivre;
 }

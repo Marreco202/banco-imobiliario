@@ -1,7 +1,5 @@
 package view;
 
-import java.awt.Color;
-
 import javax.swing.*;
 
 public class MainMenu extends JFrame {

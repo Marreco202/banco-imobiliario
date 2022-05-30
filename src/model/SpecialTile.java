@@ -1,6 +1,6 @@
 package model;
 
-public class SpecialTile extends Tile {
+class SpecialTile extends Tile {
 	
 	TilesEspeciais tipoDeTileEspecial;
 

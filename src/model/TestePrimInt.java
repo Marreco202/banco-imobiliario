@@ -11,7 +11,7 @@ import exeptions.PropriedadeJaPossuiDono;
 import exeptions.SaldoBancoInsuficiente;
 import exeptions.SaldoJogadorInsuficiente;
 
-public class TestePrimInt {
+class TestePrimInt {
 
 	@Test
 	public void testaCompraDePropriedade() throws SaldoJogadorInsuficiente, PropriedadeJaPossuiDono, PosicoesConflitantes {

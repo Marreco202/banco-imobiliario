@@ -2,7 +2,7 @@ package model;
 
 import exeptions.PropriedadeJaPossuiDono;
 
-public abstract class Compravel extends Tile{
+abstract class Compravel extends Tile{
 	
 	private Player proprietario;
 	private String nome;

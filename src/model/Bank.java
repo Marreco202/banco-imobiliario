@@ -11,7 +11,7 @@ import exeptions.SaldoJogadorInsuficiente;
  * Classe que vai automatizar tudo pra gente
  * */
 
-public class Bank { 
+class Bank { 
 	
 	private int saldo;
 	
@@ -21,7 +21,7 @@ public class Bank {
 	
 	private boolean podeComprar(Player comprador, Compravel propriedade) throws SaldoJogadorInsuficiente, PropriedadeJaPossuiDono, PosicoesConflitantes {
 		if(comprador.getSaldo() < propriedade.getValor()) {
-			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para comprar essa propriedade!", comprador);
+			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para comprar essa propriedade!", comprador.getCor());
 		}
 		if(propriedade.getProprietario() != null) {
 			throw new PropriedadeJaPossuiDono("A propriedade já possui dono");
@@ -69,7 +69,7 @@ public class Bank {
 	
 	private boolean podePagarAluguel(Player devedor, Compravel propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes, JogadorEDonoDaPropriedade {
 		if(devedor.getSaldo() < descobreAluguelASerPago(propriedade)) {
-			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para pagar o aluguel!", devedor);
+			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para pagar o aluguel!", devedor.getCor());
 		}
 		if(devedor.getPos() != propriedade.getPos()) {
 			throw new PosicoesConflitantes("A posicao do jogador nao é a mesma da proprieadade que se deve pagar o aluguel.");
@@ -90,7 +90,7 @@ public class Bank {
 	
 	private boolean podeConstruir(Player dono, Territorio propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes {
 		if(dono.getSaldo() < propriedade.getCustoPorConstrucao()) {
-			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para pagar o aluguel!", dono);
+			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para pagar o aluguel!", dono.getCor());
 		}
 		if(dono.getPos() != propriedade.getPos()) {
 			throw new PosicoesConflitantes("A posicao do jogador nao é a mesma da proprieadade que se quer construir.");

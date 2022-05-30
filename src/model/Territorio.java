@@ -3,7 +3,7 @@ package model;
 import exeptions.ProibidoConstruir;
 import exeptions.ValoresAluguelIncorreto;
 
-public class Territorio extends Compravel {
+class Territorio extends Compravel {
 
 	private Cor cor;
 	private int qtdCasas;
