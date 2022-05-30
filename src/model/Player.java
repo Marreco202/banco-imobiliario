@@ -35,6 +35,10 @@ class Player {
 		throw new JogadorInexistente("Este jogador não existe.");
 	}
 	
+	public static Player[] getPlayerList() {
+		return playerList;
+	}
+	
 
 	private Cor cor;
 	private int pos; 
@@ -52,7 +56,7 @@ class Player {
 		qtdDeJogadores++;
 		
 		saldo = 2458; 
-		pos = 10;
+		pos = 5;
 		passeLivre = false;
 		estaPreso = false;
 		dadosIguaisSeguidos = 0; 

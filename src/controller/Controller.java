@@ -1,12 +1,16 @@
 package controller;
 
-import view.MainMenu;
+import model.Model;
+import view.IniciarGraficos;
 
 public class Controller {
 	
 	private static Controller controller = null;
+	private IniciarGraficos janelaPrincipal;
+	private Model model;
 
 	private Controller() {
+		model = Model.getModel();
 	}
 	
 	public static Controller getController() {
@@ -17,8 +21,12 @@ public class Controller {
 		return controller;
 	}
 	
-	public void iniciarJogo() {
-		MainMenu m = new MainMenu();
+	public void iniciarGraficos() {
+		janelaPrincipal = new IniciarGraficos();
 	}
 
+	public void iniciarJogo(int qtdPlayers) {
+		model.iniciarJogo(qtdPlayers);
+	}
+	
 }

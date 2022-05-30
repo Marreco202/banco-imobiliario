@@ -23,9 +23,7 @@ public class PanelMainMenu extends JPanel implements MouseListener{
 			new RadioButton(356, 100, 92, 92, "5"),
 			new RadioButton(458, 100, 92, 92, "6")
 	};
-	
 	private Botao iniciarJogo = new Botao(165, 240, 270, 60, "Iniciar Jogo");
-	
 	private CheckButton devMode = new CheckButton(500, 285, 85, 30, "DevMode");
 	
 	public PanelMainMenu() {
@@ -65,7 +63,7 @@ public class PanelMainMenu extends JPanel implements MouseListener{
 		devMode.verificaSeFoiClicado(e.getX(), e.getY());
 		repaint();
 		if(iniciarJogo.verificaSeFoiClicado(e.getX(), e.getY())) {
-			MainMenu topFrame = (MainMenu) SwingUtilities.getWindowAncestor(this);
+			IniciarGraficos topFrame = (IniciarGraficos) SwingUtilities.getWindowAncestor(this);
 			topFrame.iniciarTabuleiro(RadioButton.getBotaoSelecionado()+2);
 		}
 	}
