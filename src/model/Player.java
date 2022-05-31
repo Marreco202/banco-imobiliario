@@ -6,23 +6,27 @@ class Player {
 
 	private static int qtdDeJogadores = 0; 
 	private static Player[] playerList = new Player[6];
-	private static int jogadorDaVez = 0;
+	private static int idJogadorDaVez = 0;
 	private static Cor[] colorList = {Cor.vermelho,Cor.azul,Cor.laranja,Cor.amarelo,Cor.rosa,Cor.cinza};
 	
 	public static int getQtdDeJogadores() {
 		return qtdDeJogadores;
 	}
 	
-	public static int getJogadorDaVez() {
-		return jogadorDaVez;
+	public static int getIdJogadorDaVez() {
+		return idJogadorDaVez;
+	}
+	
+	public static Player getJogadorDaVez() {
+		return playerList[idJogadorDaVez];
 	}
 	
 	public static int proximoJogador() {
-		if(Player.jogadorDaVez < (Player.qtdDeJogadores-1)) {
-			return ++Player.jogadorDaVez;
+		if(Player.idJogadorDaVez < (Player.qtdDeJogadores-1)) {
+			return ++Player.idJogadorDaVez;
 		}else {
-			Player.jogadorDaVez = 0;
-			return Player.jogadorDaVez;
+			Player.idJogadorDaVez = 0;
+			return Player.idJogadorDaVez;
 		}
 	}
 	
@@ -56,7 +60,7 @@ class Player {
 		qtdDeJogadores++;
 		
 		saldo = 2458; 
-		pos = 5;
+		pos = 0;
 		passeLivre = false;
 		estaPreso = false;
 		dadosIguaisSeguidos = 0; 

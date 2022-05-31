@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -15,33 +16,55 @@ import model.Model;
 
 public class PanelTabuleiro  extends JPanel implements MouseListener{
 
-	private int qtdPlayer;
 	private int[][] posNoTabuleiro = {{615,623},{547,641},{493,640},{436,643},{382,646},{329,646},{269,645},{217,644},{159,648},{105,646},{13,656},{12,559},{13,498},{11,451},{12,394},{12,335},{12,277},{11,223},{12,166},{12,115},{17,43},{105,22},{164,22},{216,23},{269,19},{327,20},{380,24},{439,16},{495,23},{550,21},{620,36},{626,116},{640,163},{626,232},{626,280},{628,336},{626,394},{630,452},{625,503},{624,558}};
 	private Model model;
 	
+	private Image tabuleiro;
+	private Image[] pinos = new Image[6];
+	private Image[] dados = new Image[6];
 	
-	public PanelTabuleiro(int qtdPlayer) {
+	private Botao botaoRolarDados;
+	
+	public PanelTabuleiro() {
 		super();
-		this.qtdPlayer = qtdPlayer;
 		this.addMouseListener(this);
-		model = Model.getModel();
+		this.model = Model.getModel();
+		
+		this.tabuleiro = loadImage("./img/tabuleiro.png");
+		
+		this.botaoRolarDados = new Botao(715, 160, 255, 45, "Rolar Dados");
+		this.botaoRolarDados.setFontSize(35);
+		this.botaoRolarDados.setXposContent(8);
+		this.botaoRolarDados.setYposContent(35);
+		
+		for(int i = 0; i< model.getNumeroDeJogadores(); i++) {
+			pinos[i] = loadImage("./img/pinos/pin" + Integer.toString(i) + ".png");
+			dados[i] = loadImage("./img/dados/die_face_"+(i+1)+".png");
+		}
 	}
 	
 	public void paintComponent(Graphics g) {
-		Graphics2D teste = (Graphics2D) g;
-		Image tabuleiro = null;
-		
-		tabuleiro = loadImage("./img/tabuleiro.png");
+		drawTabuleiroEPinos(g);
+		g.setColor(Color.black);
+		g.fillRect(700, 0, 300, 700);
+		drawAreaDeDados(g);
+		this.botaoRolarDados.draw((Graphics2D) g);
+	}
+	
+	private void drawAreaDeDados(Graphics g) {
+		Color corJogadorDaVez = model.getCorJogadorDaVez();
+		g.setColor(corJogadorDaVez);
+		g.fillRect(700, 5, 290, 145);
+		g.drawImage(dados[model.getDadosDaVez()[0]-1], 710, 10, 130, 130, null);
+		g.drawImage(dados[model.getDadosDaVez()[1]-1], 850, 10, 130, 130, null);
+	}
 
-		
+	private void drawTabuleiroEPinos(Graphics g) {
 		g.drawImage(tabuleiro, 0, 0, null); //tabuleiro
 		for(int i = 0; i< model.getNumeroDeJogadores(); i++) {
-			Image pinos = loadImage("./img/pinos/pin" + Integer.toString(i) + ".png");
 			int posDoJogaodor = model.posDoJogador(i);
-			g.drawImage(pinos, posNoTabuleiro[posDoJogaodor][0]+i*7, posNoTabuleiro[posDoJogaodor][1], null);
-			System.out.println(posNoTabuleiro[posDoJogaodor][0] + " " + posNoTabuleiro[posDoJogaodor][1]);
+			g.drawImage(pinos[i], posNoTabuleiro[posDoJogaodor][0]+i*7, posNoTabuleiro[posDoJogaodor][1], null);
 		}
-
 	}
 	
 	public Image loadImage(String path) {

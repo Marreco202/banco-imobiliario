@@ -1,12 +1,14 @@
 package controller;
 
 import model.Model;
-import view.IniciarGraficos;
+import observerView.ObservadorView;
+import observerView.ViewEvent;
+import view.View;
 
-public class Controller {
+public class Controller implements ObservadorView{
 	
 	private static Controller controller = null;
-	private IniciarGraficos janelaPrincipal;
+	private View janelaPrincipal;
 	private Model model;
 
 	private Controller() {
@@ -16,17 +18,25 @@ public class Controller {
 	public static Controller getController() {
 		if(controller == null) {
 			controller = new Controller();
-			return controller;
 		}
 		return controller;
 	}
 	
 	public void iniciarGraficos() {
-		janelaPrincipal = new IniciarGraficos();
+		janelaPrincipal = View.getView();
+		janelaPrincipal.addObservador(this);
 	}
 
 	public void iniciarJogo(int qtdPlayers) {
 		model.iniciarJogo(qtdPlayers);
+	}
+
+	@Override
+	public void handleInput(ViewEvent e) {
+		if(e.getClicouInciarJogo() == true) {
+			this.iniciarJogo(e.getQtdJogadores());
+			janelaPrincipal.iniciarTabuleiro();
+		}
 	}
 	
 }

@@ -51,6 +51,10 @@ public class RadioButton{
 		
 		RadioButton.listaBotoes.add(this);
 		
+		if(RadioButton.numeroDeBotoes == 1) {
+			cor = Color.yellow;
+		}
+		
 	}
 	
 	public void draw(Graphics2D canvas) {

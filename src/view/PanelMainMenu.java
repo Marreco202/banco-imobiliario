@@ -63,8 +63,8 @@ public class PanelMainMenu extends JPanel implements MouseListener{
 		devMode.verificaSeFoiClicado(e.getX(), e.getY());
 		repaint();
 		if(iniciarJogo.verificaSeFoiClicado(e.getX(), e.getY())) {
-			IniciarGraficos topFrame = (IniciarGraficos) SwingUtilities.getWindowAncestor(this);
-			topFrame.iniciarTabuleiro(RadioButton.getBotaoSelecionado()+2);
+			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
+			topFrame.clicouIniciarJogo(RadioButton.getBotaoSelecionado()+2);
 		}
 	}
 

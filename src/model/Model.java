@@ -1,12 +1,15 @@
 package model;
+import java.awt.Color;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Model {
 
 	private int numeroDeJogadores;
-	private static int[] dadosDaVez;
+	private int[] dadosDaVez = {1,1};
 	
 	private static Model model = null;
+	
+	private Color[] colorList = {Color.red,Color.blue,Color.orange,Color.yellow,Color.pink,Color.gray};
 	
 	private Model(){
 	}
@@ -44,11 +47,15 @@ public class Model {
 		return numeroDeJogadores;
 	}
 	
-	public static int[] getDadosDaVez() {
+	public Color getCorJogadorDaVez() {
+		return colorList[Player.getIdJogadorDaVez()];
+	}
+	
+	public int[] getDadosDaVez() {
 		return dadosDaVez;
 	}
 	
-	public static int getSomaDadosDaVez() {
+	public int getSomaDadosDaVez() {
 		return dadosDaVez[0] + dadosDaVez[1];
 	}
 }

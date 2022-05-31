@@ -62,7 +62,7 @@ class Bank {
 		if(propriedade instanceof Territorio) {
 			return ((Territorio) propriedade).getAluguelASerPago();
 		}else if(propriedade instanceof Companhia) {
-			return ((Companhia) propriedade).getTaxaASerPaga(Model.getSomaDadosDaVez());
+			return ((Companhia) propriedade).getTaxaASerPaga(Model.getModel().getSomaDadosDaVez());
 		}
 		return -1; //criar uma exception
 	}
