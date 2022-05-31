@@ -1,4 +1,6 @@
 package model;
+import java.util.concurrent.ThreadLocalRandom;
+
 import exeptions.JogadorInexistente;
 import exeptions.SaldoJogadorInsuficiente;
 
@@ -6,7 +8,7 @@ class Player {
 
 	private static int qtdDeJogadores = 0; 
 	private static Player[] playerList = new Player[6];
-	private static int idJogadorDaVez = 0;
+	private static int idJogadorDaVez = -1;
 	private static Cor[] colorList = {Cor.vermelho,Cor.azul,Cor.laranja,Cor.amarelo,Cor.rosa,Cor.cinza};
 	
 	public static int getQtdDeJogadores() {
@@ -18,15 +20,23 @@ class Player {
 	}
 	
 	public static Player getJogadorDaVez() {
+		if(idJogadorDaVez == -1) {
+			return playerList[idJogadorDaVez+1];
+		}
 		return playerList[idJogadorDaVez];
 	}
 	
-	public static int proximoJogador() {
-		if(Player.idJogadorDaVez < (Player.qtdDeJogadores-1)) {
-			return ++Player.idJogadorDaVez;
+	public static Player proximoJogador() {
+		if(Player.idJogadorDaVez == -1) {
+			return playerList[++Player.idJogadorDaVez];
+		}else if(Player.getJogadorDaVez().dadosIguaisSeguidos > 0){
+			return playerList[Player.idJogadorDaVez];
+		}
+		else if(Player.idJogadorDaVez < (Player.qtdDeJogadores-1)) {
+			return playerList[++Player.idJogadorDaVez];
 		}else {
 			Player.idJogadorDaVez = 0;
-			return Player.idJogadorDaVez;
+			return playerList[Player.idJogadorDaVez];
 		}
 	}
 	
@@ -47,6 +57,7 @@ class Player {
 	private Cor cor;
 	private int pos; 
 	private int dadosIguaisSeguidos; 
+	private int[] dadosDaVez = {0, 0};
 	private int saldo;
 	
 	private boolean passeLivre;
@@ -79,6 +90,26 @@ class Player {
 		dadosIguaisSeguidos = 0; 
 	}
 	
+	public void sortearDados() {
+		int dado1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+		int dado2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+		dadosDaVez[0]=dado1; dadosDaVez[1]=dado2;
+	}
+	
+	public void rolarDados() {
+		sortearDados();
+		System.out.println("Jogador está rolando os dados");
+		if(dadosDaVez[0] == dadosDaVez[1]) {
+			dadosIguaisSeguidos++;
+			if(dadosIguaisSeguidos == 2) {
+				this.vaParaAPrisao();
+				dadosDaVez[0]=0; dadosDaVez[1]=0;
+			}
+		}else {
+			dadosIguaisSeguidos = 0;
+		}
+	}
+	
 	public int pagarValor(int valorASerPago) throws SaldoJogadorInsuficiente {
 		if(saldo < valorASerPago) {
 			throw new SaldoJogadorInsuficiente(null, this.cor);
@@ -91,11 +122,20 @@ class Player {
 		saldo += valorASerRecebido;
 	}
 	
-	public void avancarNoTabuleiro(int numeroDeCasas) {
-		if(pos + numeroDeCasas < Board.getTamanhoTabuleiro()) {
-			pos += numeroDeCasas;
+	public void avancarNoTabuleiro() {
+		if(estaPreso) {
+			tentarSairDaPrisao();
+			return;
+		}
+		
+		int somaDados = dadosDaVez[0] + dadosDaVez[1];
+		if(pos + somaDados < Board.getBoard().getTamanhoTabuleiro()) {
+			pos += somaDados;
 		}else {
-			pos = pos + numeroDeCasas - Board.getTamanhoTabuleiro();
+			pos = pos + somaDados - Board.getBoard().getTamanhoTabuleiro();
+		}
+		if(pos == Board.getBoard().getPosVaParaPrisao()) {
+			vaParaAPrisao();
 		}
 	}
 	
@@ -131,8 +171,19 @@ class Player {
 		
 	}
 	
+	private int tentativasDeSair = 0;
+	public void tentarSairDaPrisao() {
+		if(dadosDaVez[0] == dadosDaVez[1] || tentativasDeSair == 2 ) {
+			estaPreso = false;
+			tentativasDeSair = 0;
+		}else {
+			tentativasDeSair++;
+		}
+	}
+	
 	public void vaParaAPrisao() {
-		
+		pos = Board.getBoard().getPosPrisao();
+		estaPreso = true;
 	}
 	
 	
@@ -154,6 +205,10 @@ class Player {
 	 * As propriedades deverão ser colocadas em leilão
 	 * 
 	 */
+	}
+
+	public int[] getDadosDaVez() {
+		return dadosDaVez;
 	}
 	
 }

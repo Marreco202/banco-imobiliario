@@ -16,7 +16,7 @@ class TestePrimInt {
 	@Test
 	public void testaCompraDePropriedade() throws SaldoJogadorInsuficiente, PropriedadeJaPossuiDono, PosicoesConflitantes {
 		
-		Compravel prop = (Compravel) Board.tabuleiro[1];
+		Compravel prop = (Compravel) Board.getBoard().tabuleiro[1];
 		Player p = new Player(1);
 		Bank b = new Bank();
 		int saldoInicialJogador = p.getSaldo();
@@ -32,7 +32,7 @@ class TestePrimInt {
 	@Test
 	public void testaVendaDePropriedade() throws SaldoJogadorInsuficiente, PropriedadeJaPossuiDono, PosicoesConflitantes, JogadorNaoEDonoDaPropriedade, SaldoBancoInsuficiente {
 		
-		Compravel prop = (Compravel) Board.tabuleiro[1];
+		Compravel prop = (Compravel) Board.getBoard().tabuleiro[1];
 		Player p = new Player(1);
 		Bank b = new Bank();
 		int saldoInicialJogador = p.getSaldo();
@@ -50,7 +50,7 @@ class TestePrimInt {
 	@Test
 	public void realizarPagamentoDeAluguel() throws SaldoJogadorInsuficiente, PropriedadeJaPossuiDono, PosicoesConflitantes, JogadorEDonoDaPropriedade {
 		
-		Compravel prop = (Compravel) Board.tabuleiro[1];
+		Compravel prop = (Compravel) Board.getBoard().tabuleiro[1];
 		Player vaiPagar = new Player(1);
 		Player dono = new Player(1);
 		Bank b = new Bank();

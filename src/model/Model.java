@@ -9,7 +9,7 @@ public class Model {
 	
 	private static Model model = null;
 	
-	private Color[] colorList = {Color.red,Color.blue,Color.orange,Color.yellow,Color.pink,Color.gray};
+	private Color[] colorList = {Color.red,Color.blue,Color.ORANGE,Color.yellow,Color.pink,Color.gray};
 	
 	private Model(){
 	}
@@ -37,10 +37,10 @@ public class Model {
 		return playerList[jogador].getPos();
 	}
 	
-	private void rolarDadosDaVez() {
-		int dado1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-		int dado2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-		dadosDaVez = new int []{dado1,dado2};		
+	public void rolarDados() {
+		Player p = Player.proximoJogador();
+		p.rolarDados();
+		p.avancarNoTabuleiro();
 	}
 	
 	public int getNumeroDeJogadores() {
@@ -48,11 +48,14 @@ public class Model {
 	}
 	
 	public Color getCorJogadorDaVez() {
+		if(Player.getIdJogadorDaVez() == -1) {
+			return colorList[Player.getIdJogadorDaVez()+1];
+		}
 		return colorList[Player.getIdJogadorDaVez()];
 	}
 	
 	public int[] getDadosDaVez() {
-		return dadosDaVez;
+		return Player.getJogadorDaVez().getDadosDaVez();
 	}
 	
 	public int getSomaDadosDaVez() {

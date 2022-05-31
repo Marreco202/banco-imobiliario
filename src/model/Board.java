@@ -9,13 +9,15 @@ import exeptions.ValoresAluguelIncorreto;
 
 
 class Board {
-	private static int tamanhoTabuleiro = 40;
+	private static Board board = null;
 	
-	public static int getTamanhoTabuleiro() {
+	private  int tamanhoTabuleiro = 40;
+	
+	public  int getTamanhoTabuleiro() {
 		return tamanhoTabuleiro;
 	}
 	
-	public static Tile[] tabuleiro = new Tile[40];
+	public  Tile[] tabuleiro = new Tile[40];
 	
 	public Board() throws ValoresAluguelIncorreto{
 		
@@ -91,6 +93,23 @@ class Board {
 		
 	}
 	
+	public static Board getBoard() {
+		if(board == null) {
+			try {
+				board = new Board();
+			} catch (ValoresAluguelIncorreto e) {
+				e.printStackTrace();
+			}
+		}
+		return board;
+	}
 	
+	public int getPosVaParaPrisao() {
+		return 30;
+	}
+	
+	public int getPosPrisao() {
+		return 10;
+	}
 	
 }

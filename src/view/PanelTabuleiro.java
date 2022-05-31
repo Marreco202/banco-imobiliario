@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import model.Model;
 
@@ -37,7 +38,7 @@ public class PanelTabuleiro  extends JPanel implements MouseListener{
 		this.botaoRolarDados.setXposContent(8);
 		this.botaoRolarDados.setYposContent(35);
 		
-		for(int i = 0; i< model.getNumeroDeJogadores(); i++) {
+		for(int i = 0; i< 6; i++) {
 			pinos[i] = loadImage("./img/pinos/pin" + Integer.toString(i) + ".png");
 			dados[i] = loadImage("./img/dados/die_face_"+(i+1)+".png");
 		}
@@ -51,12 +52,32 @@ public class PanelTabuleiro  extends JPanel implements MouseListener{
 		this.botaoRolarDados.draw((Graphics2D) g);
 	}
 	
+	public void repaintTabuleiro() {
+		repaint();
+	}
+	
 	private void drawAreaDeDados(Graphics g) {
 		Color corJogadorDaVez = model.getCorJogadorDaVez();
 		g.setColor(corJogadorDaVez);
 		g.fillRect(700, 5, 290, 145);
-		g.drawImage(dados[model.getDadosDaVez()[0]-1], 710, 10, 130, 130, null);
-		g.drawImage(dados[model.getDadosDaVez()[1]-1], 850, 10, 130, 130, null);
+		
+		Image dado1, dado2;
+		if(model.getDadosDaVez()[0]==0) {
+			dado1 = dados[0];
+		}else {
+			dado1 = dados[model.getDadosDaVez()[0]-1];
+		}
+		
+		if(model.getDadosDaVez()[1]==0) {
+			dado2 = dados[0];
+		}else {
+			dado2 = dados[model.getDadosDaVez()[1]-1];
+		}
+		
+		System.out.println(model.getDadosDaVez()[0] + " " + model.getDadosDaVez()[1]);
+		
+		g.drawImage(dado1, 710, 10, 130, 130, null);
+		g.drawImage(dado2, 850, 10, 130, 130, null);
 	}
 
 	private void drawTabuleiroEPinos(Graphics g) {
@@ -81,7 +102,10 @@ public class PanelTabuleiro  extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.print("{"+e.getX() + "," + e.getY()+"},");
+		if(botaoRolarDados.verificaSeFoiClicado(e.getX(), e.getY())) {
+			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
+			topFrame.clicouRolarDados();
+		}
 	}
 
 	@Override

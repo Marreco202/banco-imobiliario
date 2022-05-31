@@ -46,6 +46,15 @@ public class View extends JFrame implements ObservadoView{
 		this.notificarObservadores(e);
 	}
 	
+	public void clicouRolarDados() {
+		ViewEvent e = new ViewEvent(false, true);
+		this.notificarObservadores(e);
+	}
+	
+	public void rolouDados() {
+		panelAtual.repaint();
+	}
+	
 	public void iniciarTabuleiro() {
 		getContentPane().remove(panelAtual);
 		
@@ -67,4 +76,5 @@ public class View extends JFrame implements ObservadoView{
 		for (int i = 0; i < listaDeObservadores.size(); i++)
             listaDeObservadores.get(i).handleInput(e);
 	}
+
 }
