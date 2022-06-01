@@ -49,9 +49,9 @@ class Board {
 		tabuleiro[3] = new Territorio(3,"Av. Presidente Vargas",Cor.rosa,60,50,a4);
 		tabuleiro[4] = new Territorio(4,"Av. Nossa Senhora de Copacabana",Cor.rosa,60,50,a3);
 		tabuleiro[5] = new Companhia(5,"Companhia Ferroviaria",200,50);
-		tabuleiro[6] = new Territorio(6,"Av. Brig Faria Lima",Cor.azul,240,150,a2);
-		tabuleiro[7] = new Companhia(7,"Companhia de Taxi",150,50);
-		tabuleiro[8] = new Territorio(8,"Av. Reboucas",Cor.azul,220,150,a1);
+		tabuleiro[6] = new Territorio(6,"Av. Brigadero Faria Lima",Cor.azul,240,150,a2);
+		tabuleiro[7] = new Companhia(7,"Companhia de Viação",150,50);
+		tabuleiro[8] = new Territorio(8,"Av. Rebouças",Cor.azul,220,150,a1);
 		tabuleiro[9] = new Territorio(9,"Av. 9 de Julho",Cor.azul,220,150,a1);
 		tabuleiro[10] = new SpecialTile(10, "Prisao", TilesEspeciais.Prisao);
 		
@@ -83,10 +83,10 @@ class Board {
 		tabuleiro[31] = new Territorio(31,"Copacabana",Cor.verde,260,150,a6);
 		tabuleiro[32] = new Companhia(32,"Companhia de Aviação",200,50);
 		tabuleiro[33] = new Territorio(33,"Av. Vieira Souto",Cor.verde,320,200,a9);
-		tabuleiro[34] = new Territorio(34,"Av. Atlantica",Cor.verde,300,200,a8);
+		tabuleiro[34] = new Territorio(34,"Av. Atlântica",Cor.verde,300,200,a8);
 		tabuleiro[35] = new Companhia(35,"Companhia de taxi aéreo",200,50);
 		tabuleiro[36] = new Territorio(36,"Ipanema",Cor.verde,300,200,a8);
-		tabuleiro[37] = new Territorio(37,"Jardim Europa",Cor.amarelo,140,100,a10);
+		tabuleiro[37] = new SpecialTile(37, "Sorte ou reves", TilesEspeciais.sorteOuReves);
 		tabuleiro[38] = new Territorio(38,"Jardim Paulista",Cor.roxo,280,150,a7);
 		tabuleiro[39] = new Territorio(39,"Brooklin",Cor.roxo,260,150,a6);
 		

@@ -5,7 +5,7 @@ class Companhia extends Compravel {
 	private int taxa;
 	
 	public Companhia(int pos, String nome,int valor, int taxa) {
-		super(pos, nome, valor);	
+		super(pos, nome, valor, "./img/companhias/"+nome+".png");	
 		this.taxa = taxa;
 	}
 	public int getValorDeVenda() {

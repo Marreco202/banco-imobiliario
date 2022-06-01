@@ -18,7 +18,7 @@ class Territorio extends Compravel {
 	
 	
 	public Territorio(int pos, String nome,  Cor cor, int valor, int custoPorConstrucao, int[] valoresAluguel) throws ValoresAluguelIncorreto {
-		super(pos, nome, valor);
+		super(pos, nome, valor, "./img/territorios/"+nome+".png");
 		this.cor = cor;
 		qtdCasas = 0;
 		temHotel = false;

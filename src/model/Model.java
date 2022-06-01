@@ -61,4 +61,20 @@ public class Model {
 	public int getSomaDadosDaVez() {
 		return dadosDaVez[0] + dadosDaVez[1];
 	}
+
+	public String getNomeDaCasa() {
+		int posDoJogador = Player.getJogadorDaVez().getPos();
+		String nomeDaCasa = Board.getBoard().tabuleiro[posDoJogador].getNome();
+		if(nomeDaCasa != null) {
+			return nomeDaCasa;
+		}
+		return "";
+	}
+	
+	public String getImagePathDaCasaAtual() {
+		int posDoJogador = Player.getJogadorDaVez().getPos();
+		String imagePath = Board.getBoard().tabuleiro[posDoJogador].getImagePath();
+		System.out.println(imagePath);
+		return imagePath;
+	}
 }
