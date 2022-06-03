@@ -50,4 +50,8 @@ public class Botao {
 		this.XposContent = x;
 		this.YposContent = y;
 	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
 }

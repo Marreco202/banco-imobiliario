@@ -42,9 +42,14 @@ public class Model {
 		Player[] playerList = Player.getPlayerList();
 		return playerList[jogador].getPos();
 	}
+
+	public void finalizarRodada() {
+		Player.proximoJogador();
+		System.out.println("FINALIZANDO"+Integer.toString(Player.getIdJogadorDaVez()));
+	}
 	
 	public void rolarDados() {
-		Player p = Player.proximoJogador();
+		Player p = Player.getJogadorDaVez();
 		p.rolarDados();
 		p.avancarNoTabuleiro();
 	}

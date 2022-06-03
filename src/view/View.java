@@ -42,13 +42,21 @@ public class View extends JFrame implements ObservadoView{
 	}
 	
 	public void clicouIniciarJogo(int qtd) {
-		ViewEvent e = new ViewEvent(true, false, false);
+		ViewEvent e = new ViewEvent();
+		e.setClicouIniciarJogo(true);
 		e.setQtdJogadores(qtd);
 		this.notificarObservadores(e);
 	}
 	
 	public void clicouRolarDados() {
-		ViewEvent e = new ViewEvent(false, true, false);
+		ViewEvent e = new ViewEvent();
+		e.setClicouRolarDados(true);
+		this.notificarObservadores(e);
+	}
+	
+	public void finalizarRodada() {
+		ViewEvent e = new ViewEvent();
+		e.setClicouFinalizarRodada(true);
 		this.notificarObservadores(e);
 	}
 	
@@ -57,7 +65,8 @@ public class View extends JFrame implements ObservadoView{
 	}
 	
 	public void clicouComprar() {
-		ViewEvent e = new ViewEvent(false, false, true);
+		ViewEvent e = new ViewEvent();
+		e.setClicouComprarPropriedade(true);
 		this.notificarObservadores(e);
 	}
 	
@@ -82,5 +91,6 @@ public class View extends JFrame implements ObservadoView{
 		for (int i = 0; i < listaDeObservadores.size(); i++)
             listaDeObservadores.get(i).handleInput(e);
 	}
+
 
 }

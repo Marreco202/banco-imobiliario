@@ -34,11 +34,12 @@ public class Controller implements ObservadorView{
 	@Override
 	public void handleInput(ViewEvent e) {
 		if(e.getClicouInciarJogo()) {
-			System.out.println("Iniciar Jogo");
 			this.iniciarJogo(e.getQtdJogadores());
 			janelaPrincipal.iniciarTabuleiro();
+		}else if(e.getClicouFinalizarRodada()){
+			model.finalizarRodada();
+			janelaPrincipal.repaintJanela();
 		}else if(e.getClicouRolarDados()) {
-			System.out.println("Rolar dados");
 			model.rolarDados();
 			janelaPrincipal.repaintJanela();
 		}else if(e.getClicouComprarPropriedade()) {

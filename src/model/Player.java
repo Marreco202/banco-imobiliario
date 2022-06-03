@@ -9,7 +9,7 @@ class Player {
 
 	private static int qtdDeJogadores = 0; 
 	private static Player[] playerList = new Player[6];
-	private static int idJogadorDaVez = -1;
+	private static int idJogadorDaVez = 0;
 	private static Cor[] colorList = {Cor.vermelho,Cor.azul,Cor.laranja,Cor.amarelo,Cor.rosa,Cor.cinza};
 	
 	public static int getQtdDeJogadores() {
@@ -28,9 +28,8 @@ class Player {
 	}
 	
 	public static Player proximoJogador() {
-		if(Player.idJogadorDaVez == -1) {
-			return playerList[++Player.idJogadorDaVez];
-		}else if(Player.getJogadorDaVez().dadosIguaisSeguidos > 0){
+		getJogadorDaVez().setDadosDaVez(0, 0);
+		if(Player.getJogadorDaVez().dadosIguaisSeguidos > 0){
 			return playerList[Player.idJogadorDaVez];
 		}
 		else if(Player.idJogadorDaVez < (Player.qtdDeJogadores-1)) {
@@ -41,6 +40,7 @@ class Player {
 		}
 	}
 	
+
 	public static Player getJogadorDaCor(Cor cor) throws JogadorInexistente {
 		for(int i=0; i<Player.qtdDeJogadores; i++) {
 			if(Player.playerList[i].cor == cor) {
@@ -117,6 +117,11 @@ class Player {
 		}
 	}
 	
+	private void setDadosDaVez(int i, int j) {
+		dadosDaVez[0] = i;
+		dadosDaVez[1] = j;
+	}
+
 	public int pagarValor(int valorASerPago) throws SaldoJogadorInsuficiente {
 		if(saldo < valorASerPago) {
 			throw new SaldoJogadorInsuficiente(null, this.cor);

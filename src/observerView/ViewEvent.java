@@ -1,15 +1,34 @@
 package observerView;
 
 public class ViewEvent {
+	
 	private boolean clicouInciarJogo = false;
 	private boolean clicouRolarDados = false;
+	private boolean clicouFinalizarRodada = false;
 	private boolean clicouComprarPropriedade = false;
 	private int qtdJogadores;
 	
-	public ViewEvent(boolean userClicouIniciarJogo, boolean userClicouRolarDados, boolean clicouComprarPropriedade){
-		this.clicouInciarJogo = userClicouIniciarJogo;
-		this.clicouRolarDados = userClicouRolarDados;
+	public ViewEvent(){
+	}
+	
+	public void setClicouIniciarJogo(boolean clicouIniciarJogo) {
+		this.clicouInciarJogo = clicouIniciarJogo;
+	}
+	
+	public void setClicouRolarDados(boolean clicouRolarDados) {
+		this.clicouRolarDados = clicouRolarDados;
+	}
+	
+	public void setClicouComprarPropriedade(boolean clicouComprarPropriedade) {
 		this.clicouComprarPropriedade = clicouComprarPropriedade;
+	}
+	
+	public void setClicouFinalizarRodada(boolean clicouFinalizarRodada) {
+		this.clicouFinalizarRodada = clicouFinalizarRodada;
+	}
+	
+	public boolean getClicouFinalizarRodada() {
+		return clicouFinalizarRodada;
 	}
 	
 	public boolean getClicouComprarPropriedade() {

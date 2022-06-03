@@ -27,7 +27,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 	private Image[] pinos = new Image[6];
 	private Image[] dados = new Image[6];
 	
-	private Botao botaoRolarDados;
+	private Botao botaoRodada;
 	private Botao botaoDesejaComprar;
 	private Botao botaoVerPropriedades;
 	
@@ -41,9 +41,9 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		
 		this.tabuleiro = loadImage("./img/tabuleiro.png");
 		
-		this.botaoRolarDados = new Botao(715, 160, 255, 45, "Rolar Dados");
-		this.botaoRolarDados.setFontSize(35);
-		this.botaoRolarDados.setPosContent(8, 35);
+		this.botaoRodada = new Botao(715, 160, 255, 45, "Rolar Dados");
+		this.botaoRodada.setFontSize(35);
+		this.botaoRodada.setPosContent(8, 35);
 		
 		this.botaoDesejaComprar = new Botao(750, 500, 180, 45, "Comprar");
 		this.botaoDesejaComprar.setFontSize(35);
@@ -74,7 +74,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		g.fillRect(700, 0, 300, 700);
 		
 		this.drawAreaDeDados(g);
-		this.botaoRolarDados.draw((Graphics2D) g);
+		this.botaoRodada.draw((Graphics2D) g);
 		
 		Font f = new Font("Comic Sans MS", Font.BOLD, 20);
         g.setFont(f);
@@ -117,19 +117,13 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		g.fillRect(700, 5, 290, 145);
 		
 		Image dado1, dado2;
-		if(model.getDadosDaVez()[0]==0) {
-			dado1 = dados[0];
+		if(model.getDadosDaVez()[0]==0 || model.getDadosDaVez()[1] == 0) {
+			return;
 		}else {
 			dado1 = dados[model.getDadosDaVez()[0]-1];
-		}
-		
-		if(model.getDadosDaVez()[1]==0) {
-			dado2 = dados[0];
-		}else {
 			dado2 = dados[model.getDadosDaVez()[1]-1];
 		}
 		
-		System.out.println(model.getDadosDaVez()[0] + " " + model.getDadosDaVez()[1]);
 		
 		g.drawImage(dado1, 710, 10, 130, 130, null);
 		g.drawImage(dado2, 850, 10, 130, 130, null);
@@ -157,11 +151,22 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		return i;
 	}
 
+	boolean terminouRodada = true;
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(botaoRolarDados.verificaSeFoiClicado(e.getX(), e.getY())) {
+		if(botaoRodada.verificaSeFoiClicado(e.getX(), e.getY())) {
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
-			topFrame.clicouRolarDados();
+			if(!terminouRodada) {
+				botaoRodada.setContent("Rolar Dados");
+				botaoRodada.setPosContent(8, 35);
+				terminouRodada = true;
+				topFrame.finalizarRodada();
+			}else {
+				botaoRodada.setContent("Finalizar");
+				botaoRodada.setPosContent(43, 35);
+				terminouRodada = false;
+				topFrame.clicouRolarDados();
+			}
 		}else if(botaoDesejaComprar.verificaSeFoiClicado(e.getX(), e.getY())) {
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
 			topFrame.clicouComprar();
