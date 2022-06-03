@@ -13,6 +13,8 @@ public class Model {
 
 	private int numeroDeJogadores;
 	
+	private boolean devMode = false;
+	
 	private static Model model = null;
 	
 	private Color[] colorList = {Color.red,Color.blue,Color.ORANGE,Color.yellow,Color.pink,Color.gray};
@@ -27,8 +29,9 @@ public class Model {
 		return model;
 	}
 	
-	public void iniciarJogo(int numeroDeJogadores) {
+	public void iniciarJogo(int numeroDeJogadores, boolean devMode) {
 		this.numeroDeJogadores = numeroDeJogadores;
+		this.devMode = devMode;
 		instanciaJogadores();		
 	}
 	
@@ -137,5 +140,9 @@ public class Model {
 
 	public ArrayList<Integer> getTodasPropriedadesJogadorAtual() {
 		return Board.getBoard().getTodasPropriedadesDeJogador(Player.getJogadorDaVez());
+	}
+	
+	public boolean getDevMode() {
+		return devMode;
 	}
 }

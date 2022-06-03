@@ -19,6 +19,10 @@ public class CheckButton extends Botao {
 		return super.verificaSeFoiClicado(x, y);
 	}
 	
+	public boolean isChecked() {
+		return checked;
+	}
+	
 	public CheckButton(int pos_x,int pos_y, int size_x, int size_y, String content) {
 		super(pos_x, pos_y, size_x, size_y, content);
 	}

@@ -6,6 +6,7 @@ public class ViewEvent {
 	private boolean clicouRolarDados = false;
 	private boolean clicouFinalizarRodada = false;
 	private boolean clicouComprarPropriedade = false;
+	private boolean devMode = false;
 	private int qtdJogadores;
 	
 	public ViewEvent(){
@@ -49,5 +50,13 @@ public class ViewEvent {
 	
 	public void setQtdJogadores(int qtdJogadores) {
 		this.qtdJogadores = qtdJogadores;
+	}
+	
+	public boolean getDevMode() {
+		return devMode;
+	}
+
+	public void setDevMode(boolean devMode) {
+		this.devMode = devMode;
 	}
 }

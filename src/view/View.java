@@ -41,10 +41,11 @@ public class View extends JFrame implements ObservadoView{
 		return view;
 	}
 	
-	public void clicouIniciarJogo(int qtd) {
+	public void clicouIniciarJogo(int qtd, boolean devMode) {
 		ViewEvent e = new ViewEvent();
 		e.setClicouIniciarJogo(true);
 		e.setQtdJogadores(qtd);
+		e.setDevMode(devMode);
 		this.notificarObservadores(e);
 	}
 	
