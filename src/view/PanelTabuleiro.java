@@ -53,27 +53,60 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		
 		this.drawAreaDeDados(g);
 		this.botaoRolarDados.draw((Graphics2D) g);
-		this.drawInfoDaPosicao(g);
+		
+		Font f = new Font("Comic Sans MS", Font.BOLD, 20);
+        g.setFont(f);
+        g.setColor(Color.white);
+		g.drawString("Você está em: ", 705, 250);
+		this.drawInfoDaPosicao(g, 700, 270, model.getPosJogadorDaVez());
 	}
 	
 	public void repaintTabuleiro() {
 		repaint();
 	}
 	
-	private void drawInfoDaPosicao(Graphics g) {
-		Font f = new Font("Comic Sans MS", Font.BOLD, 20);
-        g.setFont(f);
-        g.setColor(Color.white);
-		g.drawString("Você está em: ", 705, 250);
+	private void drawInfoDaPosicao(Graphics g, int x, int y, int pos) {
 		
-		f = new Font("Comic Sans MS", Font.BOLD, 15);
+		Font f = new Font("Comic Sans MS", Font.BOLD, 15);
         g.setFont(f);
 		g.setColor(Color.red);
-		g.drawString(model.getNomeDaCasa(), 715, 270);
+		g.drawString(model.getNomeDaCasa(), x+15, y);
 		
 		Image imagemDaCasa = loadImage(model.getImagePathDaCasaAtual());
 		if(imagemDaCasa != null) {
-			g.drawImage(imagemDaCasa, 730, 300, 200, 250, null);
+			g.drawImage(imagemDaCasa, x+5, y+10, 175, 210, null);
+		}
+		
+		drawValoresDaCasa(g, x, y, pos);
+	}
+	
+	private void drawValoresDaCasa(Graphics g, int x, int y, int pos) {
+		int valorDeCompra, valorDeVenda;
+		Color corProprietario;
+		try {
+			valorDeCompra = model.getValorDeCompra(pos);
+			valorDeVenda = model.getValorDeVenda(pos);
+		}catch (Exception e) {
+			return;
+		}
+		
+		Font f = new Font("Comic Sans MS", Font.BOLD, 11);
+        g.setFont(f);
+        g.setColor(Color.white);
+		g.drawString("Valor de compra: ", x+185, y+30);
+		g.drawString("Valor de venda: ", x+185, y+80);
+		g.drawString("Proprietário: ", x+185, y+120);
+		
+		g.setColor(Color.red);
+		g.drawString(Integer.toString(valorDeCompra), x+200, y+50);
+		g.drawString(Integer.toString(valorDeVenda), x+200, y+100);
+		
+		try {
+			corProprietario = model.getCorProprietario(pos);
+			g.setColor(corProprietario);
+			g.fillRect(895, 400, 20, 50);
+		}catch (Exception e) {
+			return;
 		}
 	}
 	

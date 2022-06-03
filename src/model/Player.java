@@ -59,6 +59,7 @@ class Player {
 	private int dadosIguaisSeguidos; 
 	private int[] dadosDaVez = {0, 0};
 	private int saldo;
+	private int idJogador;
 	
 	private boolean passeLivre;
 	private boolean estaPreso;
@@ -68,6 +69,7 @@ class Player {
 		
 		playerList[qtdDeJogadores] = this;
 		this.cor = colorList[qtdDeJogadores];
+		this.idJogador = qtdDeJogadores;
 		qtdDeJogadores++;
 		
 		saldo = 2458; 
@@ -88,6 +90,10 @@ class Player {
 		passeLivre = false;
 		estaPreso = false;
 		dadosIguaisSeguidos = 0; 
+	}
+	
+	public int getIdJogador() {
+		return idJogador;
 	}
 	
 	public void sortearDados() {

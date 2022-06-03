@@ -2,6 +2,9 @@ package model;
 import java.awt.Color;
 import java.util.concurrent.ThreadLocalRandom;
 
+import exeptions.PropriedadeNaoPossuiDono;
+import exeptions.casaAtualNaoECompravel;
+
 public class Model {
 
 	private int numeroDeJogadores;
@@ -76,5 +79,38 @@ public class Model {
 		String imagePath = Board.getBoard().tabuleiro[posDoJogador].getImagePath();
 		System.out.println(imagePath);
 		return imagePath;
+	}
+	
+	public Tile getCasa(int pos) {
+		return (Tile) Board.getBoard().tabuleiro[pos];
+	}
+	
+	
+	public int getValorDeCompra(int pos) throws casaAtualNaoECompravel {
+		if(getCasa(pos) instanceof Compravel) {
+			return ((Compravel) Board.getBoard().tabuleiro[pos]).getValor();
+		}
+		throw new casaAtualNaoECompravel();
+	}
+
+	public int getPosJogadorDaVez() {
+		return Player.getJogadorDaVez().getPos();
+	}
+	
+	public int getValorDeVenda(int pos) throws casaAtualNaoECompravel {
+		if(getCasa(pos) instanceof Compravel) {
+			return ((Compravel) Board.getBoard().tabuleiro[pos]).getValorDeVenda();
+		}
+		throw new casaAtualNaoECompravel();
+	}
+
+	public Color getCorProprietario(int pos) throws PropriedadeNaoPossuiDono {
+		Player proprietario;
+		if(getCasa(pos) instanceof Compravel) {
+			proprietario = ((Compravel) Board.getBoard().tabuleiro[pos]).getProprietario();
+			return colorList[proprietario.getIdJogador()];
+			
+		}
+		throw new PropriedadeNaoPossuiDono();
 	}
 }
