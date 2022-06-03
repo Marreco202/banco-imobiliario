@@ -4,6 +4,7 @@ import javax.swing.*;
 
 
 import controller.Controller;
+import model.Model;
 import observerView.ObservadoView;
 import observerView.ObservadorView;
 import observerView.ViewEvent;
@@ -41,18 +42,23 @@ public class View extends JFrame implements ObservadoView{
 	}
 	
 	public void clicouIniciarJogo(int qtd) {
-		ViewEvent e = new ViewEvent(true, false);
+		ViewEvent e = new ViewEvent(true, false, false);
 		e.setQtdJogadores(qtd);
 		this.notificarObservadores(e);
 	}
 	
 	public void clicouRolarDados() {
-		ViewEvent e = new ViewEvent(false, true);
+		ViewEvent e = new ViewEvent(false, true, false);
 		this.notificarObservadores(e);
 	}
 	
-	public void rolouDados() {
+	public void repaintJanela() {
 		panelAtual.repaint();
+	}
+	
+	public void clicouComprar() {
+		ViewEvent e = new ViewEvent(false, false, true);
+		this.notificarObservadores(e);
 	}
 	
 	public void iniciarTabuleiro() {

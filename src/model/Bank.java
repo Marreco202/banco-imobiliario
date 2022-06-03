@@ -14,9 +14,18 @@ import exeptions.SaldoJogadorInsuficiente;
 class Bank { 
 	
 	private int saldo;
+	private static Bank bank = null;
 	
-	public Bank() {
+	private Bank() {
 		saldo = 200000;
+	}
+	
+	public static Bank getBank() {
+		if(bank == null) {
+			bank = new Bank();
+			return bank;
+		}
+		return bank;
 	}
 	
 	private boolean podeComprar(Player comprador, Compravel propriedade) throws SaldoJogadorInsuficiente, PropriedadeJaPossuiDono, PosicoesConflitantes {

@@ -11,9 +11,11 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import exeptions.PropriedadeNaoPossuiDono;
 import model.Model;
 
 public class PanelTabuleiro extends JPanel implements MouseListener{
@@ -26,6 +28,10 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 	private Image[] dados = new Image[6];
 	
 	private Botao botaoRolarDados;
+	private Botao botaoDesejaComprar;
+	private Botao botaoVerPropriedades;
+	
+	private JFrame listaPropriedades;
 	
 	public PanelTabuleiro() {
 		super();
@@ -38,6 +44,16 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		this.botaoRolarDados.setFontSize(35);
 		this.botaoRolarDados.setXposContent(8);
 		this.botaoRolarDados.setYposContent(35);
+		
+		this.botaoDesejaComprar = new Botao(750, 500, 180, 45, "Comprar");
+		this.botaoDesejaComprar.setFontSize(35);
+		this.botaoDesejaComprar.setXposContent(5);
+		this.botaoDesejaComprar.setYposContent(35);
+		
+		this.botaoVerPropriedades = new Botao(750, 640, 200, 30, "Ver Propriedades");
+		this.botaoVerPropriedades.setFontSize(18);
+		this.botaoVerPropriedades.setXposContent(10);
+		this.botaoVerPropriedades.setYposContent(20);
 		
 		for(int i = 0; i< 6; i++) {
 			pinos[i] = loadImage("./img/pinos/pin" + Integer.toString(i) + ".png");
@@ -59,10 +75,34 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
         g.setColor(Color.white);
 		g.drawString("Você está em: ", 705, 250);
 		this.drawInfoDaPosicao(g, 700, 270, model.getPosJogadorDaVez());
+		
+		this.drawOpcoesJogador(g, model.getPosJogadorDaVez());
+		
+		this.botaoVerPropriedades.draw((Graphics2D) g);
 	}
 	
 	public void repaintTabuleiro() {
 		repaint();
+	}
+	
+	private void drawOpcoesJogador(Graphics g, int pos) {
+		
+		Font f = new Font("Comic Sans MS", Font.BOLD, 20);
+        g.setFont(f);
+        g.setColor(Color.white);
+		g.drawString("Você tem: ", 705, 620);
+		
+		int saldo = model.getSaldoJogadorDaVez();
+		g.setColor(Color.red);
+		g.drawString(Integer.toString(saldo), 830, 620);
+		
+		try {
+			model.getCorProprietario(pos);
+		}catch (PropriedadeNaoPossuiDono e) {
+			this.botaoDesejaComprar.draw((Graphics2D) g);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 	
 	private void drawInfoDaPosicao(Graphics g, int x, int y, int pos) {
@@ -104,7 +144,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		try {
 			corProprietario = model.getCorProprietario(pos);
 			g.setColor(corProprietario);
-			g.fillRect(895, 400, 20, 50);
+			g.fillRect(895, 400, 50, 50);
 		}catch (Exception e) {
 			return;
 		}
@@ -142,6 +182,16 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		}
 	}
 	
+	private void listarPropriedades() {
+		listaPropriedades = new JFrame();
+		listaPropriedades.setSize(300, 1000);
+		listaPropriedades.getContentPane().setBackground(Color.black);
+		listaPropriedades.setTitle("Lista de propriedade");
+		listaPropriedades.setVisible(true);
+		listaPropriedades.setResizable(false);
+		
+	}
+	
 	public Image loadImage(String path) {
 		if(path == null) {
 			return null;
@@ -161,6 +211,11 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		if(botaoRolarDados.verificaSeFoiClicado(e.getX(), e.getY())) {
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
 			topFrame.clicouRolarDados();
+		}else if(botaoDesejaComprar.verificaSeFoiClicado(e.getX(), e.getY())) {
+			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
+			topFrame.clicouComprar();
+		}else if(botaoVerPropriedades.verificaSeFoiClicado(e.getX(), e.getY())) {
+			listarPropriedades();
 		}
 	}
 

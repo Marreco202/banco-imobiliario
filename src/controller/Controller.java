@@ -40,7 +40,14 @@ public class Controller implements ObservadorView{
 		}else if(e.getClicouRolarDados()) {
 			System.out.println("Rolar dados");
 			model.rolarDados();
-			janelaPrincipal.rolouDados();
+			janelaPrincipal.repaintJanela();
+		}else if(e.getClicouComprarPropriedade()) {
+			try {
+				model.comprarPropriedade();
+			}catch (Exception ex) {
+				// TODO: handle exception
+			}
+			janelaPrincipal.repaintJanela();
 		}
 	}
 	

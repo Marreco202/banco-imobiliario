@@ -2,7 +2,10 @@ package model;
 import java.awt.Color;
 import java.util.concurrent.ThreadLocalRandom;
 
+import exeptions.PosicoesConflitantes;
+import exeptions.PropriedadeJaPossuiDono;
 import exeptions.PropriedadeNaoPossuiDono;
+import exeptions.SaldoJogadorInsuficiente;
 import exeptions.casaAtualNaoECompravel;
 
 public class Model {
@@ -88,7 +91,7 @@ public class Model {
 	
 	public int getValorDeCompra(int pos) throws casaAtualNaoECompravel {
 		if(getCasa(pos) instanceof Compravel) {
-			return ((Compravel) Board.getBoard().tabuleiro[pos]).getValor();
+			return ((Compravel) getCasa(pos)).getValor();
 		}
 		throw new casaAtualNaoECompravel();
 	}
@@ -99,18 +102,37 @@ public class Model {
 	
 	public int getValorDeVenda(int pos) throws casaAtualNaoECompravel {
 		if(getCasa(pos) instanceof Compravel) {
-			return ((Compravel) Board.getBoard().tabuleiro[pos]).getValorDeVenda();
+			return ((Compravel) getCasa(pos)).getValorDeVenda();
 		}
 		throw new casaAtualNaoECompravel();
 	}
 
-	public Color getCorProprietario(int pos) throws PropriedadeNaoPossuiDono {
+	public Color getCorProprietario(int pos) throws PropriedadeNaoPossuiDono, casaAtualNaoECompravel {
 		Player proprietario;
 		if(getCasa(pos) instanceof Compravel) {
-			proprietario = ((Compravel) Board.getBoard().tabuleiro[pos]).getProprietario();
+			proprietario = ((Compravel) getCasa(pos)).getProprietario();
+			if(proprietario == null) {
+				throw new PropriedadeNaoPossuiDono();
+			}
 			return colorList[proprietario.getIdJogador()];
 			
 		}
-		throw new PropriedadeNaoPossuiDono();
+		throw new casaAtualNaoECompravel();
+	}
+
+	public int getSaldoJogadorDaVez() {
+		return Player.getJogadorDaVez().getSaldo();
+	}
+
+	public void comprarPropriedade() throws casaAtualNaoECompravel, SaldoJogadorInsuficiente, PropriedadeJaPossuiDono, PosicoesConflitantes {
+		Player p = Player.getJogadorDaVez();
+		int pos = getPosJogadorDaVez();
+		Compravel propriedade;
+		if(getCasa(pos) instanceof Compravel) {
+			propriedade = (Compravel) getCasa(pos);	
+		}else {
+			throw new casaAtualNaoECompravel();
+		}
+		Bank.getBank().realizarCompraDePropriedade(p, propriedade);
 	}
 }

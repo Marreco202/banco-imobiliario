@@ -2,6 +2,7 @@ package model;
 import java.util.concurrent.ThreadLocalRandom;
 
 import exeptions.JogadorInexistente;
+import exeptions.SaldoBancoInsuficiente;
 import exeptions.SaldoJogadorInsuficiente;
 
 class Player {
@@ -128,7 +129,7 @@ class Player {
 		saldo += valorASerRecebido;
 	}
 	
-	public void avancarNoTabuleiro() {
+	public void avancarNoTabuleiro(){
 		if(estaPreso) {
 			tentarSairDaPrisao();
 			return;
@@ -138,6 +139,11 @@ class Player {
 		if(pos + somaDados < Board.getBoard().getTamanhoTabuleiro()) {
 			pos += somaDados;
 		}else {
+			try {
+				Bank.getBank().saque(this, 200);
+			}catch (Exception e) {
+				System.out.println("Banco com saldo insuficiente");
+			}
 			pos = pos + somaDados - Board.getBoard().getTamanhoTabuleiro();
 		}
 		if(pos == Board.getBoard().getPosVaParaPrisao()) {
