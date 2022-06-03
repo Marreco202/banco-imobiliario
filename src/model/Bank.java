@@ -71,7 +71,8 @@ class Bank {
 		if(propriedade instanceof Territorio) {
 			return ((Territorio) propriedade).getAluguelASerPago();
 		}else if(propriedade instanceof Companhia) {
-			return ((Companhia) propriedade).getTaxaASerPaga(Model.getModel().getSomaDadosDaVez());
+			int soma = Player.getJogadorDaVez().getSomaDadosDaVez();
+			return ((Companhia) propriedade).getTaxaASerPaga(soma);
 		}
 		return -1; //criar uma exception
 	}

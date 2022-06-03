@@ -32,12 +32,10 @@ public class PanelMainMenu extends JPanel implements MouseListener{
 		this.addMouseListener(this);
 		
 		iniciarJogo.setFontSize(40);
-		iniciarJogo.setXposContent(8);
-		iniciarJogo.setYposContent(43);
+		iniciarJogo.setPosContent(8, 43);
 		
 		devMode.setFontSize(15);
-		devMode.setXposContent(6);
-		devMode.setYposContent(20);
+		devMode.setPosContent(6, 20);
 	}
 
 	public void paintComponent(Graphics g) {

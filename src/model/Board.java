@@ -1,6 +1,9 @@
 package model;
 
+import java.util.ArrayList;
+
 import exeptions.ValoresAluguelIncorreto;
+import exeptions.casaAtualNaoECompravel;
 
 /*
  * 
@@ -110,6 +113,27 @@ class Board {
 	
 	public int getPosPrisao() {
 		return 10;
+	}
+
+	public Player getDonoDePosicao(int pos) throws casaAtualNaoECompravel {
+		if(tabuleiro[pos] instanceof Compravel) {
+			if(((Compravel)tabuleiro[pos]).getProprietario() != null) {
+				return ((Compravel)tabuleiro[pos]).getProprietario();
+			}
+		}
+		throw new casaAtualNaoECompravel();
+	}
+	
+	public ArrayList<Integer> getTodasPropriedadesDeJogador(Player jogador) {
+		ArrayList<Integer> retorno = new ArrayList<Integer>();
+		for(int i=0; i<40; i++) {
+			if(tabuleiro[i] instanceof Compravel) {
+				if(((Compravel)tabuleiro[i]).getProprietario() == jogador) {
+					retorno.add(i);
+				}
+			}
+		}
+		return retorno;
 	}
 	
 }

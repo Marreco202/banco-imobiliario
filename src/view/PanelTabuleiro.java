@@ -32,6 +32,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 	private Botao botaoVerPropriedades;
 	
 	private JFrame listaPropriedades;
+	private InfoPosicao infoPosicao;
 	
 	public PanelTabuleiro() {
 		super();
@@ -42,18 +43,18 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		
 		this.botaoRolarDados = new Botao(715, 160, 255, 45, "Rolar Dados");
 		this.botaoRolarDados.setFontSize(35);
-		this.botaoRolarDados.setXposContent(8);
-		this.botaoRolarDados.setYposContent(35);
+		this.botaoRolarDados.setPosContent(8, 35);
 		
 		this.botaoDesejaComprar = new Botao(750, 500, 180, 45, "Comprar");
 		this.botaoDesejaComprar.setFontSize(35);
-		this.botaoDesejaComprar.setXposContent(5);
-		this.botaoDesejaComprar.setYposContent(35);
+		this.botaoDesejaComprar.setPosContent(5, 35);
 		
 		this.botaoVerPropriedades = new Botao(750, 640, 200, 30, "Ver Propriedades");
 		this.botaoVerPropriedades.setFontSize(18);
-		this.botaoVerPropriedades.setXposContent(10);
-		this.botaoVerPropriedades.setYposContent(20);
+		this.botaoVerPropriedades.setPosContent(10, 20);
+		
+		this.infoPosicao = new InfoPosicao();
+		
 		
 		for(int i = 0; i< 6; i++) {
 			pinos[i] = loadImage("./img/pinos/pin" + Integer.toString(i) + ".png");
@@ -62,6 +63,11 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 	}
 	
 	public void paintComponent(Graphics g) {
+		if(listaPropriedades != null) {
+			listaPropriedades.dispose();
+			listaPropriedades = null;
+		}
+		
 		drawTabuleiroEPinos(g);
 		
 		g.setColor(Color.black);
@@ -74,7 +80,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
         g.setFont(f);
         g.setColor(Color.white);
 		g.drawString("Você está em: ", 705, 250);
-		this.drawInfoDaPosicao(g, 700, 270, model.getPosJogadorDaVez());
+		this.infoPosicao.draw(g, 700, 270, model.getPosJogadorDaVez());
 		
 		this.drawOpcoesJogador(g, model.getPosJogadorDaVez());
 		
@@ -102,51 +108,6 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 			this.botaoDesejaComprar.draw((Graphics2D) g);
 		}catch (Exception e) {
 			// TODO: handle exception
-		}
-	}
-	
-	private void drawInfoDaPosicao(Graphics g, int x, int y, int pos) {
-		
-		Font f = new Font("Comic Sans MS", Font.BOLD, 15);
-        g.setFont(f);
-		g.setColor(Color.red);
-		g.drawString(model.getNomeDaCasa(), x+15, y);
-		
-		Image imagemDaCasa = loadImage(model.getImagePathDaCasaAtual());
-		if(imagemDaCasa != null) {
-			g.drawImage(imagemDaCasa, x+5, y+10, 175, 210, null);
-		}
-		
-		drawValoresDaCasa(g, x, y, pos);
-	}
-	
-	private void drawValoresDaCasa(Graphics g, int x, int y, int pos) {
-		int valorDeCompra, valorDeVenda;
-		Color corProprietario;
-		try {
-			valorDeCompra = model.getValorDeCompra(pos);
-			valorDeVenda = model.getValorDeVenda(pos);
-		}catch (Exception e) {
-			return;
-		}
-		
-		Font f = new Font("Comic Sans MS", Font.BOLD, 11);
-        g.setFont(f);
-        g.setColor(Color.white);
-		g.drawString("Valor de compra: ", x+185, y+30);
-		g.drawString("Valor de venda: ", x+185, y+80);
-		g.drawString("Proprietário: ", x+185, y+120);
-		
-		g.setColor(Color.red);
-		g.drawString(Integer.toString(valorDeCompra), x+200, y+50);
-		g.drawString(Integer.toString(valorDeVenda), x+200, y+100);
-		
-		try {
-			corProprietario = model.getCorProprietario(pos);
-			g.setColor(corProprietario);
-			g.fillRect(895, 400, 50, 50);
-		}catch (Exception e) {
-			return;
 		}
 	}
 	
@@ -182,16 +143,6 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		}
 	}
 	
-	private void listarPropriedades() {
-		listaPropriedades = new JFrame();
-		listaPropriedades.setSize(300, 1000);
-		listaPropriedades.getContentPane().setBackground(Color.black);
-		listaPropriedades.setTitle("Lista de propriedade");
-		listaPropriedades.setVisible(true);
-		listaPropriedades.setResizable(false);
-		
-	}
-	
 	public Image loadImage(String path) {
 		if(path == null) {
 			return null;
@@ -215,7 +166,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
 			topFrame.clicouComprar();
 		}else if(botaoVerPropriedades.verificaSeFoiClicado(e.getX(), e.getY())) {
-			listarPropriedades();
+			listaPropriedades = new FrameListaPropriedades();
 		}
 	}
 

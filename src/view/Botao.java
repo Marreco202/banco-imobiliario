@@ -29,8 +29,6 @@ public class Botao {
 	}
 	
 	public void draw(Graphics2D canvas) {
-		Color oldColor = canvas.getColor();
-		
 		canvas.setColor(cor);
 		canvas.fillRect(pos_x, pos_y, size_x, size_y);
 		
@@ -38,11 +36,9 @@ public class Botao {
         canvas.setFont(f);
 		canvas.setColor(Color.black);
 		canvas.drawString(content, pos_x+XposContent, pos_y+YposContent);
-		
-		canvas.setColor(oldColor);
 	}
 		
-	public void setColor(Color cor) {
+	public void setCor(Color cor) {
 		this.cor = cor;
 	}
 	
@@ -50,15 +46,8 @@ public class Botao {
 		fontSize = t;
 	}
 	
-	public void setXposContent(int x) {
+	public void setPosContent(int x, int y) {
 		this.XposContent = x;
-	}
-	
-	public void setYposContent(int y) {
 		this.YposContent = y;
-	}
-	
-	public void setCor(Color cor) {
-		this.cor = cor;
 	}
 }

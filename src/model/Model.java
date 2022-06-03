@@ -1,5 +1,6 @@
 package model;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import exeptions.PosicoesConflitantes;
@@ -11,7 +12,6 @@ import exeptions.casaAtualNaoECompravel;
 public class Model {
 
 	private int numeroDeJogadores;
-	private int[] dadosDaVez = {1,1};
 	
 	private static Model model = null;
 	
@@ -63,23 +63,17 @@ public class Model {
 	public int[] getDadosDaVez() {
 		return Player.getJogadorDaVez().getDadosDaVez();
 	}
-	
-	public int getSomaDadosDaVez() {
-		return dadosDaVez[0] + dadosDaVez[1];
-	}
 
-	public String getNomeDaCasa() {
-		int posDoJogador = Player.getJogadorDaVez().getPos();
-		String nomeDaCasa = Board.getBoard().tabuleiro[posDoJogador].getNome();
+	public String getNomeDaCasa(int pos) {
+		String nomeDaCasa = Board.getBoard().tabuleiro[pos].getNome();
 		if(nomeDaCasa != null) {
 			return nomeDaCasa;
 		}
 		return "";
 	}
 	
-	public String getImagePathDaCasaAtual() {
-		int posDoJogador = Player.getJogadorDaVez().getPos();
-		String imagePath = Board.getBoard().tabuleiro[posDoJogador].getImagePath();
+	public String getImagePath(int pos) {
+		String imagePath = Board.getBoard().tabuleiro[pos].getImagePath();
 		System.out.println(imagePath);
 		return imagePath;
 	}
@@ -134,5 +128,9 @@ public class Model {
 			throw new casaAtualNaoECompravel();
 		}
 		Bank.getBank().realizarCompraDePropriedade(p, propriedade);
+	}
+
+	public ArrayList<Integer> getTodasPropriedadesJogadorAtual() {
+		return Board.getBoard().getTodasPropriedadesDeJogador(Player.getJogadorDaVez());
 	}
 }

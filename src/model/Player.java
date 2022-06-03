@@ -135,19 +135,39 @@ class Player {
 			return;
 		}
 		
+		boolean passouPeloPontoDePartida = false;
 		int somaDados = dadosDaVez[0] + dadosDaVez[1];
 		if(pos + somaDados < Board.getBoard().getTamanhoTabuleiro()) {
 			pos += somaDados;
 		}else {
+			passouPeloPontoDePartida = true;
+			pos = pos + somaDados - Board.getBoard().getTamanhoTabuleiro();
+		}
+		
+		verificaNovaPos(passouPeloPontoDePartida);
+	}
+	
+	private void verificaNovaPos(boolean passouPeloPontoDePartida) {
+		if(passouPeloPontoDePartida) {
 			try {
 				Bank.getBank().saque(this, 200);
 			}catch (Exception e) {
 				System.out.println("Banco com saldo insuficiente");
 			}
-			pos = pos + somaDados - Board.getBoard().getTamanhoTabuleiro();
 		}
+		
 		if(pos == Board.getBoard().getPosVaParaPrisao()) {
 			vaParaAPrisao();
+		}else {
+			try {
+				Player proprietario = Board.getBoard().getDonoDePosicao(pos);
+				Compravel com = (Compravel) Board.getBoard().tabuleiro[pos];
+				if(proprietario != this) {
+					Bank.getBank().realizarPagamentoDeAluguel(this, com);
+				}
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
 	}
 	
@@ -221,6 +241,10 @@ class Player {
 
 	public int[] getDadosDaVez() {
 		return dadosDaVez;
+	}
+
+	public int getSomaDadosDaVez() {
+		return dadosDaVez[0] + dadosDaVez[1];
 	}
 	
 }
