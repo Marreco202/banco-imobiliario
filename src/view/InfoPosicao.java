@@ -14,10 +14,12 @@ import model.Model;
 
 public class InfoPosicao{
 		
-		public InfoPosicao() {
-		}
+	//Essa é a classe responsavel por desenhar as informações de cada casa do tabuleiro
 	
-		public void draw(Graphics g, int x, int y, int pos) {
+	public InfoPosicao() {
+	}
+	
+	public void draw(Graphics g, int x, int y, int pos) {
 		
 		g.setColor(Color.black);
 		g.fillRect(x, y-18, 300, y+200);
@@ -39,6 +41,8 @@ public class InfoPosicao{
 		int valorDeCompra, valorDeVenda, numDeCasas;
 		boolean temHotel;
 		Color corProprietario;
+		
+		// se não for uma casa "Compravel" dara erro e nada sera impresso
 		try {
 			valorDeCompra = Model.getModel().getValorDeCompra(pos);
 			valorDeVenda = Model.getModel().getValorDeVenda(pos);
@@ -57,6 +61,7 @@ public class InfoPosicao{
 		g.drawString(Integer.toString(valorDeCompra), x+200, y+40);
 		g.drawString(Integer.toString(valorDeVenda), x+200, y+80);
 		
+		// se for uma companhia dara erro e mais nenhuma informação será impressa na tela
 		try {
 			corProprietario = Model.getModel().getCorProprietario(pos);
 			g.setColor(corProprietario);

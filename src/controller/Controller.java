@@ -55,6 +55,8 @@ public class Controller implements ObservadorView{
 		}else if(e.getClicouConstruir()) {
 			model.construir();
 			janelaPrincipal.repaintJanela();
+		}else if(e.getClicouVender()) {
+			model.venderPropriedade(e.getPosQueVaiVender());
 		}
 	}
 	

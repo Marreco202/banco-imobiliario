@@ -23,10 +23,11 @@ public class FrameListaPropriedades extends JFrame implements MouseListener{
 	private Model model = Model.getModel();
 	
 	private int largura = 320;
-	private int altura = 320;
+	private int altura = 350;
 	
 	private Botao proximo;
 	private Botao anterior;
+	private Botao vender;
 	
 	private ArrayList<Integer> lista;
 	private int indexDaLista = 0;
@@ -37,12 +38,16 @@ public class FrameListaPropriedades extends JFrame implements MouseListener{
 		this.setVisible(true);
 		this.setResizable(false);
 		
-		this.anterior = new Botao(10, 285, 130, 25, "Anterior");
+		this.anterior = new Botao(10, 310, 130, 25, "Anterior");
 		this.anterior.setPosContent(15, 20);
 		
-		this.proximo = new Botao(180, 285, 130, 25, "Proximo");
+		this.proximo = new Botao(180, 310, 130, 25, "Proximo");
 		this.proximo.setPosContent(15, 20);
 		
+		this.vender = new Botao(95, 280, 130, 25, "Vender");
+		this.vender.setPosContent(25, 20);
+		
+		// array com a posição das propriedades que o player é dono
 		lista = model.getTodasPropriedadesJogadorAtual(); 
 		if(lista.size()<1) {
 			this.dispose();
@@ -52,7 +57,9 @@ public class FrameListaPropriedades extends JFrame implements MouseListener{
 	}
 	
 	public void paint(Graphics g) {
-		System.out.println("OIIIIIIIIII");
+		if(lista.size() == 0) {
+			this.dispose();
+		}
 		g.setColor(Color.black);
 		g.fillRect(0, 0, this.largura, this.altura);
 		
@@ -62,6 +69,7 @@ public class FrameListaPropriedades extends JFrame implements MouseListener{
 		
 		proximo.draw((Graphics2D) g);
 		anterior.draw((Graphics2D) g);
+		vender.draw((Graphics2D) g);
 	}
 
 	private void calculaAnterior() {
@@ -93,6 +101,10 @@ public class FrameListaPropriedades extends JFrame implements MouseListener{
 			repaint();
 		}else if(proximo.verificaSeFoiClicado(e.getX(), e.getY())) {
 			calculaProximo();
+			repaint();
+		}else if(vender.verificaSeFoiClicado(e.getX(), e.getY())) {
+			View.getView().clicouVender(lista.get(indexDaLista));
+			View.getView().repaintJanela();
 			repaint();
 		}
 		

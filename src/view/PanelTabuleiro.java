@@ -64,7 +64,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		
 		this.infoPosicao = new InfoPosicao();
 		
-		
+		//carrega as imagens dos pinos e dos dados
 		for(int i = 0; i< 6; i++) {
 			pinos[i] = loadImage("./img/pinos/pin" + Integer.toString(i) + ".png");
 			dados[i] = loadImage("./img/dados/die_face_"+(i+1)+".png");
@@ -72,6 +72,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 	}
 	
 	public void paintComponent(Graphics g) {
+		//fecha janela da lista de propriedades caso esteja aberta
 		if(listaPropriedades != null) {
 			listaPropriedades.dispose();
 			listaPropriedades = null;
@@ -83,6 +84,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		drawTabuleiroEPinos(g);
 		drawCartaTirada(g);
 		
+		//background
 		g.setColor(Color.black);
 		g.fillRect(700, 0, 300, 700);
 		

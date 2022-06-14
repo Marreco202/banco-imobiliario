@@ -62,11 +62,12 @@ class Bank {
 	}
 	
 	public void realizarVendaDePropriedade(Player vendedor, Compravel propriedade) throws JogadorNaoEDonoDaPropriedade, SaldoBancoInsuficiente {
-		if(podeVender(vendedor, propriedade)) {
-			propriedade.venderParaOBanco();
-			saldo -= propriedade.getValorDeVenda();
-			vendedor.receberValor(propriedade.getValorDeVenda());
+		if(!podeVender(vendedor, propriedade)) {
+			return;
 		}
+		propriedade.venderParaOBanco();
+		saldo -= propriedade.getValorDeVenda();
+		vendedor.receberValor(propriedade.getValorDeVenda());
 	}
 	
 	private int descobreAluguelASerPago(Compravel propriedade) {

@@ -194,4 +194,17 @@ public class Model {
 	public String getNumeroDaCarta() {
 		return Integer.toString(DequeDeCartas.getDequeDeCartas().getCartaDaVez());
 	}
+
+	public void venderPropriedade(int posQueVaiVender) {
+		Player p = Player.getJogadorDaVez();
+		Tile casa = Board.getBoard().tabuleiro[posQueVaiVender];
+		if(casa instanceof Compravel) {
+			try {
+				System.out.println("VENDENDO");
+				Bank.getBank().realizarVendaDePropriedade(p, (Compravel) casa);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+	}
 }

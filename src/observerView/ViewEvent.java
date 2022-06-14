@@ -7,6 +7,8 @@ public class ViewEvent {
 	private boolean clicouFinalizarRodada = false;
 	private boolean clicouComprarPropriedade = false;
 	private boolean clicouConstruir = false;
+	private boolean clicouVender = false;
+	private int posQueVaiVender;
 	private boolean devMode = false;
 	
 	private boolean setDadosDaVez = false;
@@ -81,5 +83,18 @@ public class ViewEvent {
 	
 	public void setClicouConstuir(boolean clicouConstruir) {
 		this.clicouConstruir = clicouConstruir;
+	}
+
+	public void setClicouVender(boolean clicouVender, int posQueVaiVender) {
+		this.clicouVender = clicouVender;
+		this.posQueVaiVender = posQueVaiVender;
+	}
+	
+	public boolean getClicouVender() {
+		return this.clicouVender;
+	}
+	
+	public int getPosQueVaiVender() {
+		return posQueVaiVender;
 	}
 }

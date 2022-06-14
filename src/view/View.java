@@ -86,6 +86,12 @@ public class View extends JFrame implements ObservadoView{
 		this.notificarObservadores(e);
 	}
 	
+	public void clicouVender(Integer pos) {
+		ViewEvent e = new ViewEvent();
+		e.setClicouVender(true, (int)pos);
+		this.notificarObservadores(e);
+	}
+	
 	public void clicouConstruir() {
 		ViewEvent e = new ViewEvent();
 		e.setClicouConstuir(true);
@@ -113,6 +119,7 @@ public class View extends JFrame implements ObservadoView{
 		for (int i = 0; i < listaDeObservadores.size(); i++)
             listaDeObservadores.get(i).handleInput(e);
 	}
+
 
 
 }
