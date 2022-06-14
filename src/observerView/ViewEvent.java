@@ -7,6 +7,10 @@ public class ViewEvent {
 	private boolean clicouFinalizarRodada = false;
 	private boolean clicouComprarPropriedade = false;
 	private boolean devMode = false;
+	
+	private boolean setDadosDaVez = false;
+	public int i, j;
+	
 	private int qtdJogadores;
 	
 	public ViewEvent(){
@@ -58,5 +62,15 @@ public class ViewEvent {
 
 	public void setDevMode(boolean devMode) {
 		this.devMode = devMode;
+	}
+	
+	public void setDadosDaVez(boolean setDadosDaVez, int i, int j) {
+		this.setDadosDaVez = setDadosDaVez;
+		this.i = i;
+		this.j = j;
+	}
+	
+	public boolean getSetDadosDaVez() {
+		return this.setDadosDaVez;
 	}
 }

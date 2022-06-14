@@ -31,6 +31,8 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 	private Botao botaoDesejaComprar;
 	private Botao botaoVerPropriedades;
 	
+	private EscolheDados escolheDados;
+	
 	private JFrame listaPropriedades;
 	private InfoPosicao infoPosicao;
 	
@@ -53,6 +55,8 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		this.botaoVerPropriedades.setFontSize(18);
 		this.botaoVerPropriedades.setPosContent(10, 20);
 		
+		this.escolheDados = new EscolheDados(model.getDevMode());
+		
 		this.infoPosicao = new InfoPosicao();
 		
 		
@@ -74,6 +78,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		g.fillRect(700, 0, 300, 700);
 		
 		this.drawAreaDeDados(g);
+		this.escolheDados.draw(g);
 		this.botaoRodada.draw((Graphics2D) g);
 		
 		Font f = new Font("Comic Sans MS", Font.BOLD, 20);
@@ -117,16 +122,20 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		g.fillRect(700, 5, 290, 145);
 		
 		Image dado1, dado2;
-		if(model.getDadosDaVez()[0]==0 || model.getDadosDaVez()[1] == 0) {
+		if(model.getDadosDaVez()[0]==0) {
 			return;
 		}else {
 			dado1 = dados[model.getDadosDaVez()[0]-1];
-			dado2 = dados[model.getDadosDaVez()[1]-1];
+			g.drawImage(dado1, 710, 20, 120, 120, null);
 		}
 		
+		if(model.getDadosDaVez()[1] == 0) {
+			return;
+		}else {
+			dado2 = dados[model.getDadosDaVez()[1]-1];
+			g.drawImage(dado2, 860, 20, 120, 120, null);
+		}
 		
-		g.drawImage(dado1, 710, 10, 130, 130, null);
-		g.drawImage(dado2, 850, 10, 130, 130, null);
 	}
 
 	private void drawTabuleiroEPinos(Graphics g) {
@@ -172,6 +181,9 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 			topFrame.clicouComprar();
 		}else if(botaoVerPropriedades.verificaSeFoiClicado(e.getX(), e.getY())) {
 			listaPropriedades = new FrameListaPropriedades();
+		}else if(escolheDados.verificaSeFoiClicado(e.getX(), e.getY())) {
+			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
+			topFrame.clicouSetDados(escolheDados.getBotaoClicado());
 		}
 	}
 

@@ -49,6 +49,9 @@ public class Controller implements ObservadorView{
 				// TODO: handle exception
 			}
 			janelaPrincipal.repaintJanela();
+		}else if(e.getSetDadosDaVez()) {
+			model.setDadosDaVez(e.i, e.j);
+			janelaPrincipal.repaintJanela();
 		}
 	}
 	

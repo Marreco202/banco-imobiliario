@@ -117,7 +117,7 @@ class Player {
 		}
 	}
 	
-	private void setDadosDaVez(int i, int j) {
+	public void setDadosDaVez(int i, int j) {
 		dadosDaVez[0] = i;
 		dadosDaVez[1] = j;
 	}

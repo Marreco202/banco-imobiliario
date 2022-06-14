@@ -53,8 +53,15 @@ public class Model {
 	
 	public void rolarDados() {
 		Player p = Player.getJogadorDaVez();
-		p.rolarDados();
+		if(this.devMode == false) {
+			p.rolarDados();
+		}
 		p.avancarNoTabuleiro();
+	}
+	
+	public void setDadosDaVez(int i, int j) {
+		Player p = Player.getJogadorDaVez();
+		p.setDadosDaVez(i, j);
 	}
 	
 	public int getNumeroDeJogadores() {

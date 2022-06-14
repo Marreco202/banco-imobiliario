@@ -59,6 +59,21 @@ public class View extends JFrame implements ObservadoView{
 		ViewEvent e = new ViewEvent();
 		e.setClicouFinalizarRodada(true);
 		this.notificarObservadores(e);
+		i=0;j=0;
+	}
+	
+	private int i=0, j=0, t=0;
+	public void clicouSetDados(int v) {
+		if(t == 0) {
+			i = v;
+			t = 1;
+		}else {
+			j = v;
+			t = 0;
+		}
+		ViewEvent e = new ViewEvent();
+		e.setDadosDaVez(true, i, j);
+		this.notificarObservadores(e);
 	}
 	
 	public void repaintJanela() {
