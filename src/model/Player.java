@@ -29,6 +29,9 @@ class Player {
 	
 	public static Player proximoJogador() {
 		getJogadorDaVez().setDadosDaVez(0, 0);
+		getJogadorDaVez().avancouNoTabuleiro = false;
+		getJogadorDaVez().jaConstruiu = false;
+		getJogadorDaVez().tirouCarta = false;
 		if(Player.getJogadorDaVez().dadosIguaisSeguidos > 0){
 			return playerList[Player.idJogadorDaVez];
 		}
@@ -59,9 +62,10 @@ class Player {
 	private int pos; 
 	private int dadosIguaisSeguidos; 
 	private int[] dadosDaVez = {0, 0};
+	private boolean avancouNoTabuleiro = false, jaConstruiu = false;
 	private int saldo;
 	private int idJogador;
-	private boolean acabouDeComprar;
+	private boolean tirouCarta = false;
 	
 	private boolean passeLivre;
 	private boolean estaPreso;
@@ -98,24 +102,10 @@ class Player {
 		return idJogador;
 	}
 	
-	public void sortearDados() {
+	public void rolarDados() {
 		int dado1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		int dado2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		dadosDaVez[0]=dado1; dadosDaVez[1]=dado2;
-	}
-	
-	public void rolarDados() {
-		sortearDados();
-		System.out.println("Jogador está rolando os dados");
-		if(dadosDaVez[0] == dadosDaVez[1]) {
-			dadosIguaisSeguidos++;
-			if(dadosIguaisSeguidos == 2) {
-				this.vaParaAPrisao();
-				dadosDaVez[0]=0; dadosDaVez[1]=0;
-			}
-		}else {
-			dadosIguaisSeguidos = 0;
-		}
 	}
 	
 	public void setDadosDaVez(int i, int j) {
@@ -124,6 +114,7 @@ class Player {
 	}
 
 	public int pagarValor(int valorASerPago) throws SaldoJogadorInsuficiente {
+		System.out.println("AAAA" + valorASerPago);
 		if(saldo < valorASerPago) {
 			throw new SaldoJogadorInsuficiente(null, this.cor);
 		}
@@ -135,12 +126,27 @@ class Player {
 		saldo += valorASerRecebido;
 	}
 	
+	public void verificaSeJogaDeNovo() {
+		if(dadosDaVez[0] == dadosDaVez[1] && dadosDaVez[0]!=0 && dadosDaVez[1]!=0) {
+			dadosIguaisSeguidos++;
+			if(dadosIguaisSeguidos == 3) {
+				this.vaParaAPrisao();
+				dadosDaVez[0]=0; dadosDaVez[1]=0;
+				dadosIguaisSeguidos = 0;
+			}
+		}else {
+			dadosIguaisSeguidos = 0;
+		}		
+	}
+	
 	public void avancarNoTabuleiro(){
 		if(estaPreso) {
 			tentarSairDaPrisao();
 			return;
 		}
 		
+		
+		avancouNoTabuleiro = true;
 		boolean passouPeloPontoDePartida = false;
 		int somaDados = dadosDaVez[0] + dadosDaVez[1];
 		if(pos + somaDados < Board.getBoard().getTamanhoTabuleiro()) {
@@ -150,31 +156,52 @@ class Player {
 			pos = pos + somaDados - Board.getBoard().getTamanhoTabuleiro();
 		}
 		
+		verificaSeJogaDeNovo();
 		verificaNovaPos(passouPeloPontoDePartida);
 	}
 	
-	private void verificaNovaPos(boolean passouPeloPontoDePartida) {
-		if(passouPeloPontoDePartida) {
-			try {
-				Bank.getBank().saque(this, 200);
-			}catch (Exception e) {
-				System.out.println("Banco com saldo insuficiente");
+	private void passouPeloPontoDePartida() {
+		try {
+			Bank.getBank().saque(this, 200);
+		}catch (Exception e) {
+			System.out.println("Banco com saldo insuficiente");
+		}		
+	}
+	
+	private void verificaEPagaAluguel(Compravel casa) {
+		try {
+			Player proprietario = Board.getBoard().getDonoDePosicao(pos);
+			if(proprietario != this) {
+				Bank.getBank().realizarPagamentoDeAluguel(this, casa);
 			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}		
+	}
+	
+	private void verificaNovaPos(boolean passouPeloPontoDePartida){
+		if(passouPeloPontoDePartida) {
+			passouPeloPontoDePartida();
 		}
+		
+		Tile casa = Board.getBoard().tabuleiro[pos];
 		
 		if(pos == Board.getBoard().getPosVaParaPrisao()) {
 			vaParaAPrisao();
-		}else {
+		}else if(casa instanceof Compravel){
+			verificaEPagaAluguel((Compravel) casa);
+		}else if(casa instanceof SpecialTile && ((SpecialTile) casa).getTipoTileEspecial() == TilesEspeciais.sorteOuReves) {
 			try {
-				Player proprietario = Board.getBoard().getDonoDePosicao(pos);
-				Compravel com = (Compravel) Board.getBoard().tabuleiro[pos];
-				if(proprietario != this) {
-					Bank.getBank().realizarPagamentoDeAluguel(this, com);
-				}
+				DequeDeCartas.getDequeDeCartas().pegarCarta(this);
+				tirouCarta = true;
 			}catch (Exception e) {
-				// TODO: handle exception
+//				 throws SaldoJogadorInsuficiente, SaldoBancoInsuficiente 
 			}
 		}
+	}
+	
+	public boolean getTirouCarta() {
+		return tirouCarta;
 	}
 	
 	public int getPos() {
@@ -201,19 +228,23 @@ class Player {
 		passeLivre = true;
 	}
 	
-	public void usarPasseLivre() {
-		passeLivre = false;
-	}
-	
 	private static void goFalencia(Player p) {
 		
 	}
 	
 	private int tentativasDeSair = 0;
 	public void tentarSairDaPrisao() {
-		if(dadosDaVez[0] == dadosDaVez[1] || tentativasDeSair == 2 ) {
+		if(dadosDaVez[0] == dadosDaVez[1]) {
 			estaPreso = false;
 			tentativasDeSair = 0;
+		}else if(tentativasDeSair == 3) {
+			estaPreso = false;
+			tentativasDeSair = 0;
+			try {
+				Bank.getBank().deposito(this, 50);
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
 		}else {
 			tentativasDeSair++;
 		}
@@ -221,15 +252,31 @@ class Player {
 	
 	public void vaParaAPrisao() {
 		pos = Board.getBoard().getPosPrisao();
-		estaPreso = true;
+		if(!passeLivre) {			
+			estaPreso = true;
+		}else {
+			estaPreso = false;
+			passeLivre = false;
+			DequeDeCartas.getDequeDeCartas().retornarPasseLivre();
+		}
 	}
 	
-	public void setAcabouDeComprar(boolean acabouDeComprar) {
-		this.acabouDeComprar = acabouDeComprar;
+	public void setJaConstruiu(boolean jaConstruiu) {
+		this.jaConstruiu = jaConstruiu;
 	}
 	
-	public boolean getAcabouDeComprar() {
-		return this.acabouDeComprar;
+	public boolean podeConstruir() {
+		Territorio casa;
+		if(Board.getBoard().tabuleiro[pos] instanceof Territorio) {
+			casa = (Territorio)Board.getBoard().tabuleiro[pos];
+		}else {
+			return false;
+		}
+		
+		if(!jaConstruiu && avancouNoTabuleiro && casa.getProprietario() == this && (casa.podeConstruirCasa() || casa.podeConstruirHotel())) {
+			return true;
+		}
+		return false;
 	}
 	
 	
@@ -259,6 +306,10 @@ class Player {
 
 	public int getSomaDadosDaVez() {
 		return dadosDaVez[0] + dadosDaVez[1];
+	}
+
+	public boolean podeComprar() {
+		return avancouNoTabuleiro;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package model;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.concurrent.ThreadLocalRandom;
 
 import exeptions.PosicoesConflitantes;
@@ -48,7 +49,6 @@ public class Model {
 	}
 
 	public void finalizarRodada() {
-		Player.getJogadorDaVez().setAcabouDeComprar(false);
 		Player.proximoJogador();
 		System.out.println("FINALIZANDO"+Integer.toString(Player.getIdJogadorDaVez()));
 	}
@@ -164,22 +164,13 @@ public class Model {
 	}
 
 	public boolean podeComprarPropriedade(int pos) {
-		return Board.getBoard().podeComprarPropriedade(pos);
+		return Board.getBoard().podeComprarPropriedade(pos) && Player.getJogadorDaVez().podeComprar();
 	}
 
 	public boolean podeConstruir(int pos) {
 		Player p = Player.getJogadorDaVez();
-		Player dono;
-		Tile casa = Board.getBoard().tabuleiro[pos];
-		try {
-			dono = Board.getBoard().getDonoDePosicao(pos);
-		}catch (Exception e) {
-			return false;
-		}
-		if(p == dono  && casa instanceof Territorio && !p.getAcabouDeComprar()) {
-			if(((Territorio)casa).podeConstruirCasa() || ((Territorio)casa).podeConstruirHotel()) {
-				return true;
-			}
+		if(p.podeConstruir()) {
+			return true;
 		}
 		return false;
 	}
@@ -194,5 +185,13 @@ public class Model {
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+
+	public boolean tirouCarta() {
+		return Player.getJogadorDaVez().getTirouCarta();
+	}
+
+	public String getNumeroDaCarta() {
+		return Integer.toString(DequeDeCartas.getDequeDeCartas().getCartaDaVez());
 	}
 }

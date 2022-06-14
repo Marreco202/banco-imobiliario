@@ -81,6 +81,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 
 		
 		drawTabuleiroEPinos(g);
+		drawCartaTirada(g);
 		
 		g.setColor(Color.black);
 		g.fillRect(700, 0, 300, 700);
@@ -144,6 +145,14 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 			g.drawImage(dado2, 860, 20, 120, 120, null);
 		}
 		
+	}
+	
+	private void drawCartaTirada(Graphics g) {
+		if(model.tirouCarta()) {
+			System.out.println(model.getNumeroDaCarta());
+			Image carta = loadImage("img/sorteReves/chance"+model.getNumeroDaCarta()+".png");
+			g.drawImage(carta, 300, 300, 200, 200, null);
+		}
 	}
 
 	private void drawTabuleiroEPinos(Graphics g) {

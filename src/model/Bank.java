@@ -45,8 +45,8 @@ class Bank {
 	public void realizarCompraDePropriedade(Player comprador, Compravel propriedade) throws SaldoJogadorInsuficiente, PropriedadeJaPossuiDono, PosicoesConflitantes {
 		if(podeComprar(comprador, propriedade)) {
 			comprador.pagarValor(propriedade.getValor());
-			comprador.setAcabouDeComprar(true);
 			saldo += propriedade.getValor();
+			comprador.setJaConstruiu(true);
 			propriedade.setNovoProprietario(comprador);
 		}
 	}
@@ -115,6 +115,7 @@ class Bank {
 			int custo = propriedade.getCustoPorConstrucao();
 			propriedade.construir();
 			dono.pagarValor(custo);
+			dono.setJaConstruiu(true);
 			saldo += custo;
 		}
 	}
