@@ -29,6 +29,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 	
 	private Botao botaoRodada;
 	private Botao botaoDesejaComprar;
+	private Botao botaoConstruir;
 	private Botao botaoVerPropriedades;
 	
 	private EscolheDados escolheDados;
@@ -47,9 +48,13 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		this.botaoRodada.setFontSize(35);
 		this.botaoRodada.setPosContent(8, 35);
 		
-		this.botaoDesejaComprar = new Botao(750, 500, 180, 45, "Comprar");
-		this.botaoDesejaComprar.setFontSize(35);
-		this.botaoDesejaComprar.setPosContent(5, 35);
+		this.botaoDesejaComprar = new Botao(710, 500, 130, 45, "Comprar", false);
+		this.botaoDesejaComprar.setFontSize(22);
+		this.botaoDesejaComprar.setPosContent(10, 32);
+		
+		this.botaoConstruir = new Botao(860, 500, 130, 45, "Construir", false);
+		this.botaoConstruir.setFontSize(22);
+		this.botaoConstruir.setPosContent(5, 32);
 		
 		this.botaoVerPropriedades = new Botao(750, 640, 200, 30, "Ver Propriedades");
 		this.botaoVerPropriedades.setFontSize(18);
@@ -71,6 +76,9 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 			listaPropriedades.dispose();
 			listaPropriedades = null;
 		}
+		this.botaoDesejaComprar.setActive(false);
+		this.botaoConstruir.setActive(false);
+
 		
 		drawTabuleiroEPinos(g);
 		
@@ -107,12 +115,12 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		g.setColor(Color.red);
 		g.drawString(Integer.toString(saldo), 830, 620);
 		
-		try {
-			model.getCorProprietario(pos);
-		}catch (PropriedadeNaoPossuiDono e) {
+		if(model.podeComprarPropriedade(pos)) {
+			this.botaoDesejaComprar.setActive(true);
 			this.botaoDesejaComprar.draw((Graphics2D) g);
-		}catch (Exception e) {
-			// TODO: handle exception
+		}else if(model.podeConstruir(pos)) {
+			this.botaoConstruir.setActive(true);
+			this.botaoConstruir.draw((Graphics2D) g);
 		}
 	}
 	
@@ -184,6 +192,9 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		}else if(escolheDados.verificaSeFoiClicado(e.getX(), e.getY())) {
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
 			topFrame.clicouSetDados(escolheDados.getBotaoClicado());
+		}else if(botaoConstruir.verificaSeFoiClicado(e.getX(), e.getY())) {
+			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
+			topFrame.clicouConstruir();
 		}
 	}
 

@@ -36,7 +36,8 @@ public class InfoPosicao{
 	}
 	
 	private void drawValoresDaCasa(Graphics g, int x, int y, int pos) {
-		int valorDeCompra, valorDeVenda;
+		int valorDeCompra, valorDeVenda, numDeCasas;
+		boolean temHotel;
 		Color corProprietario;
 		try {
 			valorDeCompra = Model.getModel().getValorDeCompra(pos);
@@ -48,20 +49,33 @@ public class InfoPosicao{
 		Font f = new Font("Comic Sans MS", Font.BOLD, 11);
         g.setFont(f);
         g.setColor(Color.white);
-		g.drawString("Valor de compra: ", x+185, y+30);
-		g.drawString("Valor de venda: ", x+185, y+80);
-		g.drawString("Proprietário: ", x+185, y+120);
+		g.drawString("Valor de compra: ", x+185, y+20);
+		g.drawString("Valor de venda: ", x+185, y+60);
+		g.drawString("Proprietário: ", x+185, y+100);
 		
 		g.setColor(Color.red);
-		g.drawString(Integer.toString(valorDeCompra), x+200, y+50);
-		g.drawString(Integer.toString(valorDeVenda), x+200, y+100);
+		g.drawString(Integer.toString(valorDeCompra), x+200, y+40);
+		g.drawString(Integer.toString(valorDeVenda), x+200, y+80);
 		
 		try {
 			corProprietario = Model.getModel().getCorProprietario(pos);
 			g.setColor(corProprietario);
-			g.fillRect(x+195, y+130, 50, 50);
+			g.fillRect(x+195, y+110, 80, 15);
 		}catch (Exception e) {
 			return;
+		}
+		
+		try {
+			g.setColor(Color.white);
+			numDeCasas = Model.getModel().getNumeroDeCasasEmPropriedade(pos);
+			temHotel = Model.getModel().getTemHotel(pos);
+			g.drawString("Numero de casas: ", x+185, y+140);
+			g.drawString("Tem Hotel: ", x+185, y+180);
+			g.setColor(Color.red);
+			g.drawString(Integer.toString(numDeCasas), x+200, y+160);
+			g.drawString(Boolean.toString(temHotel), x+200, y+200);
+		}catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 	

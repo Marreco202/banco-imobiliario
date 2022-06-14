@@ -3,6 +3,7 @@ package model;
 import exeptions.JogadorEDonoDaPropriedade;
 import exeptions.JogadorNaoEDonoDaPropriedade;
 import exeptions.PosicoesConflitantes;
+import exeptions.ProibidoConstruir;
 import exeptions.PropriedadeJaPossuiDono;
 import exeptions.SaldoBancoInsuficiente;
 import exeptions.SaldoJogadorInsuficiente;
@@ -44,6 +45,7 @@ class Bank {
 	public void realizarCompraDePropriedade(Player comprador, Compravel propriedade) throws SaldoJogadorInsuficiente, PropriedadeJaPossuiDono, PosicoesConflitantes {
 		if(podeComprar(comprador, propriedade)) {
 			comprador.pagarValor(propriedade.getValor());
+			comprador.setAcabouDeComprar(true);
 			saldo += propriedade.getValor();
 			propriedade.setNovoProprietario(comprador);
 		}
@@ -108,9 +110,10 @@ class Bank {
 		return true;
 	}
 	
-	public void construirCasa(Player dono, Territorio propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes {
-		if(podeConstruir(dono, propriedade)) {
+	public void construirPropriedade(Player dono, Territorio propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes, ProibidoConstruir {
+		if(podeConstruir(dono, propriedade) && (propriedade.podeConstruirCasa() || propriedade.podeConstruirHotel())) {
 			int custo = propriedade.getCustoPorConstrucao();
+			propriedade.construir();
 			dono.pagarValor(custo);
 			saldo += custo;
 		}

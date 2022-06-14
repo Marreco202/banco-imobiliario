@@ -13,6 +13,8 @@ public class Botao {
 	private int XposContent = 5;
 	private int YposContent = 5;
 	
+	private boolean active = true;
+	
 	public Botao(int pos_x,int pos_y, int size_x, int size_y, String content){
 		this.pos_x = pos_x;
 		this.pos_y = pos_y;
@@ -21,7 +23,19 @@ public class Botao {
 		this.content = content;
 	}
 	
+	public Botao(int pos_x,int pos_y, int size_x, int size_y, String content, boolean active){
+		this.pos_x = pos_x;
+		this.pos_y = pos_y;
+		this.size_x = size_x;
+		this.size_y = size_y;
+		this.content = content;
+		this.active = active;
+	}
+	
 	public boolean verificaSeFoiClicado(int x, int y) {
+		if(!this.active) {
+			return false;
+		}
 		if(x > pos_x && x < pos_x+size_x && y > pos_y && y < pos_y+size_y) {
 			return true;
 		}
@@ -29,6 +43,9 @@ public class Botao {
 	}
 	
 	public void draw(Graphics2D canvas) {
+		if(!this.active) {
+			return;
+		}
 		canvas.setColor(cor);
 		canvas.fillRect(pos_x, pos_y, size_x, size_y);
 		
@@ -53,5 +70,9 @@ public class Botao {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }

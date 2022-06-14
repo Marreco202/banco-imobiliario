@@ -86,6 +86,12 @@ public class View extends JFrame implements ObservadoView{
 		this.notificarObservadores(e);
 	}
 	
+	public void clicouConstruir() {
+		ViewEvent e = new ViewEvent();
+		e.setClicouConstuir(true);
+		this.notificarObservadores(e);
+	}
+	
 	public void iniciarTabuleiro() {
 		getContentPane().remove(panelAtual);
 		

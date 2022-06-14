@@ -61,6 +61,7 @@ class Player {
 	private int[] dadosDaVez = {0, 0};
 	private int saldo;
 	private int idJogador;
+	private boolean acabouDeComprar;
 	
 	private boolean passeLivre;
 	private boolean estaPreso;
@@ -221,6 +222,14 @@ class Player {
 	public void vaParaAPrisao() {
 		pos = Board.getBoard().getPosPrisao();
 		estaPreso = true;
+	}
+	
+	public void setAcabouDeComprar(boolean acabouDeComprar) {
+		this.acabouDeComprar = acabouDeComprar;
+	}
+	
+	public boolean getAcabouDeComprar() {
+		return this.acabouDeComprar;
 	}
 	
 	

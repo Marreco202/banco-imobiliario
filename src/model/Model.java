@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import exeptions.PosicoesConflitantes;
+import exeptions.ProibidoConstruir;
 import exeptions.PropriedadeJaPossuiDono;
 import exeptions.PropriedadeNaoPossuiDono;
 import exeptions.SaldoJogadorInsuficiente;
@@ -47,6 +48,7 @@ public class Model {
 	}
 
 	public void finalizarRodada() {
+		Player.getJogadorDaVez().setAcabouDeComprar(false);
 		Player.proximoJogador();
 		System.out.println("FINALIZANDO"+Integer.toString(Player.getIdJogadorDaVez()));
 	}
@@ -151,5 +153,46 @@ public class Model {
 	
 	public boolean getDevMode() {
 		return devMode;
+	}
+
+	public int getNumeroDeCasasEmPropriedade(int pos) throws ProibidoConstruir {
+		return Board.getBoard().getQtdDeCasas(pos);
+	}
+
+	public boolean getTemHotel(int pos) throws ProibidoConstruir {
+		return Board.getBoard().getTemHotel(pos);
+	}
+
+	public boolean podeComprarPropriedade(int pos) {
+		return Board.getBoard().podeComprarPropriedade(pos);
+	}
+
+	public boolean podeConstruir(int pos) {
+		Player p = Player.getJogadorDaVez();
+		Player dono;
+		Tile casa = Board.getBoard().tabuleiro[pos];
+		try {
+			dono = Board.getBoard().getDonoDePosicao(pos);
+		}catch (Exception e) {
+			return false;
+		}
+		if(p == dono  && casa instanceof Territorio && !p.getAcabouDeComprar()) {
+			if(((Territorio)casa).podeConstruirCasa() || ((Territorio)casa).podeConstruirHotel()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void construir() {
+		if(!podeConstruir(getPosJogadorDaVez())){
+			return;
+		}
+		Territorio casa = ((Territorio) Board.getBoard().tabuleiro[getPosJogadorDaVez()]);
+		try {
+			Bank.getBank().construirPropriedade(Player.getJogadorDaVez(), casa);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 }

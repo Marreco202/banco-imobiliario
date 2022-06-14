@@ -52,6 +52,9 @@ public class Controller implements ObservadorView{
 		}else if(e.getSetDadosDaVez()) {
 			model.setDadosDaVez(e.i, e.j);
 			janelaPrincipal.repaintJanela();
+		}else if(e.getClicouConstruir()) {
+			model.construir();
+			janelaPrincipal.repaintJanela();
 		}
 	}
 	

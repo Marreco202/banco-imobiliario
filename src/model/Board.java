@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+import exeptions.ProibidoConstruir;
 import exeptions.ValoresAluguelIncorreto;
 import exeptions.casaAtualNaoECompravel;
 
@@ -63,7 +64,7 @@ class Board {
 		tabuleiro[12] = new SpecialTile(12, "Sorte ou reves", TilesEspeciais.sorteOuReves);
 		tabuleiro[13] = new Territorio(13,"Rua Augusta",Cor.vinho,180,100,a14);
 		tabuleiro[14] = new Territorio(14,"Av. Pacaembú",Cor.vinho,180,100,a14);
-		tabuleiro[15] = new Companhia(15,"Companhia de Taxi",150,50); //taxi
+		tabuleiro[15] = new Companhia(15,"Companhia de Taxi",150,40); //taxi
 		tabuleiro[16] = new SpecialTile(16, "Sorte ou reves", TilesEspeciais.sorteOuReves);
 		tabuleiro[17] = new Territorio(17,"Interlagos",Cor.laranja,350,200,a13);
 		tabuleiro[18] = new SpecialTile(18,"Lucros e dividendos", TilesEspeciais.lucrosEDividendos);
@@ -124,6 +125,20 @@ class Board {
 		throw new casaAtualNaoECompravel();
 	}
 	
+	public int getQtdDeCasas(int pos) throws ProibidoConstruir {
+		if(tabuleiro[pos] instanceof Territorio) {
+			return ((Territorio)tabuleiro[pos]).getQtdCasas();
+		}
+		throw new ProibidoConstruir("");
+	}
+	
+	public boolean getTemHotel(int pos) throws ProibidoConstruir {
+		if(tabuleiro[pos] instanceof Territorio) {
+			return ((Territorio)tabuleiro[pos]).getTemHotel();
+		}
+		throw new ProibidoConstruir("");
+	}
+	
 	public ArrayList<Integer> getTodasPropriedadesDeJogador(Player jogador) {
 		ArrayList<Integer> retorno = new ArrayList<Integer>();
 		for(int i=0; i<40; i++) {
@@ -134,6 +149,15 @@ class Board {
 			}
 		}
 		return retorno;
+	}
+
+	public boolean podeComprarPropriedade(int pos) {
+		if(tabuleiro[pos] instanceof Compravel) {
+			if(((Compravel)tabuleiro[pos]).getProprietario() == null) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

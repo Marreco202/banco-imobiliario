@@ -6,6 +6,7 @@ public class ViewEvent {
 	private boolean clicouRolarDados = false;
 	private boolean clicouFinalizarRodada = false;
 	private boolean clicouComprarPropriedade = false;
+	private boolean clicouConstruir = false;
 	private boolean devMode = false;
 	
 	private boolean setDadosDaVez = false;
@@ -72,5 +73,13 @@ public class ViewEvent {
 	
 	public boolean getSetDadosDaVez() {
 		return this.setDadosDaVez;
+	}
+
+	public boolean getClicouConstruir() {
+		return this.clicouConstruir;
+	}
+	
+	public void setClicouConstuir(boolean clicouConstruir) {
+		this.clicouConstruir = clicouConstruir;
 	}
 }

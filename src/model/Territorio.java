@@ -70,7 +70,7 @@ class Territorio extends Compravel {
 	}
 	
 	public boolean podeConstruirHotel() {
-		if(temHotel == false) {
+		if(temHotel == false && qtdCasas == 4) {
 			return true;
 		}
 		return false;
@@ -83,6 +83,14 @@ class Territorio extends Compravel {
 		temHotel = true;
 	}
 	
+	public void construir() throws ProibidoConstruir {
+		if(podeConstruirCasa()) {
+			construirCasa();
+		}
+		else if(podeConstruirHotel()) {
+			construirHotel();
+		}
+	}
 	
 	///////////// GETTERS //////////////////////
 	
@@ -113,4 +121,5 @@ class Territorio extends Compravel {
 	public Cor getCor() {
 		return cor;
 	}
+
 }
