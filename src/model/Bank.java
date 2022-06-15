@@ -70,7 +70,7 @@ class Bank {
 		vendedor.receberValor(propriedade.getValorDeVenda());
 	}
 	
-	private int descobreAluguelASerPago(Compravel propriedade) {
+	public int descobreAluguelASerPago(Compravel propriedade) {
 		if(propriedade instanceof Territorio) {
 			return ((Territorio) propriedade).getAluguelASerPago();
 		}else if(propriedade instanceof Companhia) {

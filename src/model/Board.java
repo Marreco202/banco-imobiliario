@@ -102,6 +102,7 @@ class Board {
 			try {
 				board = new Board();
 			} catch (ValoresAluguelIncorreto e) {
+				System.out.println("Erro nos alugueis do tabuleiro");
 				e.printStackTrace();
 			}
 		}

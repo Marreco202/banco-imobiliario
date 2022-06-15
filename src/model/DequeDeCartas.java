@@ -50,12 +50,11 @@ class DequeDeCartas {
 		}
 	}
 	
-	public void pegarCarta(Player p) throws SaldoJogadorInsuficiente, SaldoBancoInsuficiente {
+	public void pegarCarta() throws SaldoJogadorInsuficiente, SaldoBancoInsuficiente {
 		proximaCarta();
 		if(cartaDaVez == 9 && !passeLivreEstaNoDeque) {
 			proximaCarta();
 		}
-		proc(p); 
 	}
 	
 	public int getCartaDaVez() {
@@ -75,7 +74,7 @@ class DequeDeCartas {
 		Bank.getBank().receberDeTodosOsJogadorer(p, valor);
 	}
 	
-	public void proc(Player p) throws SaldoJogadorInsuficiente, SaldoBancoInsuficiente { //efeitos das cartas
+	public void usarCarta(Player p) throws SaldoJogadorInsuficiente, SaldoBancoInsuficiente { //efeitos das cartas
 		
 		switch(cartaDaVez) {
 			case 1:

@@ -83,6 +83,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		
 		drawTabuleiroEPinos(g);
 		drawCartaTirada(g);
+		drawMensagemParaJogador(g);
 		
 		//background
 		g.setColor(Color.black);
@@ -103,6 +104,18 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		this.botaoVerPropriedades.draw((Graphics2D) g);
 	}
 	
+	private void drawMensagemParaJogador(Graphics g) {
+		String m = Model.getModel().getMensagemAoPlayer();
+		if(m != "") {
+			g.setColor(Color.black);
+			g.fillRect(100, 100, 500, 26);
+		}
+		Font f = new Font("Comic Sans MS", Font.BOLD, 12);
+        g.setFont(f);
+        g.setColor(Color.red);
+		g.drawString(m, 105, 120);
+	}
+
 	public void repaintTabuleiro() {
 		repaint();
 	}
@@ -151,7 +164,6 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 	
 	private void drawCartaTirada(Graphics g) {
 		if(model.tirouCarta()) {
-			System.out.println(model.getNumeroDaCarta());
 			Image carta = loadImage("img/sorteReves/chance"+model.getNumeroDaCarta()+".png");
 			g.drawImage(carta, 300, 300, 200, 200, null);
 		}
@@ -184,12 +196,12 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		if(botaoRodada.verificaSeFoiClicado(e.getX(), e.getY())) {
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
-			if(!terminouRodada) {
+			if(!terminouRodada && model.podeFinalizarRodada()) {
 				botaoRodada.setContent("Rolar Dados");
 				botaoRodada.setPosContent(8, 35);
 				terminouRodada = true;
 				topFrame.finalizarRodada();
-			}else {
+			}else if(terminouRodada && model.podeFinalizarRodada()){
 				botaoRodada.setContent("Finalizar");
 				botaoRodada.setPosContent(43, 35);
 				terminouRodada = false;

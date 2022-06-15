@@ -46,7 +46,6 @@ public class Controller implements ObservadorView{
 			try {
 				model.comprarPropriedade();
 			}catch (Exception ex) {
-				// TODO: handle exception
 			}
 			janelaPrincipal.repaintJanela();
 		}else if(e.getSetDadosDaVez()) {

@@ -67,6 +67,8 @@ class Player {
 	private int idJogador;
 	private boolean tirouCarta = false;
 	
+	private boolean estaDevendoCarta = false, estaDevendoAluguel = false, estaDevendoImpostoDeRenda = false;
+	
 	private boolean passeLivre;
 	private boolean estaPreso;
 	
@@ -78,7 +80,7 @@ class Player {
 		this.idJogador = qtdDeJogadores;
 		qtdDeJogadores++;
 		
-		saldo = 2458; 
+		saldo = 2458;
 		pos = 0;
 		passeLivre = false;
 		estaPreso = false;
@@ -114,7 +116,6 @@ class Player {
 	}
 
 	public int pagarValor(int valorASerPago) throws SaldoJogadorInsuficiente {
-		System.out.println("AAAA" + valorASerPago);
 		if(saldo < valorASerPago) {
 			throw new SaldoJogadorInsuficiente(null, this.cor);
 		}
@@ -124,6 +125,17 @@ class Player {
 	
 	public void receberValor(int valorASerRecebido) {
 		saldo += valorASerRecebido;
+		if(estaDevendoAluguel) {
+			try {
+				verificaEPagaAluguel((Compravel) Board.getBoard().tabuleiro[pos]);
+			}catch (Exception e) {
+				System.out.println("Erro: Cast para compravel em receber valor falhou!");
+			}
+		}else if(estaDevendoCarta) {
+			verificaEUsaCarta();
+		}else if(estaDevendoImpostoDeRenda) {
+			pagarImpostoDeRenda();
+		}
 	}
 	
 	public void verificaSeJogaDeNovo() {
@@ -139,7 +151,7 @@ class Player {
 		}		
 	}
 	
-	public void avancarNoTabuleiro(){
+	public void avancarNoTabuleiro() throws SaldoJogadorInsuficiente{
 		if(estaPreso) {
 			tentarSairDaPrisao();
 			return;
@@ -162,24 +174,71 @@ class Player {
 	
 	private void passouPeloPontoDePartida() {
 		try {
+			int saldoAnterior = saldo;
 			Bank.getBank().saque(this, 200);
+			Model.getModel().addMensagemAoPlayer("Recebeu 200 ao passar pelo ponto de partida. Saldo anterior: "+saldoAnterior);
+		}catch (SaldoBancoInsuficiente e) {
+			Model.getModel().addMensagemAoPlayer("Saldo do Banco insuficiente para pagamento do ponto de partida");
 		}catch (Exception e) {
-			System.out.println("Banco com saldo insuficiente");
-		}		
+		}
 	}
 	
-	private void verificaEPagaAluguel(Compravel casa) {
+	private void verificaEPagaAluguel(Compravel casa){
 		try {
 			Player proprietario = Board.getBoard().getDonoDePosicao(pos);
 			if(proprietario != this) {
+				int saldoAnterior = saldo;
 				Bank.getBank().realizarPagamentoDeAluguel(this, casa);
+				estaDevendoAluguel = false;
+				int valorAluguel = Bank.getBank().descobreAluguelASerPago(casa);
+				Model.getModel().addMensagemAoPlayer("Aluguel pago! Valor do aluguel: "+valorAluguel+". Saldo anterior: "+saldoAnterior);
 			}
+		}catch (SaldoJogadorInsuficiente e) {
+			estaDevendoAluguel = true;
+			Model.getModel().addMensagemAoPlayer("Saldo insuficiente! Venda propriedades para pagar o aluguel!");
 		}catch (Exception e) {
-			// TODO: handle exception
+			System.out.println("ERRO: na funcao verificaEPagaAluguel, posições conflitantes ou jogador ja é dono da propriedade");
+		}
+	}
+	
+	private void verificaEUsaCarta() {
+		tirouCarta = true;
+		try {
+			int saldoAnterior = saldo;
+			DequeDeCartas.getDequeDeCartas().pegarCarta();
+			DequeDeCartas.getDequeDeCartas().usarCarta(this);
+			estaDevendoCarta = false;
+			Model.getModel().addMensagemAoPlayer("Carta retirada com sucesso! Saldo anterior: "+saldoAnterior);
+		}catch (SaldoJogadorInsuficiente e) {
+			estaDevendoCarta = true;
+			Model.getModel().addMensagemAoPlayer("Saldo insuficiente! Venda propriedades para pagar a carta!");
+		}catch (Exception e) {
+			Model.getModel().addMensagemAoPlayer("Saldo do banco insuficiente para quitar a carta");
 		}		
 	}
 	
-	private void verificaNovaPos(boolean passouPeloPontoDePartida){
+	private void recebeLucrosEDividendos() {
+		try {
+			int saldoAnterior = saldo;
+			Bank.getBank().saque(this, 200);
+			Model.getModel().addMensagemAoPlayer("Voce recebeu 200 de lucros e dividendos. Saldo anterior: "+saldoAnterior);
+		}catch(SaldoBancoInsuficiente e) {
+			Model.getModel().addMensagemAoPlayer("Saldo do banco insuficiente para pagar lucros e dividendos.");
+		}
+	}
+	
+	private void pagarImpostoDeRenda() {
+		try {
+			int saldoAnterior = saldo;
+			Bank.getBank().deposito(this, 200);
+			estaDevendoImpostoDeRenda = false;
+			Model.getModel().addMensagemAoPlayer("Voce pagou 200 de imposto de renda. Saldo anterior: "+saldoAnterior);
+		}catch(SaldoJogadorInsuficiente e) {
+			estaDevendoImpostoDeRenda = true;
+		}
+	}
+	
+	private void verificaNovaPos(boolean passouPeloPontoDePartida) throws SaldoJogadorInsuficiente{
 		if(passouPeloPontoDePartida) {
 			passouPeloPontoDePartida();
 		}
@@ -191,12 +250,11 @@ class Player {
 		}else if(casa instanceof Compravel){
 			verificaEPagaAluguel((Compravel) casa);
 		}else if(casa instanceof SpecialTile && ((SpecialTile) casa).getTipoTileEspecial() == TilesEspeciais.sorteOuReves) {
-			try {
-				DequeDeCartas.getDequeDeCartas().pegarCarta(this);
-				tirouCarta = true;
-			}catch (Exception e) {
-//				 throws SaldoJogadorInsuficiente, SaldoBancoInsuficiente 
-			}
+			verificaEUsaCarta();
+		}else if(casa instanceof SpecialTile && ((SpecialTile) casa).getTipoTileEspecial() == TilesEspeciais.lucrosEDividendos) {
+			recebeLucrosEDividendos();
+		}else if(casa instanceof SpecialTile && ((SpecialTile) casa).getTipoTileEspecial() == TilesEspeciais.impostoDeRenda) {
+			pagarImpostoDeRenda();
 		}
 	}
 	
@@ -239,11 +297,11 @@ class Player {
 			tentativasDeSair = 0;
 		}else if(tentativasDeSair == 3) {
 			estaPreso = false;
-			tentativasDeSair = 0;
 			try {
 				Bank.getBank().deposito(this, 50);
-			}catch (Exception e) {
-				// TODO: handle exception
+				tentativasDeSair = 0;
+			}catch (SaldoJogadorInsuficiente e) {
+				Model.getModel().addMensagemAoPlayer("Saldo do jogador insuficiente para sair da prisao");
 			}
 		}else {
 			tentativasDeSair++;
@@ -311,5 +369,17 @@ class Player {
 	public boolean podeComprar() {
 		return avancouNoTabuleiro;
 	}
+
+	public boolean getEstaDevendoCarta() {
+		return estaDevendoCarta;
+	}
+
+	public boolean getEstaDevendoAluguel() {
+		return estaDevendoAluguel;
+	}
 	
+	public boolean getEstaDevendoImpostoDeRenda() {
+		return estaDevendoImpostoDeRenda;
+	}
+
 }

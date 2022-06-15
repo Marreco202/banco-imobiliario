@@ -8,6 +8,7 @@ import exeptions.PosicoesConflitantes;
 import exeptions.ProibidoConstruir;
 import exeptions.PropriedadeJaPossuiDono;
 import exeptions.PropriedadeNaoPossuiDono;
+import exeptions.SaldoBancoInsuficiente;
 import exeptions.SaldoJogadorInsuficiente;
 import exeptions.casaAtualNaoECompravel;
 
@@ -18,6 +19,8 @@ public class Model {
 	private boolean devMode = false;
 	
 	private static Model model = null;
+	
+	private String mensagemAoPlayer = "";
 	
 	private Color[] colorList = {Color.red,Color.blue,Color.ORANGE,Color.yellow,Color.pink,Color.gray};
 	
@@ -47,18 +50,29 @@ public class Model {
 		Player[] playerList = Player.getPlayerList();
 		return playerList[jogador].getPos();
 	}
+	
+	public boolean podeFinalizarRodada() {
+		Player p = Player.getJogadorDaVez();
+		if(!p.getEstaDevendoCarta() && !p.getEstaDevendoAluguel() && !p.getEstaDevendoImpostoDeRenda()) {
+			return true;
+		}
+		return false;
+	}
 
 	public void finalizarRodada() {
-		Player.proximoJogador();
-		System.out.println("FINALIZANDO"+Integer.toString(Player.getIdJogadorDaVez()));
+		if(podeFinalizarRodada()) {
+			Player.proximoJogador();
+		}
 	}
 	
-	public void rolarDados() {
+	public void rolarDados(){
 		Player p = Player.getJogadorDaVez();
 		if(this.devMode == false) {
 			p.rolarDados();
 		}
-		p.avancarNoTabuleiro();
+		try {
+			p.avancarNoTabuleiro();
+		}catch(Exception e) {}
 	}
 	
 	public void setDadosDaVez(int i, int j) {
@@ -91,7 +105,6 @@ public class Model {
 	
 	public String getImagePath(int pos) {
 		String imagePath = Board.getBoard().tabuleiro[pos].getImagePath();
-		System.out.println(imagePath);
 		return imagePath;
 	}
 	
@@ -144,7 +157,9 @@ public class Model {
 		}else {
 			throw new casaAtualNaoECompravel();
 		}
+		int saldoAnterior = p.getSaldo();
 		Bank.getBank().realizarCompraDePropriedade(p, propriedade);
+		addMensagemAoPlayer("Compra de propriedade realizada com sucesso!Saldo anterior: "+saldoAnterior);
 	}
 
 	public ArrayList<Integer> getTodasPropriedadesJogadorAtual() {
@@ -181,9 +196,13 @@ public class Model {
 		}
 		Territorio casa = ((Territorio) Board.getBoard().tabuleiro[getPosJogadorDaVez()]);
 		try {
+			int saldoAnterior = Player.getJogadorDaVez().getSaldo();
 			Bank.getBank().construirPropriedade(Player.getJogadorDaVez(), casa);
+			addMensagemAoPlayer("Edifício construido com sucesso.Saldo anterior: "+saldoAnterior);
+		}catch (SaldoJogadorInsuficiente e) {
+			addMensagemAoPlayer("Saldo insuficiente para construir na propriedade");
 		}catch (Exception e) {
-			// TODO: handle exception
+			System.out.println("ERRO: posições conflitantes ou Proibido Construir");
 		}
 	}
 
@@ -200,11 +219,23 @@ public class Model {
 		Tile casa = Board.getBoard().tabuleiro[posQueVaiVender];
 		if(casa instanceof Compravel) {
 			try {
-				System.out.println("VENDENDO");
+				int saldoAnterior = p.getSaldo();
 				Bank.getBank().realizarVendaDePropriedade(p, (Compravel) casa);
+			}catch (SaldoBancoInsuficiente e) {
+				addMensagemAoPlayer("Saldo do banco insuficiente para comprar a propriedade");
 			}catch (Exception e) {
-				// TODO: handle exception
+				System.out.println("ERRO: jogador não é dono da propriedade então não pode compra-la");
 			}
 		}
+	}
+	
+	public void addMensagemAoPlayer(String m) {
+		mensagemAoPlayer = mensagemAoPlayer + "\n" + m;
+	}
+	
+	public String getMensagemAoPlayer() {
+		String retorno = mensagemAoPlayer;
+		mensagemAoPlayer = "";
+		return retorno;
 	}
 }
