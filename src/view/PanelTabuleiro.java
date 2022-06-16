@@ -27,7 +27,8 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 	private Image[] pinos = new Image[6];
 	private Image[] dados = new Image[6];
 	
-	private Botao botaoRodada;
+	private Botao botaoRolarDados;
+	private Botao botaoFinalizarRodada;
 	private Botao botaoDesejaComprar;
 	private Botao botaoConstruir;
 	private Botao botaoVerPropriedades;
@@ -44,9 +45,13 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		
 		this.tabuleiro = loadImage("./img/tabuleiro.png");
 		
-		this.botaoRodada = new Botao(715, 170, 255, 45, "Rolar Dados");
-		this.botaoRodada.setFontSize(35);
-		this.botaoRodada.setPosContent(8, 35);
+		this.botaoRolarDados = new Botao(715, 170, 255, 45, "Rolar Dados");
+		this.botaoRolarDados.setFontSize(35);
+		this.botaoRolarDados.setPosContent(8, 35);
+		
+		this.botaoFinalizarRodada = new Botao(715, 170, 255, 45, "Finalizar", false);
+		this.botaoFinalizarRodada.setFontSize(35);
+		this.botaoFinalizarRodada.setPosContent(43, 35);
 		
 		this.botaoDesejaComprar = new Botao(710, 500, 130, 45, "Comprar", false);
 		this.botaoDesejaComprar.setFontSize(22);
@@ -91,7 +96,8 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		
 		this.drawAreaDeDados(g);
 		this.escolheDados.draw(g);
-		this.botaoRodada.draw((Graphics2D) g);
+		this.botaoRolarDados.draw((Graphics2D) g);
+		this.botaoFinalizarRodada.draw((Graphics2D) g);
 		
 		Font f = new Font("Comic Sans MS", Font.BOLD, 20);
         g.setFont(f);
@@ -194,18 +200,18 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 	boolean terminouRodada = true;
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(botaoRodada.verificaSeFoiClicado(e.getX(), e.getY())) {
+		if(botaoRolarDados.verificaSeFoiClicado(e.getX(), e.getY())) {
+			botaoRolarDados.setActive(false);
+			botaoFinalizarRodada.setActive(true);
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
-			if(!terminouRodada && model.podeFinalizarRodada()) {
-				botaoRodada.setContent("Rolar Dados");
-				botaoRodada.setPosContent(8, 35);
-				terminouRodada = true;
-				topFrame.finalizarRodada();
-			}else if(terminouRodada && model.podeFinalizarRodada()){
-				botaoRodada.setContent("Finalizar");
-				botaoRodada.setPosContent(43, 35);
-				terminouRodada = false;
-				topFrame.clicouRolarDados();
+			topFrame.clicouRolarDados();
+		}else if(botaoFinalizarRodada.verificaSeFoiClicado(e.getX(), e.getY())) {
+			botaoRolarDados.setActive(true);
+			botaoFinalizarRodada.setActive(false);
+			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
+			topFrame.finalizarRodada();
+			if(model.acabouOJogo()) {
+				new TelaFinal();
 			}
 		}else if(botaoDesejaComprar.verificaSeFoiClicado(e.getX(), e.getY())) {
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);

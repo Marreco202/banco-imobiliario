@@ -53,7 +53,7 @@ public class Model {
 	
 	public boolean podeFinalizarRodada() {
 		Player p = Player.getJogadorDaVez();
-		if(!p.getEstaDevendoCarta() && !p.getEstaDevendoAluguel() && !p.getEstaDevendoImpostoDeRenda()) {
+		if(!p.getPlayerEstaDevendo() || p.getEstaFalido()) {
 			return true;
 		}
 		return false;
@@ -237,5 +237,17 @@ public class Model {
 		String retorno = mensagemAoPlayer;
 		mensagemAoPlayer = "";
 		return retorno;
+	}
+
+	public boolean acabouOJogo() {
+		return Player.acabouOJogo();
+	}
+
+	public Color[] getJogadoresOrdenadosPorFortuna() {
+		return Player.getJogadoresOrdenadosPorFortuna();
+	}
+
+	public int[] getFortunaOrdenadaDosJogadores() {
+		return Player.getFortunaOrdenadaDosJogadores();
 	}
 }

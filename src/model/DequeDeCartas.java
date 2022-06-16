@@ -67,6 +67,7 @@ class DequeDeCartas {
 	}
 	
 	private void daDinheiro(Player p, int valor) throws SaldoJogadorInsuficiente {
+		p.checkFalencia(valor);
 		Bank.getBank().deposito(p, valor);
 	}
 		

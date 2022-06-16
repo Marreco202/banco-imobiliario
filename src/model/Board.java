@@ -160,5 +160,15 @@ class Board {
 		}
 		return false;
 	}
+
+	public int fortunaEmPropriedadesDePlayer(Player player) {
+		ArrayList<Integer> propriedades = getTodasPropriedadesDeJogador(player);
+		int soma = 0;
+		for(int i=0; i<propriedades.size(); i++) {
+			soma += ((Compravel) tabuleiro[(int)propriedades.get(i)]).getValorDeVenda();
+		}
+		System.out.println("FORTUNA " +soma);
+		return soma;
+	}
 	
 }

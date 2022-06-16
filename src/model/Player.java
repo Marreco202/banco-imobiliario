@@ -1,4 +1,5 @@
 package model;
+import java.awt.Color;
 import java.util.concurrent.ThreadLocalRandom;
 
 import exeptions.JogadorInexistente;
@@ -10,7 +11,7 @@ class Player {
 	private static int qtdDeJogadores = 0; 
 	private static Player[] playerList = new Player[6];
 	private static int idJogadorDaVez = 0;
-	private static Cor[] colorList = {Cor.vermelho,Cor.azul,Cor.laranja,Cor.amarelo,Cor.rosa,Cor.cinza};
+	private static Color[] colorList = {Color.red,Color.blue,Color.orange,Color.yellow,Color.pink,Color.gray};
 	
 	public static int getQtdDeJogadores() {
 		return qtdDeJogadores;
@@ -32,6 +33,15 @@ class Player {
 		getJogadorDaVez().avancouNoTabuleiro = false;
 		getJogadorDaVez().jaConstruiu = false;
 		getJogadorDaVez().tirouCarta = false;
+		
+		do {
+			calculaEDefineProximoJogador();
+		}while(getJogadorDaVez().estaFalido);
+		
+		return getJogadorDaVez();
+	}
+	
+	private static Player calculaEDefineProximoJogador() {
 		if(Player.getJogadorDaVez().dadosIguaisSeguidos > 0){
 			return playerList[Player.idJogadorDaVez];
 		}
@@ -40,25 +50,66 @@ class Player {
 		}else {
 			Player.idJogadorDaVez = 0;
 			return playerList[Player.idJogadorDaVez];
-		}
-	}
-	
-
-	public static Player getJogadorDaCor(Cor cor) throws JogadorInexistente {
-		for(int i=0; i<Player.qtdDeJogadores; i++) {
-			if(Player.playerList[i].cor == cor) {
-				return Player.playerList[i];
-			}
-		}
-		throw new JogadorInexistente("Este jogador não existe.");
+		}		
 	}
 	
 	public static Player[] getPlayerList() {
 		return playerList;
 	}
 	
+	public static int[] ordenaListaJogadoresPorFortuna() {
+		int size = qtdDeJogadores -1;
+		for(int i=0; i<size; i++) {
+		    for(int j=0;j<size-i;j++) {
+		    	System.out.println("qtd: "+qtdDeJogadores+"i: " + i + "j: " + j);
+				if(playerList[j].getFortuna() > playerList[j + 1].getFortuna()) {
+				    Player temp = playerList[j];
+		    		playerList[j] = playerList[j+1];
+    				playerList[j+1] = temp;
+				}
+		    }
+		}
+		
+		int[] retorno = new int[qtdDeJogadores];
+		for(int i=0; i<qtdDeJogadores; i++) {
+			retorno[i] = playerList[i].idJogador;
+		}
+		
+		return retorno;
+	}
+	
 
-	private Cor cor;
+	public static int[] getFortunaOrdenadaDosJogadores() {
+		int[] retorno = new int[qtdDeJogadores];
+		for(int i=0; i<qtdDeJogadores;i++) {
+			retorno[i] = playerList[i].getFortuna();
+		}
+		return retorno;
+	}
+	
+	public static Color[] getJogadoresOrdenadosPorFortuna() {
+		Color[] retorno = new Color[qtdDeJogadores];
+		for(int i=0; i<qtdDeJogadores;i++) {
+			retorno[i] = playerList[i].cor;
+		}
+		return retorno;
+	}
+	
+	public static boolean acabouOJogo() {
+		int jogadoresAtivos = 0;
+		for(int i=0;i<qtdDeJogadores;i++) {
+			if(!playerList[i].getEstaFalido()) {
+				jogadoresAtivos++;
+			}
+		}
+		if(jogadoresAtivos==1) {
+			return true;
+		}
+		return false;
+	}
+	
+
+	private Color cor;
 	private int pos; 
 	private int dadosIguaisSeguidos; 
 	private int[] dadosDaVez = {0, 0};
@@ -66,6 +117,8 @@ class Player {
 	private int saldo;
 	private int idJogador;
 	private boolean tirouCarta = false;
+	
+	private boolean estaFalido = false;
 	
 	private boolean estaDevendoCarta = false, estaDevendoAluguel = false, estaDevendoImpostoDeRenda = false;
 	
@@ -195,6 +248,12 @@ class Player {
 			}
 		}catch (SaldoJogadorInsuficiente e) {
 			estaDevendoAluguel = true;
+			int valorAluguel = Bank.getBank().descobreAluguelASerPago(casa);
+			checkFalencia(valorAluguel);
+			if(estaFalido) {
+				Model.getModel().addMensagemAoPlayer("Voce está falido e não pode pagar o aluguel! Finalize a rodada.");
+				return;
+			}
 			Model.getModel().addMensagemAoPlayer("Saldo insuficiente! Venda propriedades para pagar o aluguel!");
 		}catch (Exception e) {
 			System.out.println("ERRO: na funcao verificaEPagaAluguel, posições conflitantes ou jogador ja é dono da propriedade");
@@ -205,12 +264,18 @@ class Player {
 		tirouCarta = true;
 		try {
 			int saldoAnterior = saldo;
-			DequeDeCartas.getDequeDeCartas().pegarCarta();
+			if(!estaDevendoCarta) {
+				DequeDeCartas.getDequeDeCartas().pegarCarta();
+			}
 			DequeDeCartas.getDequeDeCartas().usarCarta(this);
 			estaDevendoCarta = false;
 			Model.getModel().addMensagemAoPlayer("Carta retirada com sucesso! Saldo anterior: "+saldoAnterior);
 		}catch (SaldoJogadorInsuficiente e) {
 			estaDevendoCarta = true;
+			if(estaFalido) {
+				Model.getModel().addMensagemAoPlayer("Voce está falido e não pode pagar a carta! Finalize a rodada.");
+				return;
+			}
 			Model.getModel().addMensagemAoPlayer("Saldo insuficiente! Venda propriedades para pagar a carta!");
 		}catch (Exception e) {
 			Model.getModel().addMensagemAoPlayer("Saldo do banco insuficiente para quitar a carta");
@@ -234,6 +299,11 @@ class Player {
 			estaDevendoImpostoDeRenda = false;
 			Model.getModel().addMensagemAoPlayer("Voce pagou 200 de imposto de renda. Saldo anterior: "+saldoAnterior);
 		}catch(SaldoJogadorInsuficiente e) {
+			checkFalencia(200);
+			if(estaFalido) {
+				Model.getModel().addMensagemAoPlayer("Voce está falido e não pode pagar o imposto! Finalize a rodada.");
+				return;
+			}
 			estaDevendoImpostoDeRenda = true;
 		}
 	}
@@ -270,7 +340,7 @@ class Player {
 		return saldo;
 	}
 	
-	public Cor getCor() {
+	public Color getCor() {
 		return this.cor;
 	}
 	
@@ -337,25 +407,22 @@ class Player {
 		return false;
 	}
 	
+	private int getFortuna() {
+		return saldo + Board.getBoard().fortunaEmPropriedadesDePlayer(this);
+	}
 	
-	public static void checkFalencia(Player p, int valorCobrado) {
+	public void checkFalencia(int valorCobrado) {
 		
-		if(p.saldo < valorCobrado) {
-			goFalencia(p);
+		int fortuna = getFortuna();
+		
+		if(fortuna < valorCobrado) {
+			estaFalido = true;
 		}
 		
-		
-	/*
-	 * Falencia: "Se mesmo após vender suas casas e hotéis, ou suas propriedades o jogador não conseguir
-	 * pagar suas dívidas ele irá a falência, e irá sair do jogo"
-	 * 
-	 * O dinheiro obtido será entregue ao jogador credor
-	 * 
-	 * Caso haja propriedades hipotecadas o Banco deverá resgatá-las e o dinheiro conseguido irá para oc redor
-	 * 
-	 * As propriedades deverão ser colocadas em leilão
-	 * 
-	 */
+	}
+	
+	public boolean getEstaFalido() {
+		return estaFalido;
 	}
 
 	public int[] getDadosDaVez() {
@@ -381,5 +448,11 @@ class Player {
 	public boolean getEstaDevendoImpostoDeRenda() {
 		return estaDevendoImpostoDeRenda;
 	}
+	
+	public boolean getPlayerEstaDevendo() {
+		return getEstaDevendoCarta() && getEstaDevendoAluguel() && getEstaDevendoImpostoDeRenda();
+	}
+
+
 
 }
