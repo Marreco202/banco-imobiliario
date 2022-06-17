@@ -2,8 +2,6 @@ package exeptions;
 
 import java.awt.Color;
 
-import model.Cor;
-
 public class SaldoJogadorInsuficiente extends Exception {
 
 	private static final long serialVersionUID = 1L;

@@ -27,14 +27,10 @@ public class Controller implements ObservadorView{
 		janelaPrincipal.addObservador(this);
 	}
 
-	public void iniciarJogo(int qtdPlayers, boolean devMode) {
-		model.iniciarJogo(qtdPlayers, devMode);
-	}
-
 	@Override
 	public void handleInput(ViewEvent e) {
 		if(e.getClicouInciarJogo()) {
-			this.iniciarJogo(e.getQtdJogadores(), e.getDevMode());
+			model.iniciarJogo(e.getQtdJogadores(), e.getDevMode());
 			janelaPrincipal.iniciarTabuleiro();
 		}else if(e.getClicouFinalizarRodada()){
 			model.finalizarRodada();

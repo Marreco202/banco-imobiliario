@@ -1,15 +1,5 @@
 package model;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
-import exeptions.JogadorEDonoDaPropriedade;
-import exeptions.JogadorNaoEDonoDaPropriedade;
-import exeptions.PosicoesConflitantes;
-import exeptions.PropriedadeJaPossuiDono;
-import exeptions.SaldoBancoInsuficiente;
-import exeptions.SaldoJogadorInsuficiente;
 
 class TestePrimInt {
 

@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.io.File;
 import java.util.concurrent.ThreadLocalRandom;
 
-import exeptions.JogadorInexistente;
 import exeptions.SaldoBancoInsuficiente;
 import exeptions.SaldoJogadorInsuficiente;
 
@@ -130,15 +129,9 @@ class Player {
 			Player.playerList[i] = new Player(cor,pos,dadosIguaisSeguidos, dadosDaVez,avancouNoTabuleiro,jaConstruiu,saldo,idJogador,tirouCarta,estaFalido,estaDevendoCarta,
 					estaDevendoAluguel,estaDevendoImpostoDeRenda, passeLivre, estaPreso);
 			Player p = playerList[i];
-			String texto = p.pos + "|" + p.dadosIguaisSeguidos + "|" + p.dadosDaVez[0] + "|" + p.dadosDaVez[1] +
-						   "|" + p.avancouNoTabuleiro + "|" + p.jaConstruiu + "|" + p.saldo + "|" + p.idJogador +
-						   "|" + p.tirouCarta + "|" + p.estaFalido + "|" + p.estaDevendoCarta + "|" + p.estaDevendoAluguel +
-						   "|" + p.estaDevendoImpostoDeRenda + "|" + p.passeLivre + "|" + p.estaPreso;
-			System.out.println(texto);
 		}
 	}
 	
-
 	private Color cor;
 	private int pos; 
 	private int dadosIguaisSeguidos; 
@@ -149,7 +142,6 @@ class Player {
 	private boolean tirouCarta = false;
 	
 	private boolean estaFalido = false;
-	
 	private boolean estaDevendoCarta = false, estaDevendoAluguel = false, estaDevendoImpostoDeRenda = false;
 	
 	private boolean passeLivre;
@@ -176,27 +168,13 @@ class Player {
 	}
 	
 	public Player(){
-		
 		playerList[qtdDeJogadores] = this;
 		this.cor = colorList[qtdDeJogadores];
 		this.idJogador = qtdDeJogadores;
 		qtdDeJogadores++;
 		
-		saldo = 2458;
+		saldo = 4000;
 		pos = 0;
-		passeLivre = false;
-		estaPreso = false;
-		dadosIguaisSeguidos = 0; 
-	}
-	
-	public Player(int pos) { //construtor para fins de teste
-		
-		playerList[qtdDeJogadores] = this;
-		this.cor = colorList[qtdDeJogadores];
-		qtdDeJogadores++;
-		
-		saldo = 2458; 
-		this.pos = pos; 
 		passeLivre = false;
 		estaPreso = false;
 		dadosIguaisSeguidos = 0; 
@@ -210,6 +188,19 @@ class Player {
 		int dado1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		int dado2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		dadosDaVez[0]=dado1; dadosDaVez[1]=dado2;
+	}
+	
+	public void verificaSeJogaDeNovo() {
+		if(dadosDaVez[0] == dadosDaVez[1] && dadosDaVez[0]!=0 && dadosDaVez[1]!=0) {
+			dadosIguaisSeguidos++;
+			if(dadosIguaisSeguidos == 3) {
+				this.vaParaAPrisao();
+				dadosDaVez[0]=0; dadosDaVez[1]=0;
+				dadosIguaisSeguidos = 0;
+			}
+		}else {
+			dadosIguaisSeguidos = 0;
+		}		
 	}
 	
 	public void setDadosDaVez(int i, int j) {
@@ -240,25 +231,11 @@ class Player {
 		}
 	}
 	
-	public void verificaSeJogaDeNovo() {
-		if(dadosDaVez[0] == dadosDaVez[1] && dadosDaVez[0]!=0 && dadosDaVez[1]!=0) {
-			dadosIguaisSeguidos++;
-			if(dadosIguaisSeguidos == 3) {
-				this.vaParaAPrisao();
-				dadosDaVez[0]=0; dadosDaVez[1]=0;
-				dadosIguaisSeguidos = 0;
-			}
-		}else {
-			dadosIguaisSeguidos = 0;
-		}		
-	}
-	
 	public void avancarNoTabuleiro() throws SaldoJogadorInsuficiente{
 		if(estaPreso) {
 			tentarSairDaPrisao();
 			return;
 		}
-		
 		
 		avancouNoTabuleiro = true;
 		boolean passouPeloPontoDePartida = false;
@@ -331,15 +308,6 @@ class Player {
 		}		
 	}
 	
-	private void recebeLucrosEDividendos() {
-		try {
-			int saldoAnterior = saldo;
-			Bank.getBank().saque(this, 200);
-			Model.getModel().addMensagemAoPlayer("Voce recebeu 200 de lucros e dividendos. Saldo anterior: "+saldoAnterior);
-		}catch(SaldoBancoInsuficiente e) {
-			Model.getModel().addMensagemAoPlayer("Saldo do banco insuficiente para pagar lucros e dividendos.");
-		}
-	}
 	
 	private void pagarImpostoDeRenda() {
 		try {
@@ -357,13 +325,22 @@ class Player {
 		}
 	}
 	
+	private void recebeLucrosEDividendos() {
+		try {
+			int saldoAnterior = saldo;
+			Bank.getBank().saque(this, 200);
+			Model.getModel().addMensagemAoPlayer("Voce recebeu 200 de lucros e dividendos. Saldo anterior: "+saldoAnterior);
+		}catch(SaldoBancoInsuficiente e) {
+			Model.getModel().addMensagemAoPlayer("Saldo do banco insuficiente para pagar lucros e dividendos.");
+		}
+	}
+	
 	private void verificaNovaPos(boolean passouPeloPontoDePartida) throws SaldoJogadorInsuficiente{
 		if(passouPeloPontoDePartida) {
 			passouPeloPontoDePartida();
 		}
 		
 		Tile casa = Board.getBoard().tabuleiro[pos];
-		
 		if(pos == Board.getBoard().getPosVaParaPrisao()) {
 			vaParaAPrisao();
 		}else if(casa instanceof Compravel){
@@ -377,36 +354,8 @@ class Player {
 		}
 	}
 	
-	public boolean getTirouCarta() {
-		return tirouCarta;
-	}
-	
-	public int getPos() {
-		return pos;
-	}
-	
-	public int getSaldo() {
-		return saldo;
-	}
-	
-	public Color getCor() {
-		return this.cor;
-	}
-	
-	public boolean getPasseLivre() {
-		return passeLivre;
-	}
-	
-	public static Player[] getLista() {
-		return playerList;
-	}
-	
 	public void ganhouPasseLivre() {
 		passeLivre = true;
-	}
-	
-	private static void goFalencia(Player p) {
-		
 	}
 	
 	private int tentativasDeSair = 0;
@@ -501,7 +450,28 @@ class Player {
 	public boolean getPlayerEstaDevendo() {
 		return getEstaDevendoCarta() && getEstaDevendoAluguel() && getEstaDevendoImpostoDeRenda();
 	}
-
-
-
+	
+	public boolean getTirouCarta() {
+		return tirouCarta;
+	}
+	
+	public int getPos() {
+		return pos;
+	}
+	
+	public int getSaldo() {
+		return saldo;
+	}
+	
+	public Color getCor() {
+		return this.cor;
+	}
+	
+	public boolean getPasseLivre() {
+		return passeLivre;
+	}
+	
+	public static Player[] getLista() {
+		return playerList;
+	}
 }

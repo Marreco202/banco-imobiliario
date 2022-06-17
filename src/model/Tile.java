@@ -1,7 +1,5 @@
 package model;
 
-import java.io.File;
-
 abstract class Tile{ 
 	
 	private int pos; 
@@ -24,7 +22,6 @@ abstract class Tile{
 	}
 	
 	public String getNome() {
-		System.out.println("Pegando nome");
 		return nome;
 	}
 	

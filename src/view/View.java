@@ -6,8 +6,6 @@ import java.io.File;
 
 import javax.swing.*;
 
-
-import controller.Controller;
 import model.Model;
 import observerView.ObservadoView;
 import observerView.ObservadorView;
@@ -26,6 +24,7 @@ public class View extends JFrame implements ObservadoView, ActionListener{
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
 	private JMenuItem carregarJogo, salvarJogo, terminarJogo;
+	private TelaFinal telaFinal = null;
 	
 	JPanel panelAtual;
 	
@@ -53,8 +52,8 @@ public class View extends JFrame implements ObservadoView, ActionListener{
 		salvarJogo = new JMenuItem("Salvar Jogo");
 		terminarJogo.addActionListener(this);
 		salvarJogo.addActionListener(this);
-		fileMenu.add(terminarJogo);
 		fileMenu.add(salvarJogo);
+		fileMenu.add(terminarJogo);
 		jaFoiAdicionado = true;
 	}
 	
@@ -163,7 +162,11 @@ public class View extends JFrame implements ObservadoView, ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == terminarJogo) {
-			new TelaFinal();
+			if(telaFinal != null) {
+				telaFinal.dispose();
+				telaFinal = null;
+			}
+			telaFinal = new TelaFinal();
 		}else if(e.getSource() == salvarJogo) {
 			salvarJogo();
 		}else if(e.getSource() == carregarJogo) {
@@ -192,7 +195,4 @@ public class View extends JFrame implements ObservadoView, ActionListener{
 			iniciarTabuleiro();
 		}
 	}
-
-
-
 }

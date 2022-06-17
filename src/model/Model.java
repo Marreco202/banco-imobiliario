@@ -1,12 +1,9 @@
 package model;
 import java.awt.Color;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
 
 import exeptions.PosicoesConflitantes;
 import exeptions.ProibidoConstruir;
@@ -19,11 +16,8 @@ import exeptions.casaAtualNaoECompravel;
 public class Model {
 	
 	private boolean devMode = false;
-	
 	private static Model model = null;
-	
 	private String mensagemAoPlayer = "";
-	
 	private Color[] colorList = {Color.red,Color.blue,Color.ORANGE,Color.yellow,Color.pink,Color.gray};
 	
 	private Model(){
@@ -45,11 +39,6 @@ public class Model {
 		for(int i = 0; i< numeroDeJogadores; i++) {
 			new Player();
 		}
-	}
-	
-	public int posDoJogador(int jogador) {
-		Player[] playerList = Player.getPlayerList();
-		return playerList[jogador].getPos();
 	}
 	
 	public boolean podeFinalizarRodada() {
@@ -92,6 +81,11 @@ public class Model {
 		return colorList[Player.getIdJogadorDaVez()];
 	}
 	
+	public int posDoJogador(int jogador) {
+		Player[] playerList = Player.getPlayerList();
+		return playerList[jogador].getPos();
+	}
+	
 	public int[] getDadosDaVez() {
 		return Player.getJogadorDaVez().getDadosDaVez();
 	}
@@ -112,7 +106,6 @@ public class Model {
 	public Tile getCasa(int pos) {
 		return (Tile) Board.getBoard().tabuleiro[pos];
 	}
-	
 	
 	public int getValorDeCompra(int pos) throws casaAtualNaoECompravel {
 		if(getCasa(pos) instanceof Compravel) {
@@ -222,6 +215,7 @@ public class Model {
 			try {
 				int saldoAnterior = p.getSaldo();
 				Bank.getBank().realizarVendaDePropriedade(p, (Compravel) casa);
+				addMensagemAoPlayer("Propriedade vendida com sucesso! Saldo anterior: "+saldoAnterior);
 			}catch (SaldoBancoInsuficiente e) {
 				addMensagemAoPlayer("Saldo do banco insuficiente para comprar a propriedade");
 			}catch (Exception e) {

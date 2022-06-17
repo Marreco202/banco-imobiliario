@@ -2,10 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class RadioButton{
@@ -37,8 +34,6 @@ public class RadioButton{
 	
 	private int pos_x, pos_y, size_x, size_y;
 	private String content = "";
-	private int id;
-	private Graphics2D canvas;
 	private Color cor = Color.white;
 	
 	public RadioButton(int pos_x,int pos_y, int size_x, int size_y, String content){ //caixa com algo escrito
@@ -47,7 +42,7 @@ public class RadioButton{
 		this.size_x = size_x;
 		this.size_y = size_y;
 		this.content = content;
-		this.id = RadioButton.numeroDeBotoes++;
+		RadioButton.numeroDeBotoes++;
 		
 		RadioButton.listaBotoes.add(this);
 		

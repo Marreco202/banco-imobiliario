@@ -1,9 +1,6 @@
 package game;
-import java.io.IOException;
 
 import controller.Controller;
-import view.*;
-
 
 public class Game {
 

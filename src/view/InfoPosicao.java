@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
 import model.Model;
 
@@ -42,7 +41,7 @@ public class InfoPosicao{
 		boolean temHotel;
 		Color corProprietario;
 		
-		// se não for uma casa "Compravel" dara erro e nada sera impresso
+		// se NÃO for uma casa "Compravel" dara erro e nada sera impresso
 		try {
 			valorDeCompra = Model.getModel().getValorDeCompra(pos);
 			valorDeVenda = Model.getModel().getValorDeVenda(pos);
