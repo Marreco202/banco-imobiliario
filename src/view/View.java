@@ -1,5 +1,9 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+
 import javax.swing.*;
 
 
@@ -9,15 +13,19 @@ import observerView.ObservadoView;
 import observerView.ObservadorView;
 import observerView.ViewEvent;
 
-public class View extends JFrame implements ObservadoView{
+public class View extends JFrame implements ObservadoView, ActionListener{
 	
 	public final int largura_menu=600;
-	public final int altura_menu=360;
+	public final int altura_menu=380;
 	
 	public final int largura_tela_tabuleiro = 1000;
-	public final int altura_tela_tabuleiro = 736;
+	public final int altura_tela_tabuleiro = 755;
 	
 	private static View view = null;
+	
+	private JMenuBar menuBar;
+	private JMenu fileMenu;
+	private JMenuItem carregarJogo, salvarJogo, terminarJogo;
 	
 	JPanel panelAtual;
 	
@@ -25,6 +33,7 @@ public class View extends JFrame implements ObservadoView{
 		setSize(largura_menu,altura_menu);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		criaMenuBar();
 		
 		panelAtual = new PanelMainMenu();
 		getContentPane().add(panelAtual);
@@ -32,6 +41,36 @@ public class View extends JFrame implements ObservadoView{
 		this.setTitle("Banco imobiliário");
 		this.setVisible(true);
 		this.setResizable(false);
+		
+	}
+	
+	boolean jaFoiAdicionado = false;
+	void adicionarPararJogo() {
+		if(jaFoiAdicionado) {
+			return;
+		}
+		terminarJogo = new JMenuItem("Terminar Jogo");
+		salvarJogo = new JMenuItem("Salvar Jogo");
+		terminarJogo.addActionListener(this);
+		salvarJogo.addActionListener(this);
+		fileMenu.add(terminarJogo);
+		fileMenu.add(salvarJogo);
+		jaFoiAdicionado = true;
+	}
+	
+	private void criaMenuBar() {
+		menuBar = new JMenuBar();
+
+        setJMenuBar(menuBar);
+
+        fileMenu = new JMenu("Jogo");
+        menuBar.add(fileMenu);
+
+        carregarJogo = new JMenuItem("Carregar Jogo");
+
+        carregarJogo.addActionListener(this);
+        
+        fileMenu.add(carregarJogo);
 	}
 	
 	public static View getView() {
@@ -103,6 +142,7 @@ public class View extends JFrame implements ObservadoView{
 		
 		this.setSize(largura_tela_tabuleiro, altura_tela_tabuleiro);
 		
+		adicionarPararJogo();
 		panelAtual = new PanelTabuleiro();
 		getContentPane().add(panelAtual);
 		
@@ -118,6 +158,39 @@ public class View extends JFrame implements ObservadoView{
 	public void notificarObservadores(ViewEvent e) {
 		for (int i = 0; i < listaDeObservadores.size(); i++)
             listaDeObservadores.get(i).handleInput(e);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == terminarJogo) {
+			new TelaFinal();
+		}else if(e.getSource() == salvarJogo) {
+			salvarJogo();
+		}else if(e.getSource() == carregarJogo) {
+			carregarJogo();
+		}	
+	}
+	
+	private void salvarJogo() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File("."));
+		int resposta = fileChooser.showSaveDialog(null);
+		if(resposta == JFileChooser.APPROVE_OPTION) {
+			File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+			Model.getModel().salvarJogo(file);
+			repaintJanela();
+		}
+	}
+	
+	private void carregarJogo() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File("."));
+		int resposta = fileChooser.showOpenDialog(null);
+		if(resposta == JFileChooser.APPROVE_OPTION) {
+			File file = new File(fileChooser.getSelectedFile().getAbsolutePath());
+			Model.getModel().carregarJogo(file);
+			iniciarTabuleiro();
+		}
 	}
 
 

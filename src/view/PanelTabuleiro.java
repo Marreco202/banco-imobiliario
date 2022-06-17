@@ -45,11 +45,16 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 		
 		this.tabuleiro = loadImage("./img/tabuleiro.png");
 		
-		this.botaoRolarDados = new Botao(715, 170, 255, 45, "Rolar Dados");
+		if(model.jaRolouDados()) {
+			this.botaoRolarDados = new Botao(715, 170, 255, 45, "Rolar Dados",false);
+			this.botaoFinalizarRodada = new Botao(715, 170, 255, 45, "Finalizar", true);
+		}else {
+			this.botaoRolarDados = new Botao(715, 170, 255, 45, "Rolar Dados",true);
+			this.botaoFinalizarRodada = new Botao(715, 170, 255, 45, "Finalizar", false);
+		}
 		this.botaoRolarDados.setFontSize(35);
 		this.botaoRolarDados.setPosContent(8, 35);
 		
-		this.botaoFinalizarRodada = new Botao(715, 170, 255, 45, "Finalizar", false);
 		this.botaoFinalizarRodada.setFontSize(35);
 		this.botaoFinalizarRodada.setPosContent(43, 35);
 		

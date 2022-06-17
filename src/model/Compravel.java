@@ -1,5 +1,7 @@
 package model;
 
+import java.io.File;
+
 import exeptions.PropriedadeJaPossuiDono;
 
 abstract class Compravel extends Tile{
@@ -12,6 +14,15 @@ abstract class Compravel extends Tile{
 		this.valor = valor;
 		proprietario = null;
 	}
+	
+	public String salvar() {
+		if(proprietario != null) {
+			return ""+proprietario.getIdJogador();
+		}
+		return "-1";
+	}
+	
+	public abstract void carregarArquivo(File file);
 	
 	public void setNovoProprietario(Player novoPropritario) throws PropriedadeJaPossuiDono {
 		if(proprietario != null) {
@@ -33,5 +44,6 @@ abstract class Compravel extends Tile{
 	}
 	
 	public abstract int getValorDeVenda();
+
 
 }

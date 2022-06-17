@@ -1,7 +1,11 @@
 package model;
 import java.awt.Color;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 import exeptions.PosicoesConflitantes;
@@ -13,8 +17,6 @@ import exeptions.SaldoJogadorInsuficiente;
 import exeptions.casaAtualNaoECompravel;
 
 public class Model {
-
-	private int numeroDeJogadores;
 	
 	private boolean devMode = false;
 	
@@ -35,12 +37,11 @@ public class Model {
 	}
 	
 	public void iniciarJogo(int numeroDeJogadores, boolean devMode) {
-		this.numeroDeJogadores = numeroDeJogadores;
 		this.devMode = devMode;
-		instanciaJogadores();		
+		instanciaJogadores(numeroDeJogadores);		
 	}
 	
-	private void instanciaJogadores() {
+	private void instanciaJogadores(int numeroDeJogadores) {
 		for(int i = 0; i< numeroDeJogadores; i++) {
 			new Player();
 		}
@@ -81,7 +82,7 @@ public class Model {
 	}
 	
 	public int getNumeroDeJogadores() {
-		return numeroDeJogadores;
+		return Player.getQtdDeJogadores();
 	}
 	
 	public Color getCorJogadorDaVez() {
@@ -244,10 +245,96 @@ public class Model {
 	}
 
 	public Color[] getJogadoresOrdenadosPorFortuna() {
-		return Player.getJogadoresOrdenadosPorFortuna();
+		int[] jogadores = Player.idJogadoresOrdenadoPorFortuna();
+		Color[] r = new Color[Player.getQtdDeJogadores()];
+		for(int i=0; i<r.length; i++) {
+			r[i] = Player.getCorJogador(jogadores[i]);
+		}
+		return r;
 	}
 
 	public int[] getFortunaOrdenadaDosJogadores() {
-		return Player.getFortunaOrdenadaDosJogadores();
+		int[] jogadores = Player.idJogadoresOrdenadoPorFortuna();
+		int[] r = new int[Player.getQtdDeJogadores()];
+		for(int i=0; i<r.length; i++) {
+			r[i] = Player.getFortunaJogador(jogadores[i]);
+		}
+		return r;
+	}
+
+	private PrintWriter writer;
+	public void salvarJogo(File file) {
+		try {
+			writer = new PrintWriter(file);
+			escreverEmArquivo(file, Boolean.toString(devMode));
+			escreverEmArquivo(file, Integer.toString(Player.getIdJogadorDaVez()));
+			escreverEmArquivo(file, Integer.toString(Player.getQtdDeJogadores()));
+			Player.salvarEmArquivo(file);
+			Board.getBoard().salvarTabuleiro(file);
+			DequeDeCartas.getDequeDeCartas().salvarDeque(file);
+			writer.close();
+			addMensagemAoPlayer("Jogo Salvo com sucesso!");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void escreverEmArquivo(File file, String texto) {
+		try {
+			writer.println(texto);
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	Scanner s;
+	public void carregarJogo(File file) {
+		try {
+			s = new Scanner(file);
+			devMode = Boolean.parseBoolean(lerLinha(file));
+			int idJogadorDaVez = Integer.parseInt(lerLinha(file));
+			int qtdJogadores = Integer.parseInt(lerLinha(file));
+			System.out.println(idJogadorDaVez + "  " + qtdJogadores);
+			Player.carregarDeArquivo(file, qtdJogadores, idJogadorDaVez);
+			Board.getBoard().carregarTabuleiro(file);
+			DequeDeCartas.getDequeDeCartas().carregarDeque(file);
+			addMensagemAoPlayer("Jogo carregado com sucesso!");
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	public String lerLinha(File file) {
+		try {
+			if(s.hasNextLine()) {
+				String line = s.nextLine();
+				System.out.println(line);
+				return line;
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		return "";
+	}
+
+	public boolean jaRolouDados() {
+		if(Player.getJogadorDaVez().getSomaDadosDaVez() == 0) {
+			return false;
+		}
+		return true;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

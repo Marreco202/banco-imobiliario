@@ -1,5 +1,6 @@
 package model;
 import java.awt.Color;
+import java.io.File;
 import java.util.concurrent.ThreadLocalRandom;
 
 import exeptions.JogadorInexistente;
@@ -57,42 +58,32 @@ class Player {
 		return playerList;
 	}
 	
-	public static int[] ordenaListaJogadoresPorFortuna() {
+	public static int[] idJogadoresOrdenadoPorFortuna() {
+		int[] lista = new int[qtdDeJogadores];
+		for(int i=0;i<qtdDeJogadores;i++) {
+			lista[i] = i;
+		}
+		
 		int size = qtdDeJogadores -1;
 		for(int i=0; i<size; i++) {
 		    for(int j=0;j<size-i;j++) {
-		    	System.out.println("qtd: "+qtdDeJogadores+"i: " + i + "j: " + j);
-				if(playerList[j].getFortuna() > playerList[j + 1].getFortuna()) {
-				    Player temp = playerList[j];
-		    		playerList[j] = playerList[j+1];
-    				playerList[j+1] = temp;
+				if(playerList[lista[j]].getFortuna() < playerList[lista[j + 1]].getFortuna()) {
+				    int temp = lista[j];
+		    		lista[j] = lista[j+1];
+    				lista[j+1] = temp;
 				}
 		    }
 		}
 		
-		int[] retorno = new int[qtdDeJogadores];
-		for(int i=0; i<qtdDeJogadores; i++) {
-			retorno[i] = playerList[i].idJogador;
-		}
-		
-		return retorno;
+		return lista;
 	}
 	
+	public static Color getCorJogador(int idJogador) {
+		return playerList[idJogador].cor;
+	}
 
-	public static int[] getFortunaOrdenadaDosJogadores() {
-		int[] retorno = new int[qtdDeJogadores];
-		for(int i=0; i<qtdDeJogadores;i++) {
-			retorno[i] = playerList[i].getFortuna();
-		}
-		return retorno;
-	}
-	
-	public static Color[] getJogadoresOrdenadosPorFortuna() {
-		Color[] retorno = new Color[qtdDeJogadores];
-		for(int i=0; i<qtdDeJogadores;i++) {
-			retorno[i] = playerList[i].cor;
-		}
-		return retorno;
+	public static int getFortunaJogador(int idJogador) {
+		return playerList[idJogador].getFortuna();
 	}
 	
 	public static boolean acabouOJogo() {
@@ -106,6 +97,45 @@ class Player {
 			return true;
 		}
 		return false;
+	}
+	
+	public static void salvarEmArquivo(File file) {
+		for(int i=0;i<qtdDeJogadores;i++) {
+			Player p = playerList[i];
+			String texto = p.pos + "|" + p.dadosIguaisSeguidos + "|" + p.dadosDaVez[0] + "|" + p.dadosDaVez[1] +
+						   "|" + p.avancouNoTabuleiro + "|" + p.jaConstruiu + "|" + p.saldo + "|" + p.idJogador +
+						   "|" + p.tirouCarta + "|" + p.estaFalido + "|" + p.estaDevendoCarta + "|" + p.estaDevendoAluguel +
+						   "|" + p.estaDevendoImpostoDeRenda + "|" + p.passeLivre + "|" + p.estaPreso;
+			Model.getModel().escreverEmArquivo(file, texto);
+		}
+	}
+	
+	public static void carregarDeArquivo(File file, int qtdDeJogadores, int idJogadorDaVez) {
+		Player.idJogadorDaVez = idJogadorDaVez;
+		Player.qtdDeJogadores = qtdDeJogadores;
+		for(int i=0; i<qtdDeJogadores; i++) {
+			String[] items = Model.getModel().lerLinha(file).split("\\|");
+			Color cor = colorList[i];
+			int pos = Integer.parseInt(items[0]); 
+			int dadosIguaisSeguidos = Integer.parseInt(items[1]); 
+			int[] dadosDaVez = {Integer.parseInt(items[2]), Integer.parseInt(items[3])};
+			boolean avancouNoTabuleiro = Boolean.parseBoolean(items[4]), jaConstruiu = Boolean.parseBoolean(items[5]);
+			int saldo = Integer.parseInt(items[6]);
+			int idJogador = Integer.parseInt(items[7]);
+			boolean tirouCarta = Boolean.parseBoolean(items[8]);
+			boolean estaFalido = Boolean.parseBoolean(items[9]);
+			boolean estaDevendoCarta = Boolean.parseBoolean(items[10]), estaDevendoAluguel = Boolean.parseBoolean(items[11]), estaDevendoImpostoDeRenda = Boolean.parseBoolean(items[12]);
+			boolean passeLivre = Boolean.parseBoolean(items[13]);
+			boolean estaPreso = Boolean.parseBoolean(items[14]);
+			Player.playerList[i] = new Player(cor,pos,dadosIguaisSeguidos, dadosDaVez,avancouNoTabuleiro,jaConstruiu,saldo,idJogador,tirouCarta,estaFalido,estaDevendoCarta,
+					estaDevendoAluguel,estaDevendoImpostoDeRenda, passeLivre, estaPreso);
+			Player p = playerList[i];
+			String texto = p.pos + "|" + p.dadosIguaisSeguidos + "|" + p.dadosDaVez[0] + "|" + p.dadosDaVez[1] +
+						   "|" + p.avancouNoTabuleiro + "|" + p.jaConstruiu + "|" + p.saldo + "|" + p.idJogador +
+						   "|" + p.tirouCarta + "|" + p.estaFalido + "|" + p.estaDevendoCarta + "|" + p.estaDevendoAluguel +
+						   "|" + p.estaDevendoImpostoDeRenda + "|" + p.passeLivre + "|" + p.estaPreso;
+			System.out.println(texto);
+		}
 	}
 	
 
@@ -125,6 +155,25 @@ class Player {
 	private boolean passeLivre;
 	private boolean estaPreso;
 	
+	private Player(Color cor, int pos, int dadosIguaisSeguidos, int[] dadosDaVez, boolean avancouNoTabuleiro, boolean jaConstruiu, int saldo, int idJogador,
+			       boolean tirouCarta, boolean estaFalido, boolean estaDevendoCarta, boolean estaDevendoAluguel, boolean estaDevendoImpostoDeRenda, boolean passeLivre,
+			       boolean estaPreso) {
+		this.cor = cor;
+		this.pos = pos;
+		this.dadosIguaisSeguidos = dadosIguaisSeguidos;
+		this.dadosDaVez = dadosDaVez;
+		this.avancouNoTabuleiro = avancouNoTabuleiro;
+		this.jaConstruiu = jaConstruiu;
+		this.saldo = saldo;
+		this.idJogador = idJogador;
+		this.tirouCarta = tirouCarta;
+		this.estaFalido = estaFalido;
+		this.estaDevendoCarta = estaDevendoCarta;
+		this.estaDevendoAluguel = estaDevendoAluguel;
+		this.estaDevendoImpostoDeRenda = estaDevendoImpostoDeRenda;
+		this.passeLivre = passeLivre;
+		this.estaPreso = estaPreso;
+	}
 	
 	public Player(){
 		

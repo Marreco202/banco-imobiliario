@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -25,6 +26,18 @@ class DequeDeCartas {
 			dequeDeCartas = new DequeDeCartas();
 		}
 		return dequeDeCartas;
+	}
+	
+	public void salvarDeque(File file) {
+		String texto = passeLivreEstaNoDeque + "|" + posNoDeque + "|" + cartaDaVez;
+		Model.getModel().escreverEmArquivo(file, texto);
+	}
+	
+	public void carregarDeque(File file) {
+		String[] items = Model.getModel().lerLinha(file).split("\\|");
+		passeLivreEstaNoDeque = Boolean.parseBoolean(items[0]);
+		posNoDeque = Integer.parseInt(items[1]);
+		cartaDaVez = Integer.parseInt(items[2]);
 	}
 	
 	private void embaralharDeque(int[] deque){

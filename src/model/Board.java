@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import exeptions.ProibidoConstruir;
@@ -48,53 +49,69 @@ class Board {
 		// aresta inferior
 		
 		tabuleiro[0] = new SpecialTile(0,"Ponto de partida",TilesEspeciais.pontoDePartida); 
-		tabuleiro[1] = new Territorio(1,"Leblon",Cor.rosa,100, 50,a5);
+		tabuleiro[1] = new Territorio(1,"Leblon",100, 50,a5);
 		tabuleiro[2] = new SpecialTile(2, "Sorte ou revés", TilesEspeciais.sorteOuReves);
-		tabuleiro[3] = new Territorio(3,"Av. Presidente Vargas",Cor.rosa,60,50,a4);
-		tabuleiro[4] = new Territorio(4,"Av. Nossa Senhora de Copacabana",Cor.rosa,60,50,a3);
+		tabuleiro[3] = new Territorio(3,"Av. Presidente Vargas",60,50,a4);
+		tabuleiro[4] = new Territorio(4,"Av. Nossa Senhora de Copacabana",60,50,a3);
 		tabuleiro[5] = new Companhia(5,"Companhia Ferroviaria",200,50);
-		tabuleiro[6] = new Territorio(6,"Av. Brigadero Faria Lima",Cor.azul,240,150,a2);
+		tabuleiro[6] = new Territorio(6,"Av. Brigadero Faria Lima",240,150,a2);
 		tabuleiro[7] = new Companhia(7,"Companhia de Viação",150,50);
-		tabuleiro[8] = new Territorio(8,"Av. Rebouças",Cor.azul,220,150,a1);
-		tabuleiro[9] = new Territorio(9,"Av. 9 de Julho",Cor.azul,220,150,a1);
+		tabuleiro[8] = new Territorio(8,"Av. Rebouças",220,150,a1);
+		tabuleiro[9] = new Territorio(9,"Av. 9 de Julho",220,150,a1);
 		tabuleiro[10] = new SpecialTile(10, "Prisao", TilesEspeciais.Prisao);
 		
 		//aresta esquerda
-		tabuleiro[11] = new Territorio(11,"Av. Europa",Cor.vinho,200,100,a15);
+		tabuleiro[11] = new Territorio(11,"Av. Europa",200,100,a15);
 		tabuleiro[12] = new SpecialTile(12, "Sorte ou reves", TilesEspeciais.sorteOuReves);
-		tabuleiro[13] = new Territorio(13,"Rua Augusta",Cor.vinho,180,100,a14);
-		tabuleiro[14] = new Territorio(14,"Av. Pacaembú",Cor.vinho,180,100,a14);
+		tabuleiro[13] = new Territorio(13,"Rua Augusta",180,100,a14);
+		tabuleiro[14] = new Territorio(14,"Av. Pacaembú",180,100,a14);
 		tabuleiro[15] = new Companhia(15,"Companhia de Taxi",150,40); //taxi
 		tabuleiro[16] = new SpecialTile(16, "Sorte ou reves", TilesEspeciais.sorteOuReves);
-		tabuleiro[17] = new Territorio(17,"Interlagos",Cor.laranja,350,200,a13);
+		tabuleiro[17] = new Territorio(17,"Interlagos",350,200,a13);
 		tabuleiro[18] = new SpecialTile(18,"Lucros e dividendos", TilesEspeciais.lucrosEDividendos);
-		tabuleiro[19] = new Territorio(19,"Morumbi",Cor.laranja,400,200,a12);
+		tabuleiro[19] = new Territorio(19,"Morumbi",400,200,a12);
 		
 		//aresta superior
 		tabuleiro[20] = new SpecialTile(20,"Parada Livre", TilesEspeciais.paradaLivre);
-		tabuleiro[21] = new Territorio(21,"Flamengo",Cor.vermelho,120,50,a11);
+		tabuleiro[21] = new Territorio(21,"Flamengo",120,50,a11);
 		tabuleiro[22] = new SpecialTile(22, "Sorte ou reves", TilesEspeciais.sorteOuReves);
-		tabuleiro[23] = new Territorio(23,"Botafogo",Cor.vermelho,100,50,a5);
+		tabuleiro[23] = new Territorio(23,"Botafogo",100,50,a5);
 		tabuleiro[24] = new SpecialTile(24,"Imposto de renda", TilesEspeciais.impostoDeRenda);
 		tabuleiro[25] = new Companhia(25,"Companhia de Navegação",150,25);
-		tabuleiro[26] = new Territorio(26,"Av. Brasil",Cor.amarelo,160,100,a16);
+		tabuleiro[26] = new Territorio(26,"Av. Brasil",160,100,a16);
 		tabuleiro[27] = new SpecialTile(27, "Sorte ou reves", TilesEspeciais.sorteOuReves);
-		tabuleiro[28] = new Territorio(28,"Av. Paulista",Cor.amarelo,140,100,a10);
-		tabuleiro[29] = new Territorio(29,"Jardim Europa",Cor.amarelo,140,100,a10);
+		tabuleiro[28] = new Territorio(28,"Av. Paulista",140,100,a10);
+		tabuleiro[29] = new Territorio(29,"Jardim Europa",140,100,a10);
 		tabuleiro[30] = new SpecialTile(30, "Va para a prisao", TilesEspeciais.vaParaAPrisao);
 
 		// aresta direita
-		tabuleiro[31] = new Territorio(31,"Copacabana",Cor.verde,260,150,a6);
+		tabuleiro[31] = new Territorio(31,"Copacabana",260,150,a6);
 		tabuleiro[32] = new Companhia(32,"Companhia de Aviação",200,50);
-		tabuleiro[33] = new Territorio(33,"Av. Vieira Souto",Cor.verde,320,200,a9);
-		tabuleiro[34] = new Territorio(34,"Av. Atlântica",Cor.verde,300,200,a8);
+		tabuleiro[33] = new Territorio(33,"Av. Vieira Souto",320,200,a9);
+		tabuleiro[34] = new Territorio(34,"Av. Atlântica",300,200,a8);
 		tabuleiro[35] = new Companhia(35,"Companhia de taxi aéreo",200,50);
-		tabuleiro[36] = new Territorio(36,"Ipanema",Cor.verde,300,200,a8);
+		tabuleiro[36] = new Territorio(36,"Ipanema",300,200,a8);
 		tabuleiro[37] = new SpecialTile(37, "Sorte ou reves", TilesEspeciais.sorteOuReves);
-		tabuleiro[38] = new Territorio(38,"Jardim Paulista",Cor.roxo,280,150,a7);
-		tabuleiro[39] = new Territorio(39,"Brooklin",Cor.roxo,260,150,a6);
+		tabuleiro[38] = new Territorio(38,"Jardim Paulista",280,150,a7);
+		tabuleiro[39] = new Territorio(39,"Brooklin",260,150,a6);
 		
 		
+	}
+	
+	public void salvarTabuleiro(File file) {
+		for(int i=0;i<tamanhoTabuleiro;i++) {
+			if(tabuleiro[i] instanceof Compravel) {
+				Model.getModel().escreverEmArquivo(file, ((Compravel)tabuleiro[i]).salvar());
+			}
+		}
+	}
+	
+	public void carregarTabuleiro(File file) {
+		for(int i=0;i<tamanhoTabuleiro;i++) {
+			if(tabuleiro[i] instanceof Compravel) {
+				((Compravel)tabuleiro[i]).carregarArquivo(file);
+			}
+		}
 	}
 	
 	public static Board getBoard() {
@@ -167,7 +184,6 @@ class Board {
 		for(int i=0; i<propriedades.size(); i++) {
 			soma += ((Compravel) tabuleiro[(int)propriedades.get(i)]).getValorDeVenda();
 		}
-		System.out.println("FORTUNA " +soma);
 		return soma;
 	}
 	

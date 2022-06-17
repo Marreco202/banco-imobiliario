@@ -1,11 +1,13 @@
 package model;
 
+import java.io.File;
+
 import exeptions.ProibidoConstruir;
+import exeptions.PropriedadeJaPossuiDono;
 import exeptions.ValoresAluguelIncorreto;
 
 class Territorio extends Compravel {
 
-	private Cor cor;
 	private int qtdCasas;
 	private boolean temHotel;
 	private int custoPorConstrucao;
@@ -17,13 +19,33 @@ class Territorio extends Compravel {
 	 								valor aluguel com hotel -> valoresAluguel[5]*/
 	
 	
-	public Territorio(int pos, String nome,  Cor cor, int valor, int custoPorConstrucao, int[] valoresAluguel) throws ValoresAluguelIncorreto {
+	public Territorio(int pos, String nome, int valor, int custoPorConstrucao, int[] valoresAluguel) throws ValoresAluguelIncorreto {
 		super(pos, nome, valor, "./img/territorios/"+nome+".png");
-		this.cor = cor;
 		qtdCasas = 0;
 		temHotel = false;
 		this.custoPorConstrucao = custoPorConstrucao;
 		registrarAluguel(valoresAluguel);
+	}
+	
+	public String salvar() {
+		String texto = super.salvar() + "|" + qtdCasas + "|" + temHotel;
+		return texto;
+	}
+	
+	@Override
+	public void carregarArquivo(File file) {
+		String[] items = Model.getModel().lerLinha(file).split("\\|");
+		int id = Integer.parseInt(items[0]);
+		try {
+			if(id == -1) {
+				this.setNovoProprietario(null);
+			}else {
+				this.setNovoProprietario(Player.getPlayerList()[Integer.parseInt(items[0])]);
+			}
+			this.qtdCasas = Integer.parseInt(items[1]);
+			this.temHotel = Boolean.parseBoolean(items[2]);
+		} catch (PropriedadeJaPossuiDono e) {
+		}
 	}
 	
 	public void venderParaOBanco() {
@@ -117,9 +139,6 @@ class Territorio extends Compravel {
 	public boolean getTemHotel() {
 		return temHotel;
 	}
-	
-	public Cor getCor() {
-		return cor;
-	}
+
 
 }
