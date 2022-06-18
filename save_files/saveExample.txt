@@ -1,0 +1,25 @@
+qtdPlayer:1; [int]
+devMode:false; [boolean]
+cor:r; [Color] || case 0
+id:12; [int] || case 1
+dadodavez1:2; [int] || case 2
+dadodavez2:0; (isso signfica que nao se aplica, pois ainda nao foi girado o dado da vez) [int] || case 3
+pos:4; [int] || case 4
+5
+/* este espaço nao existe no txt, usei para usar como exemplo de separação */
+
+avancouTab:F; [boolean] || case 5
+jaConstruiu:T; [boolean] || case 6
+dadosIguaisSeguidos:F; [boolean] || case 7
+tirouCarta:T; [boolean] || case 8
+estaFalido:F; [boolean] || case 9
+estaDevendoCarta:F; [boolean] || case 10
+estaDevendoAluguel:T; [boolean] || case 11
+estaDevendoImpostoDeRenda:T; [boolean] || case 12
+passeLivre:F; [boolean] || case 13
+estaPreso:F; [boolean] || case 14
+10
+
+**
+
+

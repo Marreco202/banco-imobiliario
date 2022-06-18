@@ -16,11 +16,17 @@ public class ViewEvent {
 	
 	private int qtdJogadores;
 	
+	private boolean clicouCarregarJogo = false;
+	
 	public ViewEvent(){
 	}
 	
 	public void setClicouIniciarJogo(boolean clicouIniciarJogo) {
 		this.clicouInciarJogo = clicouIniciarJogo;
+	}
+	
+	public void setClicouCarregarJogo(boolean clicouCarregarJogo) {
+		this.clicouCarregarJogo = clicouCarregarJogo; 
 	}
 	
 	public void setClicouRolarDados(boolean clicouRolarDados) {

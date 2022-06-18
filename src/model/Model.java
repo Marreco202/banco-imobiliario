@@ -250,4 +250,9 @@ public class Model {
 	public int[] getFortunaOrdenadaDosJogadores() {
 		return Player.getFortunaOrdenadaDosJogadores();
 	}
+	public Player[] getPlayerList() {
+		return Player.getPlayerList();
+	}
+	
+	publ
 }

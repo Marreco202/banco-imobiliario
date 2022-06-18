@@ -211,7 +211,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
 			topFrame.finalizarRodada();
 			if(model.acabouOJogo()) {
-				new TelaFinal();
+				//new TelaFinal();
 			}
 		}else if(botaoDesejaComprar.verificaSeFoiClicado(e.getX(), e.getY())) {
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);

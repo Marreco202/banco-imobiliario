@@ -13,6 +13,11 @@ class Player {
 	private static int idJogadorDaVez = 0;
 	private static Color[] colorList = {Color.red,Color.blue,Color.orange,Color.yellow,Color.pink,Color.gray};
 	
+	
+	public static void setPlayerList(Player l[]) {
+		playerList = l;
+	}
+	
 	public static int getQtdDeJogadores() {
 		return qtdDeJogadores;
 	}
@@ -452,7 +457,6 @@ class Player {
 	public boolean getPlayerEstaDevendo() {
 		return getEstaDevendoCarta() && getEstaDevendoAluguel() && getEstaDevendoImpostoDeRenda();
 	}
-
 
 
 }

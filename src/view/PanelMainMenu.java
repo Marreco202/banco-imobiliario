@@ -26,6 +26,7 @@ public class PanelMainMenu extends JPanel implements MouseListener{
 	
 	private Botao iniciarJogo = new Botao(165, 240, 270, 60, "Iniciar Jogo");
 	private CheckButton devMode = new CheckButton(500, 285, 85, 30, "DevMode");
+	private Botao carregarJogo = new Botao(10,285,85,30,"Carregar Jogo");
 	
 	public PanelMainMenu() {
 		super();
@@ -37,6 +38,9 @@ public class PanelMainMenu extends JPanel implements MouseListener{
 		
 		devMode.setFontSize(15);
 		devMode.setPosContent(6, 20);
+		
+		carregarJogo.setFontSize(11);
+		carregarJogo.setPosContent(6, 20);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -54,16 +58,22 @@ public class PanelMainMenu extends JPanel implements MouseListener{
         
         iniciarJogo.draw(canvas);
         devMode.draw(canvas);
+        carregarJogo.draw(canvas);
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		RadioButton.clicouNaTela(e.getX(), e.getY());
 		devMode.verificaSeFoiClicado(e.getX(), e.getY());
+		
 		repaint();
 		if(iniciarJogo.verificaSeFoiClicado(e.getX(), e.getY())) {
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
 			topFrame.clicouIniciarJogo(RadioButton.getBotaoSelecionado()+2, devMode.isChecked());
+		}
+		if(carregarJogo.verificaSeFoiClicado(e.getX(), e.getY())) {
+			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
+			topFrame.clicouComprar();
 		}
 	}
 

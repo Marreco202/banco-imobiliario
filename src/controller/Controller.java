@@ -30,7 +30,7 @@ public class Controller implements ObservadorView{
 	public void iniciarJogo(int qtdPlayers, boolean devMode) {
 		model.iniciarJogo(qtdPlayers, devMode);
 	}
-
+	
 	@Override
 	public void handleInput(ViewEvent e) {
 		if(e.getClicouInciarJogo()) {
@@ -56,7 +56,7 @@ public class Controller implements ObservadorView{
 			janelaPrincipal.repaintJanela();
 		}else if(e.getClicouVender()) {
 			model.venderPropriedade(e.getPosQueVaiVender());
-		}
+		}//colocar aqui o elif e.getClicouCarregarJogo e as chamadas para criar as paradas.
 	}
 	
 }

@@ -20,9 +20,9 @@ public class RadioButton{
 		}
 		
 		RadioButton b;
-		for(int i=0; i<numeroDeBotoes; i++) {
+		for(int i=0; i<numeroDeBotoes; i++) { //pinta de amarelo o radio button selecionado e pnta de branco o que nao foi, ao mesmo tempo que atualiza o numero do botao selecionado
 			b = listaBotoes.get(i);
-			if(x > b.pos_x && x < b.pos_x+b.size_x && y > b.pos_y && y < b.pos_y+b.size_y) {
+			if(x > b.pos_x && x < b.pos_x+b.size_x && y > b.pos_y && y < b.pos_y+b.size_y) { 
 				RadioButton botaoAnterior = listaBotoes.get(botaoSelecionado);
 				botaoAnterior.cor = Color.white;
 				b.cor = Color.yellow;
