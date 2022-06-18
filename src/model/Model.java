@@ -40,6 +40,11 @@ public class Model {
 		instanciaJogadores();		
 	}
 	
+	public void iniciarJogoLoad(int numeroDeJogadores, boolean devMode) {
+		this.numeroDeJogadores = numeroDeJogadores;
+		this.devMode = devMode; 
+	}
+	
 	private void instanciaJogadores() {
 		for(int i = 0; i< numeroDeJogadores; i++) {
 			new Player();
@@ -254,5 +259,4 @@ public class Model {
 		return Player.getPlayerList();
 	}
 	
-	publ
 }

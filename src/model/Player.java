@@ -145,6 +145,30 @@ class Player {
 		dadosIguaisSeguidos = 0; 
 	}
 	
+	public Player(Color c, int id, int saldo, int pos,boolean avancouTab, boolean jaConstruiu, int dadosIguaisSeguidos, boolean tirouCarta, boolean estaFalido, boolean estaDevendoCarta, boolean estaDevendoAluguel, boolean estaDevendoImpostoDeRenda, boolean passeLivre, boolean estaPreso) {
+		playerList[qtdDeJogadores] = this;
+		this.cor = c;
+		this.idJogador = id;
+		qtdDeJogadores++;
+		
+		this.saldo = saldo;
+		this.pos = pos;
+		this.passeLivre = passeLivre;
+		this.estaPreso = estaPreso;
+		this.dadosIguaisSeguidos = dadosIguaisSeguidos;
+		
+		this.avancouNoTabuleiro = avancouTab;
+		this.jaConstruiu = jaConstruiu;
+		this.dadosIguaisSeguidos = dadosIguaisSeguidos;
+		this.tirouCarta = tirouCarta;
+		this.estaFalido = estaFalido;
+		this.estaDevendoCarta = estaDevendoCarta;
+		this.estaDevendoAluguel = estaDevendoAluguel;
+		this.estaDevendoImpostoDeRenda = estaDevendoImpostoDeRenda;
+		this.passeLivre = passeLivre;
+		this.estaPreso = estaPreso;		
+	}
+	
 	public Player(int pos) { //construtor para fins de teste
 		
 		playerList[qtdDeJogadores] = this;
