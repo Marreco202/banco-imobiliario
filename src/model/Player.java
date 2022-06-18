@@ -194,6 +194,7 @@ class Player {
 		if(dadosDaVez[0] == dadosDaVez[1] && dadosDaVez[0]!=0 && dadosDaVez[1]!=0) {
 			dadosIguaisSeguidos++;
 			if(dadosIguaisSeguidos == 3) {
+				Model.getModel().addMensagemAoPlayer("Você tirou 3 dados iguais. ");
 				this.vaParaAPrisao();
 				dadosDaVez[0]=0; dadosDaVez[1]=0;
 				dadosIguaisSeguidos = 0;
@@ -360,19 +361,23 @@ class Player {
 	
 	private int tentativasDeSair = 0;
 	public void tentarSairDaPrisao() {
+		tentativasDeSair++;
 		if(dadosDaVez[0] == dadosDaVez[1]) {
 			estaPreso = false;
 			tentativasDeSair = 0;
+			Model.getModel().addMensagemAoPlayer("Você está livre da prisão e poderá jogar na próxima rodada");
 		}else if(tentativasDeSair == 3) {
 			estaPreso = false;
 			try {
 				Bank.getBank().deposito(this, 50);
 				tentativasDeSair = 0;
+				Model.getModel().addMensagemAoPlayer("Você pagou 50 para sair da prisão!");
 			}catch (SaldoJogadorInsuficiente e) {
 				Model.getModel().addMensagemAoPlayer("Saldo do jogador insuficiente para sair da prisao");
 			}
 		}else {
-			tentativasDeSair++;
+			String texto = "Você continuará preso por mais "+(3-tentativasDeSair)+" rodadas!";
+			Model.getModel().addMensagemAoPlayer(texto);
 		}
 	}
 	
@@ -380,10 +385,12 @@ class Player {
 		pos = Board.getBoard().getPosPrisao();
 		if(!passeLivre) {			
 			estaPreso = true;
+			Model.getModel().addMensagemAoPlayer("Você está preso!");
 		}else {
 			estaPreso = false;
 			passeLivre = false;
 			DequeDeCartas.getDequeDeCartas().retornarPasseLivre();
+			Model.getModel().addMensagemAoPlayer("Você foi para a prisão, mas usou seu passe livre para sair!");
 		}
 	}
 	
