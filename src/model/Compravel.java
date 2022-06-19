@@ -24,10 +24,7 @@ abstract class Compravel extends Tile{
 	
 	public abstract void carregarArquivo(File file);
 	
-	public void setNovoProprietario(Player novoPropritario) throws PropriedadeJaPossuiDono {
-		if(proprietario != null) {
-			throw new PropriedadeJaPossuiDono("Está tentando settar novo dono para territorio que ja possui dono.");
-		}
+	public void setNovoProprietario(Player novoPropritario){
 		proprietario = novoPropritario;
 	}
 	

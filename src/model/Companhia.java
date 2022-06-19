@@ -23,13 +23,10 @@ class Companhia extends Compravel {
 	public void carregarArquivo(File file) {
 		String[] items = Model.getModel().lerLinha(file).split("\\|");
 		int id = Integer.parseInt(items[0]);
-		try {
-			if(id == -1) {
-				this.setNovoProprietario(null);
-			}else {
-				this.setNovoProprietario(Player.getPlayerList()[Integer.parseInt(items[0])]);
-			}
-		} catch (PropriedadeJaPossuiDono e) {
+		if(id == -1) {
+			this.setNovoProprietario(null);
+		}else {
+			this.setNovoProprietario(Player.getPlayerList()[Integer.parseInt(items[0])]);
 		}
 	}
 }

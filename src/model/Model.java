@@ -126,9 +126,8 @@ public class Model {
 	}
 
 	public Color getCorProprietario(int pos) throws PropriedadeNaoPossuiDono, casaAtualNaoECompravel {
-		Player proprietario;
+		Player proprietario = Board.getBoard().getDonoDePosicao(pos);
 		if(getCasa(pos) instanceof Compravel) {
-			proprietario = ((Compravel) getCasa(pos)).getProprietario();
 			if(proprietario == null) {
 				throw new PropriedadeNaoPossuiDono();
 			}
@@ -260,11 +259,20 @@ public class Model {
 	public void salvarJogo(File file) {
 		try {
 			writer = new PrintWriter(file);
+			escreverEmArquivo(file, "//Dev mode:");
 			escreverEmArquivo(file, Boolean.toString(devMode));
+			escreverEmArquivo(file, "//Jogador da vez:");
 			escreverEmArquivo(file, Integer.toString(Player.getIdJogadorDaVez()));
+			escreverEmArquivo(file, "//Quantidade de jogadores:");
 			escreverEmArquivo(file, Integer.toString(Player.getQtdDeJogadores()));
+			escreverEmArquivo(file, "//Jogadores:");
+			escreverEmArquivo(file, "//pos|dadosIguaisSeguidos|dadosDaVez[0]|dadosDaVez[1]|avancouNoTabuleiro|jaConstruiu|saldo|idJogador|tirouCarta|estaFalido|estaDevendoCarta|estaDevendoAluguel|estaDevendoImpostoDeRenda|passeLivre|estaPreso");
 			Player.salvarEmArquivo(file);
+			escreverEmArquivo(file, "//Tabuleiro:");
+			escreverEmArquivo(file, "//Territorio: proprietario|qtdCasas|temHotel");
+			escreverEmArquivo(file, "//Companhia: proprietario");
 			Board.getBoard().salvarTabuleiro(file);
+			escreverEmArquivo(file, "Cartas: passeLivreEstaNoDeque|posNoDeque|cartaDaVez");
 			DequeDeCartas.getDequeDeCartas().salvarDeque(file);
 			writer.close();
 			addMensagemAoPlayer("Jogo Salvo com sucesso!");
@@ -298,17 +306,24 @@ public class Model {
 		}
 	}
 	
-	public String lerLinha(File file) {
+	private String proximaLinha(File file) {
 		try {
 			if(s.hasNextLine()) {
 				String line = s.nextLine();
-				System.out.println(line);
 				return line;
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
 		return "";
+	}
+	
+	public String lerLinha(File file) {
+		String line = proximaLinha(file);
+		while(line.charAt(0)=='/') {
+			line = proximaLinha(file);
+		}
+		return line;
 	}
 
 	public boolean jaRolouDados() {

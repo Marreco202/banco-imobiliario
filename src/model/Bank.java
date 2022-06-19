@@ -5,6 +5,7 @@ import exeptions.JogadorNaoEDonoDaPropriedade;
 import exeptions.PosicoesConflitantes;
 import exeptions.ProibidoConstruir;
 import exeptions.PropriedadeJaPossuiDono;
+import exeptions.PropriedadeNaoPossuiDono;
 import exeptions.SaldoBancoInsuficiente;
 import exeptions.SaldoJogadorInsuficiente;
 
@@ -80,7 +81,7 @@ class Bank {
 		return -1; //criar uma exception
 	}
 	
-	private boolean podePagarAluguel(Player devedor, Compravel propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes, JogadorEDonoDaPropriedade {
+	private boolean podePagarAluguel(Player devedor, Compravel propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes, JogadorEDonoDaPropriedade, PropriedadeNaoPossuiDono {
 		if(devedor.getSaldo() < descobreAluguelASerPago(propriedade)) {
 			throw new SaldoJogadorInsuficiente("O saldo do jogador é insuficiente para pagar o aluguel!", devedor.getCor());
 		}
@@ -90,10 +91,13 @@ class Bank {
 		if(devedor == propriedade.getProprietario()) {
 			throw new JogadorEDonoDaPropriedade("O jogador nao pode pagar aluguel para si mesmo.");
 		}
+		if(propriedade.getProprietario() == null) {
+			throw new PropriedadeNaoPossuiDono();
+		}
 		return true;
 	}
 	
-	public void realizarPagamentoDeAluguel(Player devedor, Compravel propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes, JogadorEDonoDaPropriedade {
+	public void realizarPagamentoDeAluguel(Player devedor, Compravel propriedade) throws SaldoJogadorInsuficiente, PosicoesConflitantes, JogadorEDonoDaPropriedade, PropriedadeNaoPossuiDono {
 		if(podePagarAluguel(devedor, propriedade)) {
 			int valorAluguel = descobreAluguelASerPago(propriedade);
 			devedor.pagarValor(valorAluguel);

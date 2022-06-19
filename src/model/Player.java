@@ -128,7 +128,6 @@ class Player {
 			boolean estaPreso = Boolean.parseBoolean(items[14]);
 			Player.playerList[i] = new Player(cor,pos,dadosIguaisSeguidos, dadosDaVez,avancouNoTabuleiro,jaConstruiu,saldo,idJogador,tirouCarta,estaFalido,estaDevendoCarta,
 					estaDevendoAluguel,estaDevendoImpostoDeRenda, passeLivre, estaPreso);
-			Player p = playerList[i];
 		}
 	}
 	
@@ -481,4 +480,5 @@ class Player {
 	public static Player[] getLista() {
 		return playerList;
 	}
+
 }

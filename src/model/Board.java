@@ -138,6 +138,8 @@ class Board {
 		if(tabuleiro[pos] instanceof Compravel) {
 			if(((Compravel)tabuleiro[pos]).getProprietario() != null) {
 				return ((Compravel)tabuleiro[pos]).getProprietario();
+			}else {
+				return null;
 			}
 		}
 		throw new casaAtualNaoECompravel();
@@ -161,11 +163,14 @@ class Board {
 		ArrayList<Integer> retorno = new ArrayList<Integer>();
 		for(int i=0; i<40; i++) {
 			if(tabuleiro[i] instanceof Compravel) {
-				if(((Compravel)tabuleiro[i]).getProprietario() == jogador) {
-					retorno.add(i);
-				}
+				try {
+					if(getDonoDePosicao(i) == jogador) {
+						retorno.add(i);
+					}
+				}catch(Exception e) {}
 			}
 		}
+		System.out.println(retorno);
 		return retorno;
 	}
 
