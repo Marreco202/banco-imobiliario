@@ -272,7 +272,7 @@ public class Model {
 			escreverEmArquivo(file, "//Territorio: proprietario|qtdCasas|temHotel");
 			escreverEmArquivo(file, "//Companhia: proprietario");
 			Board.getBoard().salvarTabuleiro(file);
-			escreverEmArquivo(file, "Cartas: passeLivreEstaNoDeque|posNoDeque|cartaDaVez");
+			escreverEmArquivo(file, "//Cartas: passeLivreEstaNoDeque|posNoDeque|cartaDaVez");
 			DequeDeCartas.getDequeDeCartas().salvarDeque(file);
 			writer.close();
 			addMensagemAoPlayer("Jogo Salvo com sucesso!");

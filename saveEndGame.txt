@@ -40,5 +40,5 @@ true
 -1|0|false
 -1|0|false
 -1|0|false
-Cartas: passeLivreEstaNoDeque|posNoDeque|cartaDaVez
-true|3|17
+//Cartas: passeLivreEstaNoDeque|posNoDeque|cartaDaVez
+false|0|0

@@ -24,7 +24,7 @@ class Board {
 	
 	public  Tile[] tabuleiro = new Tile[40];
 	
-	public Board() throws ValoresAluguelIncorreto{
+	private Board() throws ValoresAluguelIncorreto{
 		
 		/* ESCALAS DOS ALUGUEIS*/
 
@@ -170,7 +170,6 @@ class Board {
 				}catch(Exception e) {}
 			}
 		}
-		System.out.println(retorno);
 		return retorno;
 	}
 
