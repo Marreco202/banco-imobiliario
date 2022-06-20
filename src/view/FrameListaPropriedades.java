@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 
 import model.Model;
 
-public class FrameListaPropriedades extends JFrame implements MouseListener{
+class FrameListaPropriedades extends JFrame implements MouseListener{
 
 	private Model model = Model.getModel();
 	

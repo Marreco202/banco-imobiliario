@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class RadioButton{
+class RadioButton{
 	
 	private static int botaoSelecionado = 0;
 	private static ArrayList<RadioButton> listaBotoes = new ArrayList<RadioButton>();

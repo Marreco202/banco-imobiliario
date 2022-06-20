@@ -1,8 +1,10 @@
 package model;
 import java.awt.Color;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+import exeptions.JogadorNaoEDonoDaPropriedade;
 import exeptions.SaldoBancoInsuficiente;
 import exeptions.SaldoJogadorInsuficiente;
 
@@ -389,7 +391,7 @@ class Player {
 			estaPreso = false;
 			passeLivre = false;
 			DequeDeCartas.getDequeDeCartas().retornarPasseLivre();
-			Model.getModel().addMensagemAoPlayer("Você foi para a prisão, mas usou seu passe livre para sair!");
+			Model.getModel().addMensagemAoPlayer("Você usou seu passe livre para sair!");
 		}
 	}
 	
@@ -415,12 +417,38 @@ class Player {
 		return saldo + Board.getBoard().fortunaEmPropriedadesDePlayer(this);
 	}
 	
+	private void venderTodasAsPropriedades() throws JogadorNaoEDonoDaPropriedade, SaldoBancoInsuficiente {
+		ArrayList<Integer> propriedades = Board.getBoard().getTodasPropriedadesDeJogador(this);
+		Compravel p;
+		for(int i=0; i<propriedades.size();i++) {
+			p = (Compravel) Board.getBoard().tabuleiro[propriedades.get(i)];
+			Bank.getBank().realizarVendaDePropriedade(this, p);
+		}
+	}
+	
+	private void pagarDividas() {
+		try {
+			venderTodasAsPropriedades();
+			if(estaDevendoAluguel) {
+			Player credor = Board.getBoard().getDonoDePosicao(pos);
+			Bank.getBank().jogadorReceberDeJogador(credor, this, saldo);
+			}
+			if(estaDevendoCarta) {
+				Bank.getBank().deposito(this, saldo);
+			}
+			if(estaDevendoImpostoDeRenda) {
+				Bank.getBank().deposito(this, saldo);
+			}		
+		}catch (Exception e) {}
+	}
+	
 	public void checkFalencia(int valorCobrado) {
 		
 		int fortuna = getFortuna();
 		
 		if(fortuna < valorCobrado) {
 			estaFalido = true;
+			pagarDividas();
 		}
 		
 	}
@@ -454,7 +482,7 @@ class Player {
 	}
 	
 	public boolean getPlayerEstaDevendo() {
-		return getEstaDevendoCarta() && getEstaDevendoAluguel() && getEstaDevendoImpostoDeRenda();
+		return getEstaDevendoCarta() || getEstaDevendoAluguel() || getEstaDevendoImpostoDeRenda();
 	}
 	
 	public boolean getTirouCarta() {

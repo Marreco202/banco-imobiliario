@@ -10,7 +10,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class PanelMainMenu extends JPanel implements MouseListener{
+class PanelMainMenu extends JPanel implements MouseListener{
 	
 	private final int XposPergunta = 60;
 	private final int YposPergunta = 60;

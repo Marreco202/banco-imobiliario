@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 
 import model.Model;
 
-public class TelaFinal extends JFrame {
+class TelaFinal extends JFrame {
 
 	private Model model = Model.getModel();
 
@@ -21,8 +21,6 @@ public class TelaFinal extends JFrame {
 		this.setVisible(true);
 		this.setResizable(false);
 	}
-
-	
 	
 	public void paint(Graphics g) {
 		g.setColor(Color.black);

@@ -2,7 +2,7 @@ package view;
 
 import java.awt.Color;
 
-public class CheckButton extends Botao {
+class CheckButton extends Botao {
 
 	private boolean checked = false;
 	

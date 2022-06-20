@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 import model.Model;
 
-public class InfoPosicao{
+class InfoPosicao{
 		
 	//Essa é a classe responsavel por desenhar as informações de cada casa do tabuleiro
 	

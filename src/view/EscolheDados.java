@@ -3,7 +3,7 @@ package view;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public class EscolheDados {
+class EscolheDados {
 
 	private Botao[] b = {
 			new Botao(835, 5, 20, 20, "1"),

@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 
 import model.Model;
 
-public class PanelTabuleiro extends JPanel implements MouseListener{
+class PanelTabuleiro extends JPanel implements MouseListener{
 
 	private int[][] posNoTabuleiro = {{615,623},{547,641},{493,640},{436,643},{382,646},{329,646},{269,645},{217,644},{159,648},{105,646},{13,656},{12,559},{13,498},{11,451},{12,394},{12,335},{12,277},{11,223},{12,166},{12,115},{17,43},{105,22},{164,22},{216,23},{269,19},{327,20},{380,24},{439,16},{495,23},{550,21},{620,36},{626,116},{640,163},{626,232},{626,280},{628,336},{626,394},{630,452},{625,503},{624,558}};
 	private Model model;
@@ -209,7 +209,7 @@ public class PanelTabuleiro extends JPanel implements MouseListener{
 			botaoFinalizarRodada.setActive(true);
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);
 			topFrame.clicouRolarDados();
-		}else if(botaoFinalizarRodada.verificaSeFoiClicado(e.getX(), e.getY())) {
+		}else if(botaoFinalizarRodada.verificaSeFoiClicado(e.getX(), e.getY()) && Model.getModel().podeFinalizarRodada()) {
 			botaoRolarDados.setActive(true);
 			botaoFinalizarRodada.setActive(false);
 			View topFrame = (View) SwingUtilities.getWindowAncestor(this);

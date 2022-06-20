@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
-public class Botao {
+class Botao {
 	
 	private int pos_x, pos_y, size_x, size_y;
 	private String content = "";
