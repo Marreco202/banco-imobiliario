@@ -17,7 +17,7 @@ public class Model {
 	
 	private boolean devMode = false;
 	private static Model model = null;
-	private String mensagemAoPlayer = "";
+	private ArrayList<String> mensagemAoPlayer = new ArrayList<String>();
 	private Color[] colorList = {Color.red,Color.blue,Color.ORANGE,Color.yellow,Color.pink,Color.gray};
 	
 	private Model(){
@@ -224,12 +224,12 @@ public class Model {
 	}
 	
 	public void addMensagemAoPlayer(String m) {
-		mensagemAoPlayer = mensagemAoPlayer + "\n" + m;
+		mensagemAoPlayer.add(m);
 	}
 	
-	public String getMensagemAoPlayer() {
-		String retorno = mensagemAoPlayer;
-		mensagemAoPlayer = "";
+	public ArrayList<String> getMensagemAoPlayer(){
+		ArrayList<String> retorno = (ArrayList<String>) mensagemAoPlayer.clone();
+		mensagemAoPlayer = new ArrayList<String>();
 		return retorno;
 	}
 
