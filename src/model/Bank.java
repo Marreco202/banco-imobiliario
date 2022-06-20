@@ -66,8 +66,8 @@ class Bank {
 		if(!podeVender(vendedor, propriedade)) {
 			return;
 		}
-		propriedade.venderParaOBanco();
 		saldo -= propriedade.getValorDeVenda();
+		propriedade.venderParaOBanco();
 		vendedor.receberValor(propriedade.getValorDeVenda());
 	}
 	
