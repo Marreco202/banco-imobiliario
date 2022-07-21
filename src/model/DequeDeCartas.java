@@ -104,7 +104,7 @@ class DequeDeCartas {
 				break;
 				
 			case 4:
-				recebeDinheiro(p,400);
+				recebeDinheiro(p,200);
 				break;
 			case 5:
 				recebeDinheiro(p,50);
