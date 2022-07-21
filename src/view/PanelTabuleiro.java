@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -115,15 +116,18 @@ class PanelTabuleiro extends JPanel implements MouseListener{
 	}
 	
 	private void drawMensagemParaJogador(Graphics g) {
-		String m = Model.getModel().getMensagemAoPlayer();
-		if(m != "") {
-			g.setColor(Color.black);
-			g.fillRect(100, 100, 500, 26);
+		ArrayList<String> m = Model.getModel().getMensagemAoPlayer();
+		if(m == null) {
+			return;
 		}
+		g.setColor(Color.black);
+		g.fillRect(100, 100, 500, 26*m.size());
 		Font f = new Font("Comic Sans MS", Font.BOLD, 12);
         g.setFont(f);
         g.setColor(Color.red);
-		g.drawString(m, 105, 120);
+        for(int i=0; i<m.size(); i++) {
+        	g.drawString(m.get(i), 105, 120+(26*i));
+        }
 	}
 
 	public void repaintTabuleiro() {
